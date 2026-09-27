@@ -49,13 +49,14 @@
   right: 0;
   bottom: 0;
   z-index: 1;
-  height: 32%;
+  height: 40%;
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(250, 245, 234, 0.35) 45%,
-    rgba(250, 245, 234, 0.75) 75%,
-    #faf5ea 100%
+    rgba(250, 245, 234, 0.2) 40%,
+    rgba(250, 245, 234, 0.5) 62%,
+    rgba(250, 245, 234, 0.85) 80%,
+    #faf5ea 90%
   );
   pointer-events: none;
 }
