@@ -35,6 +35,21 @@ export const WEDDING = {
     pinterestUrl: '', // opcional: enlace a un tablero de Pinterest
   },
 
+  // Sección de regalos
+  gifts: {
+    teaser: 'Si quieres darnos algo más que tu hermosa presencia…',
+    intro:
+      'Tu presencia es nuestro mejor regalo. Si además deseas tener un detalle con nosotros, te dejamos algunas opciones:',
+    envelopeText:
+      'El día de la boda habrá un cofre en la recepción para tus sobres.',
+    bank: 'Nombre del banco',
+    holder: 'Titular de la cuenta',
+    methods: [
+      { label: 'CLABE', value: '000 000 00000000000 0' },
+      { label: 'Tarjeta', value: '0000 0000 0000 0000' },
+    ],
+  },
+
   // Notas que se muestran en la sección "Tips y notas"
   tips: [
     {

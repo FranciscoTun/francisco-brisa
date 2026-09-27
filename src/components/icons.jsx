@@ -64,6 +64,37 @@ export const ClipboardIcon = () => (
   </svg>
 )
 
+export const GiftIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.4"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="4" y="10" width="16" height="10.5" rx="1.5" />
+    <path d="M12 10 V20.5" />
+    <path d="M4 14.5 h16" />
+    <path d="M12 10 C10 10 8 9 8 7 C8 5.3 9.6 4.7 10.6 5.4 C11.9 6.3 12 8.6 12 10 C12 8.6 12.1 6.3 13.4 5.4 C14.4 4.7 16 5.3 16 7 C16 9 14 10 12 10 Z" />
+  </svg>
+)
+
+export const BankIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.4"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M3 9.5 L12 4 L21 9.5" />
+    <path d="M5.5 9.5 V17.5 M9.8 9.5 V17.5 M14.2 9.5 V17.5 M18.5 9.5 V17.5" />
+    <path d="M3 20 H21" />
+  </svg>
+)
+
 export const EnvelopeIcon = () => (
   <svg
     viewBox="0 0 24 24"

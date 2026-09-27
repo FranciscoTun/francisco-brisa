@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { WEDDING } from '../config.js'
 import Countdown from '../components/Countdown.jsx'
 import DressCodeModal from '../components/DressCodeModal.jsx'
+import GiftsModal from '../components/GiftsModal.jsx'
 import MusicModal from '../components/MusicModal.jsx'
 import Petals from '../components/Petals.jsx'
 import Reveal from '../components/Reveal.jsx'
@@ -11,7 +12,7 @@ import {
   ClipboardIcon,
   ClockIcon,
   DressIcon,
-  EnvelopeIcon,
+  GiftIcon,
   PinIcon,
   RingsIcon,
   SuitIcon,
@@ -61,6 +62,7 @@ export default function Invitation() {
   const [musicOpen, setMusicOpen] = useState(false)
   const [dressOpen, setDressOpen] = useState(false)
   const [tipsOpen, setTipsOpen] = useState(false)
+  const [giftsOpen, setGiftsOpen] = useState(false)
 
   return (
     <div className="invite">
@@ -179,18 +181,22 @@ export default function Invitation() {
 
       <section className="section">
         <Reveal>
-          <h2 className="section-title">Lluvia de sobres</h2>
+          <h2 className="section-title">Regalos</h2>
         </Reveal>
         <Reveal delay={150}>
-          <div className="envelope-card">
+          <p className="gifts-teaser">{WEDDING.gifts.teaser}</p>
+          <div className="dress-icons">
             <div className="info-icon">
-              <EnvelopeIcon />
+              <GiftIcon />
             </div>
-            <p className="envelope-text">
-              Durante la recepción encontrarás sobres disponibles por si deseas
-              hacernos un regalo en efectivo. ¡Gracias de corazón!
-            </p>
           </div>
+          <button
+            type="button"
+            className="info-btn"
+            onClick={() => setGiftsOpen(true)}
+          >
+            Ver más
+          </button>
         </Reveal>
       </section>
 
@@ -262,6 +268,7 @@ export default function Invitation() {
       {musicOpen && <MusicModal onClose={() => setMusicOpen(false)} />}
       {dressOpen && <DressCodeModal onClose={() => setDressOpen(false)} />}
       {tipsOpen && <TipsModal onClose={() => setTipsOpen(false)} />}
+      {giftsOpen && <GiftsModal onClose={() => setGiftsOpen(false)} />}
 
       <footer className="footer">
         <p className="footer-names">

@@ -311,6 +311,15 @@
   box-shadow: 0 20px 40px rgba(120, 95, 55, 0.15);
 }
 
+.gifts-teaser {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.1rem, 4vw, 1.35rem);
+  color: #6e6455;
+  max-width: 460px;
+  margin: 0 auto 1.4rem;
+}
+
 .envelope-text {
   font-family: var(--font-serif);
   font-size: 1.1rem;
