@@ -86,19 +86,15 @@ export default function Invitation() {
         <div className="hero-overlay" />
         <div className="hero-fade" />
         <FullscreenButton />
-        <Reveal>
+        <div className="hero-content">
           <p className="hero-pre">¡Nos casamos!</p>
-        </Reveal>
-        <Reveal delay={200}>
           <h1 className="hero-names">
             {WEDDING.him} <span>&amp;</span> {WEDDING.her}
           </h1>
-        </Reveal>
-        <Reveal delay={400}>
           <div className="divider" />
           <p className="hero-date">{dateLabel}</p>
           <div className="divider" />
-        </Reveal>
+        </div>
         <p className="hero-scroll" aria-hidden="true">
           Desliza
         </p>
