@@ -6,6 +6,7 @@ import FullscreenButton from '../components/FullscreenButton.jsx'
 import GiftsModal from '../components/GiftsModal.jsx'
 import MusicModal from '../components/MusicModal.jsx'
 import Petals from '../components/Petals.jsx'
+import PhotoCarousel from '../components/PhotoCarousel.jsx'
 import PhotoModal from '../components/PhotoModal.jsx'
 import Reveal from '../components/Reveal.jsx'
 import TipsModal from '../components/TipsModal.jsx'
@@ -142,19 +143,9 @@ export default function Invitation() {
           <p className="section-subtitle">La clave es disfrutar cada momento</p>
         </Reveal>
         {photos.length > 0 ? (
-          <div className="gallery">
-            {photos.map((src, i) => (
-              <Reveal key={src} delay={i * 100}>
-                <button
-                  type="button"
-                  className="polaroid"
-                  onClick={() => setPhotoOpen(src)}
-                >
-                  <img src={src} alt={`Foto ${i + 1}`} loading="lazy" />
-                </button>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal delay={150}>
+            <PhotoCarousel photos={photos} onZoom={setPhotoOpen} />
+          </Reveal>
         ) : (
           <Reveal delay={150}>
             <p className="gallery-empty">

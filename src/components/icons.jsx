@@ -127,6 +127,32 @@ export const CompressIcon = () => (
   </svg>
 )
 
+export const ChevronLeftIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M14 6 L8 12 L14 18" />
+  </svg>
+)
+
+export const ChevronRightIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M10 6 L16 12 L10 18" />
+  </svg>
+)
+
 export const EnvelopeIcon = () => (
   <svg
     viewBox="0 0 24 24"

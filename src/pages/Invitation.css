@@ -299,45 +299,6 @@
 }
 
 /* ── Gallery ── */
-.gallery {
-  display: grid;
-  gap: 1.6rem;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  padding: 0.5rem;
-}
-
-.polaroid {
-  display: block;
-  width: 100%;
-  background: #fffdf8;
-  border: 1px solid #e8dcc2;
-  border-radius: 4px;
-  padding: 10px 10px 44px;
-  box-shadow: 0 12px 26px rgba(90, 75, 50, 0.18);
-  rotate: -1.4deg;
-  cursor: pointer;
-  transition: rotate 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.gallery .reveal:nth-child(even) .polaroid {
-  rotate: 1.4deg;
-}
-
-.polaroid:hover {
-  rotate: 0deg;
-  transform: translateY(-6px) scale(1.03);
-  box-shadow: 0 20px 42px rgba(90, 75, 50, 0.26);
-}
-
-.polaroid img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 2px;
-  pointer-events: none;
-}
-
 .gallery-empty {
   font-family: var(--font-serif);
   font-style: italic;
