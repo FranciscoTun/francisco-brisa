@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { WEDDING } from '../config.js'
+import { useModalClose } from '../hooks/useModalClose.js'
+import './Modal.css'
 import './MusicModal.css'
 
 export default function MusicModal({ onClose }) {
@@ -7,15 +9,7 @@ export default function MusicModal({ onClose }) {
   const [song, setSong] = useState('')
   const [link, setLink] = useState('')
 
-  useEffect(() => {
-    const onKey = (e) => e.key === 'Escape' && onClose()
-    document.addEventListener('keydown', onKey)
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.removeEventListener('keydown', onKey)
-      document.body.style.overflow = ''
-    }
-  }, [onClose])
+  useModalClose(onClose)
 
   const submit = (e) => {
     e.preventDefault()

@@ -207,12 +207,14 @@
   padding: 0.65rem 1.8rem;
   border: 1px solid var(--gold);
   border-radius: 999px;
+  background: transparent;
   color: var(--gold);
   font-family: var(--font-sans);
   font-size: 0.78rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   text-decoration: none;
+  cursor: pointer;
   transition: background 0.3s, color 0.3s;
 }
 
@@ -287,6 +289,13 @@
   font-size: clamp(1.3rem, 5vw, 1.8rem);
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+.dress-hint {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: #96897a;
+  margin: 0.6rem 0 1.4rem;
 }
 
 .music-quote {

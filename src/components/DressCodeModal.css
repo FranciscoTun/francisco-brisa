@@ -1,0 +1,120 @@
+.dress-modal {
+  text-align: center;
+}
+
+.dress-modal-title {
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: 2.6rem;
+  color: var(--ink);
+}
+
+.dress-pill {
+  display: inline-block;
+  margin: 0.6rem 0 1.6rem;
+  padding: 0.45rem 1.7rem;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.dress-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.8rem;
+}
+
+.dress-col-icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 0.6rem;
+  color: var(--sage);
+}
+
+.dress-col-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.dress-col h4 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.dress-col p {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: #6e6455;
+}
+
+.swatches-title {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #a08d6d;
+  margin: 1.4rem 0 0.9rem;
+}
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem 1.2rem;
+}
+
+.swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.swatch-dot {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(62, 58, 50, 0.12);
+  box-shadow: 0 3px 8px rgba(80, 60, 30, 0.15);
+}
+
+.swatch-reserved::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 125%;
+  height: 1.5px;
+  background: #9c4f4f;
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.swatch-label {
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: #8a7a63;
+}
+
+.pinterest-link {
+  display: inline-block;
+  margin-top: 1.6rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.pinterest-link:hover {
+  text-decoration: underline;
+}
