@@ -114,7 +114,7 @@
   inset: 0;
   clip-path: polygon(0 0, 100% 0, 50% 58%);
   background: linear-gradient(180deg, #ecdfc3, #dccaa5);
-  transform: translateZ(6px) rotateX(0deg);
+  transform: rotateX(0deg) translateZ(6px);
   transform-origin: 50% 0;
   transition: transform 0.8s cubic-bezier(0.6, 0, 0.3, 1);
 }
@@ -122,7 +122,7 @@
 .env-open .env-flap,
 .env-lift .env-flap,
 .env-zoom .env-flap {
-  transform: translateZ(6px) rotateX(178deg);
+  transform: rotateX(178deg) translateZ(6px);
 }
 
 .env-seal {

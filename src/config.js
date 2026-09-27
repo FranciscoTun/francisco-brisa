@@ -6,7 +6,7 @@ export const WEDDING = {
   her: 'Brisa',
 
   // Fecha y hora de la boda (formato ISO)
-  dateISO: '2027-06-12T16:00:00',
+  dateISO: '2026-12-12T16:00:00',
 
   ceremony: {
     place: 'Parroquia de San Miguel',
@@ -16,10 +16,10 @@ export const WEDDING = {
   },
 
   reception: {
-    place: 'Jardín Los Laureles',
-    address: 'Carretera km 5',
+    place: 'Salón Backtun',
+    address: 'Dirección por confirmar',
     time: '7:00 PM',
-    mapsUrl: 'https://maps.google.com',
+    mapsUrl: 'https://maps.app.goo.gl/R7REQrX18cWiroNKA',
   },
 
   dressCode: 'Formal / Etiqueta',
