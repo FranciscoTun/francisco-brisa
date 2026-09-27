@@ -2,12 +2,19 @@ import { useEffect, useState } from 'react'
 import { CompressIcon, ExpandIcon } from './icons.jsx'
 
 export default function FullscreenButton() {
-  const [fs, setFs] = useState(false)
+  const [fs, setFs] = useState(
+    () => !!(document.fullscreenElement || document.webkitFullscreenElement),
+  )
 
   useEffect(() => {
-    const onChange = () => setFs(!!document.fullscreenElement)
+    const onChange = () =>
+      setFs(!!(document.fullscreenElement || document.webkitFullscreenElement))
     document.addEventListener('fullscreenchange', onChange)
-    return () => document.removeEventListener('fullscreenchange', onChange)
+    document.addEventListener('webkitfullscreenchange', onChange)
+    return () => {
+      document.removeEventListener('fullscreenchange', onChange)
+      document.removeEventListener('webkitfullscreenchange', onChange)
+    }
   }, [])
 
   const el = document.documentElement
@@ -15,8 +22,10 @@ export default function FullscreenButton() {
 
   const toggle = () => {
     try {
-      if (document.fullscreenElement) {
-        document.exitFullscreen().catch(() => {})
+      if (document.fullscreenElement || document.webkitFullscreenElement) {
+        ;(document.exitFullscreen || document.webkitExitFullscreen)
+          ?.call(document)
+          ?.catch?.(() => {})
       } else {
         const req = el.requestFullscreen || el.webkitRequestFullscreen
         req.call(el)?.catch(() => {})

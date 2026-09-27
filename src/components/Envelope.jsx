@@ -5,7 +5,7 @@ import './Envelope.css'
 
 const STEPS = {
   open: [850, 'lift'],
-  lift: [850, 'zoom'],
+  lift: [2200, 'zoom'],
   zoom: [950, 'done'],
 }
 
