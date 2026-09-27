@@ -9,10 +9,10 @@ export const WEDDING = {
   dateISO: '2026-12-12T16:00:00',
 
   ceremony: {
-    place: 'Parroquia de San Miguel',
-    address: 'Centro, Ciudad',
+    place: 'Registro Civil del Centro',
+    address: 'Centro',
     time: '4:00 PM',
-    mapsUrl: 'https://maps.google.com',
+    mapsUrl: 'https://maps.app.goo.gl/kyTAGWBhPiczPbLt8',
   },
 
   reception: {
