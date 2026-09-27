@@ -49,8 +49,14 @@
   right: 0;
   bottom: 0;
   z-index: 1;
-  height: 13%;
-  background: linear-gradient(180deg, transparent, rgba(250, 245, 234, 0.9));
+  height: 32%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(250, 245, 234, 0.35) 45%,
+    rgba(250, 245, 234, 0.75) 75%,
+    #faf5ea 100%
+  );
   pointer-events: none;
 }
 
