@@ -1,9 +1,15 @@
+import { useState } from 'react'
+import Envelope from './components/Envelope.jsx'
+import Invitation from './pages/Invitation.jsx'
+
 function App() {
+  const [opened, setOpened] = useState(false)
+
   return (
-    <main className="app">
-      <h1>Francisco &amp; Brisa</h1>
-      <p>Nuestra boda</p>
-    </main>
+    <>
+      {opened && <Invitation />}
+      {!opened && <Envelope onDone={() => setOpened(true)} />}
+    </>
   )
 }
 

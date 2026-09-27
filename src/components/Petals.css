@@ -1,0 +1,39 @@
+.petals {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.petal-outer {
+  position: absolute;
+  top: -8vh;
+  animation-name: petal-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.petal-inner {
+  display: block;
+  border-radius: 62% 0 62% 0;
+  animation-name: petal-sway;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes petal-fall {
+  to {
+    transform: translateY(116vh);
+  }
+}
+
+@keyframes petal-sway {
+  from {
+    transform: translateX(-14px) rotate(-24deg);
+  }
+  to {
+    transform: translateX(16px) rotate(26deg);
+  }
+}
