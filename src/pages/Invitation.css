@@ -160,8 +160,7 @@
   font-size: 0.7rem;
   letter-spacing: 0.4em;
   text-transform: uppercase;
-  color: rgba(250, 244, 230, 0.85);
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+  color: #7c6b4e;
   z-index: 2;
   animation: scroll-hint 2s ease-in-out infinite;
 }
