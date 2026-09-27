@@ -4,7 +4,6 @@ import { WEDDING } from '../config.js'
 import './Envelope.css'
 
 const STEPS = {
-  idle: [3400, 'open'],
   open: [850, 'lift'],
   lift: [850, 'zoom'],
   zoom: [950, 'done'],
@@ -16,16 +15,27 @@ export default function Envelope({ onDone }) {
   doneRef.current = onDone
 
   useEffect(() => {
-    const step = STEPS[phase]
-    if (!step) {
+    if (phase === 'done') {
       doneRef.current?.()
       return
     }
+    const step = STEPS[phase]
+    if (!step) return
     const t = setTimeout(() => setPhase(step[1]), step[0])
     return () => clearTimeout(t)
   }, [phase])
 
-  const open = () => setPhase((p) => (p === 'idle' ? 'open' : p))
+  const open = () => {
+    // El tap es un gesto válido: se aprovecha para pedir pantalla completa
+    try {
+      const el = document.documentElement
+      const req = el.requestFullscreen || el.webkitRequestFullscreen
+      req?.call(el)?.catch(() => {})
+    } catch {
+      /* navegador sin soporte de fullscreen */
+    }
+    setPhase((p) => (p === 'idle' ? 'open' : p))
+  }
 
   return (
     <div
