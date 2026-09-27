@@ -4,10 +4,11 @@ export function useModalClose(onClose) {
   useEffect(() => {
     const onKey = (e) => e.key === 'Escape' && onClose()
     document.addEventListener('keydown', onKey)
-    document.body.style.overflow = 'hidden'
+    const scroller = document.querySelector('.invite')
+    if (scroller) scroller.style.overflow = 'hidden'
     return () => {
       document.removeEventListener('keydown', onKey)
-      document.body.style.overflow = ''
+      if (scroller) scroller.style.overflow = ''
     }
   }, [onClose])
 }

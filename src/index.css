@@ -17,8 +17,14 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-snap-type: y mandatory;
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
 }
 
 body {
