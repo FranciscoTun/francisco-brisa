@@ -44,6 +44,17 @@
   z-index: 2;
 }
 
+/* Cada pantalla es un punto de snap: al soltar el scroll se centra sola */
+.hero,
+.section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.footer {
+  scroll-snap-align: end;
+}
+
 .hero-pre {
   font-family: var(--font-sans);
   font-size: 0.8rem;
