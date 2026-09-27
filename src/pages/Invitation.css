@@ -297,6 +297,11 @@
   margin-bottom: 2.2rem;
 }
 
+/* Los títulos script se "escriben a mano" al entrar la sección */
+.reveal.visible .section-title {
+  animation: write-in 1.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
 .section-subtitle {
   font-family: var(--font-sans);
   font-size: 0.8rem;
@@ -312,6 +317,20 @@
   display: grid;
   gap: 1.5rem;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+/* Las tarjetas entran desde los lados */
+.cards > .reveal:nth-child(1) {
+  transform: translateX(-48px);
+}
+
+.cards > .reveal:nth-child(2) {
+  transform: translateX(48px);
+}
+
+.cards > .reveal.visible:nth-child(1),
+.cards > .reveal.visible:nth-child(2) {
+  transform: none;
 }
 
 .info-card {
@@ -336,6 +355,26 @@
   border-radius: 50%;
   background: var(--cream2);
   color: var(--gold);
+  opacity: 0;
+}
+
+.reveal.visible .info-icon {
+  animation: icon-pop 0.5s cubic-bezier(0.3, 1.5, 0.4, 1) 0.15s both;
+}
+
+.dress-icons .info-icon:nth-child(2) {
+  animation-delay: 0.3s !important;
+}
+
+@keyframes icon-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .info-icon svg {
@@ -469,6 +508,22 @@
   margin: 0 auto 1.8rem;
 }
 
+/* Cita de música: enfoca de borroso a nítido */
+.reveal.visible .music-quote {
+  animation: focus-in 1s ease 0.2s both;
+}
+
+@keyframes focus-in {
+  from {
+    opacity: 0;
+    filter: blur(7px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
 .music-btn {
   padding: 0.95rem 2.6rem;
   border: 1px solid var(--gold);
@@ -499,6 +554,7 @@
 
 .rsvp-btn {
   display: inline-block;
+  opacity: 0;
   padding: 0.95rem 2.6rem;
   border-radius: 999px;
   background: var(--sage);
@@ -514,6 +570,47 @@
 .rsvp-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 14px 30px rgba(122, 139, 111, 0.4);
+}
+
+/* El botón aparece con un pop y un pulso sutil */
+.reveal.visible .rsvp-btn {
+  animation: icon-pop 0.5s cubic-bezier(0.3, 1.5, 0.4, 1) both,
+    btn-pulse 1.6s ease 1s;
+}
+
+@keyframes btn-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(122, 139, 111, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 14px rgba(122, 139, 111, 0);
+  }
+}
+
+/* El icono de regalo se "sacude" al aparecer */
+.reveal.visible .gift-icon {
+  animation: icon-pop 0.5s cubic-bezier(0.3, 1.5, 0.4, 1) 0.15s both,
+    gift-wiggle 0.7s ease 0.7s;
+}
+
+@keyframes gift-wiggle {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  20% {
+    transform: rotate(-9deg);
+  }
+  40% {
+    transform: rotate(8deg);
+  }
+  60% {
+    transform: rotate(-6deg);
+  }
+  80% {
+    transform: rotate(4deg);
+  }
 }
 
 /* ── Footer ── */

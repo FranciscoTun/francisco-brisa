@@ -227,7 +227,7 @@ export default function Invitation() {
         <Reveal delay={150}>
           <p className="gifts-teaser">{WEDDING.gifts.teaser}</p>
           <div className="dress-icons">
-            <div className="info-icon">
+            <div className="info-icon gift-icon">
               <GiftIcon />
             </div>
           </div>
@@ -277,10 +277,12 @@ export default function Invitation() {
       )}
 
       <footer className="footer">
-        <p className="footer-names">
-          {WEDDING.him} &amp; {WEDDING.her}
-        </p>
-        <p className="footer-date">{dateLabel}</p>
+        <Reveal>
+          <p className="footer-names">
+            {WEDDING.him} &amp; {WEDDING.her}
+          </p>
+          <p className="footer-date">{dateLabel}</p>
+        </Reveal>
       </footer>
     </div>
   )

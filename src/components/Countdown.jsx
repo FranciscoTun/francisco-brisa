@@ -23,8 +23,8 @@ export default function Countdown({ target }) {
 
   return (
     <div className="countdown">
-      {units.map(([label, value]) => (
-        <div className="cd-box" key={label}>
+      {units.map(([label, value], i) => (
+        <div className="cd-box" key={label} style={{ '--i': i }}>
           <span className="cd-num">{String(value).padStart(2, '0')}</span>
           <span className="cd-label">{label}</span>
         </div>

@@ -8,6 +8,41 @@
 }
 
 .album-qr {
+  opacity: 0;
+}
+
+.reveal.visible .album-qr {
+  animation: qr-stamp 0.7s cubic-bezier(0.2, 1.4, 0.3, 1) both;
+}
+
+@keyframes qr-stamp {
+  from {
+    opacity: 0;
+    transform: scale(1.5) rotate(-6deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.album-steps li {
+  opacity: 0;
+}
+
+.reveal.visible .album-steps li {
+  animation: rise-in 0.6s ease both;
+}
+
+.reveal.visible .album-steps li:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.reveal.visible .album-steps li:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.album-qr {
   width: clamp(180px, 52vw, 230px);
   background: #fffdf8;
   padding: 14px;
