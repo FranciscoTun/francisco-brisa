@@ -1,0 +1,63 @@
+.album-sub {
+  font-family: var(--font-serif);
+  font-size: clamp(1.05rem, 4vw, 1.3rem);
+  line-height: 1.65;
+  color: #6e6455;
+  max-width: 520px;
+  margin: -1rem auto 1.8rem;
+}
+
+.album-qr {
+  width: clamp(180px, 52vw, 230px);
+  background: #fffdf8;
+  padding: 14px;
+  border: 1px solid #e8dcc2;
+  border-radius: 12px;
+  box-shadow: 0 14px 34px rgba(120, 95, 55, 0.14);
+}
+
+.album-scan {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #a08d6d;
+  margin: 0.9rem 0 1.7rem;
+}
+
+.album-steps {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: clamp(1.4rem, 6vw, 3rem);
+  margin-top: 2.4rem;
+}
+
+.album-steps li {
+  max-width: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.step-num {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold);
+  color: var(--gold);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.album-steps p {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: #6e6455;
+}

@@ -9,6 +9,7 @@ import Petals from '../components/Petals.jsx'
 import PhotoCarousel from '../components/PhotoCarousel.jsx'
 import PhotoModal from '../components/PhotoModal.jsx'
 import Reveal from '../components/Reveal.jsx'
+import ShareAlbum from '../components/ShareAlbum.jsx'
 import TipsModal from '../components/TipsModal.jsx'
 import bgVideo from '../assets/videos/video_background.mp4'
 import {
@@ -153,6 +154,10 @@ export default function Invitation() {
             </p>
           </Reveal>
         )}
+      </section>
+
+      <section className="section section-alt">
+        <ShareAlbum />
       </section>
 
       <section className="section section-alt">

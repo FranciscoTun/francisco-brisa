@@ -72,4 +72,7 @@ export const WEDDING = {
 
   // Número de WhatsApp para confirmar asistencia (con código de país, sin +)
   whatsapp: '521234567890',
+
+  // Link directo al álbum compartido (Google Photos)
+  albumUrl: 'https://photos.app.goo.gl/ESm9NKEGbPLG1Lny7',
 }
