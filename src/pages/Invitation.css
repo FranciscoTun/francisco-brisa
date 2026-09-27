@@ -49,8 +49,8 @@
   right: 0;
   bottom: 0;
   z-index: 1;
-  height: 24%;
-  background: linear-gradient(180deg, transparent, var(--cream));
+  height: 13%;
+  background: linear-gradient(180deg, transparent, rgba(250, 245, 234, 0.9));
   pointer-events: none;
 }
 
