@@ -25,7 +25,17 @@ export default function Envelope({ onDone }) {
     return () => clearTimeout(t)
   }, [phase])
 
-  const open = () => setPhase((p) => (p === 'idle' ? 'open' : p))
+  const open = () => {
+    // Fullscreen API: requiere un gesto del usuario (el tap sobre el sobre)
+    try {
+      const el = document.documentElement
+      const req = el.requestFullscreen || el.webkitRequestFullscreen
+      req?.call(el)?.catch(() => {})
+    } catch {
+      /* navegador sin soporte de fullscreen */
+    }
+    setPhase((p) => (p === 'idle' ? 'open' : p))
+  }
 
   return (
     <div
