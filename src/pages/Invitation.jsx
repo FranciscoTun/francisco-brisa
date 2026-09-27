@@ -171,7 +171,8 @@ export default function Invitation() {
 
       <section className="section">
         <Reveal>
-          <h2 className="section-title">Nosotros</h2>
+          <h2 className="section-title">Retratos de nuestro amor</h2>
+          <p className="section-subtitle">La clave es disfrutar cada momento</p>
         </Reveal>
         {photos.length > 0 ? (
           <div className="gallery">

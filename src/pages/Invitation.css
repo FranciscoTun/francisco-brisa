@@ -125,6 +125,16 @@
   margin-bottom: 2.2rem;
 }
 
+.section-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #a08d6d;
+  margin-top: -1.6rem;
+  margin-bottom: 2.2rem;
+}
+
 /* ── Event cards ── */
 .cards {
   display: grid;
