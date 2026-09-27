@@ -1,33 +1,44 @@
 .countdown {
   display: flex;
-  gap: clamp(0.6rem, 3vw, 1.2rem);
+  gap: clamp(0.4rem, 2vw, 1.2rem);
   justify-content: center;
-  flex-wrap: wrap;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 .cd-box {
-  min-width: clamp(68px, 20vw, 96px);
-  padding: 1.1rem 0.5rem 0.9rem;
+  flex: 1;
+  min-width: 0;
+  max-width: 110px;
+  padding: clamp(0.8rem, 3vw, 1.1rem) 0.3rem
+    clamp(0.7rem, 2.5vw, 0.9rem);
   background: #fffdf8;
   border: 1px solid #eadfc6;
-  border-radius: 14px;
+  border-radius: clamp(8px, 2.5vw, 14px);
   text-align: center;
   box-shadow: 0 10px 26px rgba(120, 95, 55, 0.1);
+  overflow: hidden;
 }
 
 .cd-num {
   display: block;
   font-family: var(--font-serif);
-  font-size: clamp(1.7rem, 6vw, 2.4rem);
+  font-size: clamp(1.3rem, 7vw, 2.4rem);
   font-weight: 600;
   color: var(--ink);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  line-height: 1.1;
 }
 
 .cd-label {
+  display: block;
+  margin-top: 0.25rem;
   font-family: var(--font-sans);
-  font-size: 0.65rem;
-  letter-spacing: 0.28em;
+  font-size: clamp(0.5rem, 2.4vw, 0.65rem);
+  letter-spacing: clamp(0.12em, 0.8vw, 0.28em);
   text-transform: uppercase;
   color: var(--gold);
+  white-space: nowrap;
 }
