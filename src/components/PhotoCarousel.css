@@ -5,7 +5,7 @@
 .carousel {
   position: relative;
   width: 100%;
-  height: clamp(340px, 55svh, 470px);
+  height: clamp(430px, 62svh, 580px);
   touch-action: pan-y;
   -webkit-mask-image: linear-gradient(
     90deg,
@@ -27,8 +27,8 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  width: clamp(190px, 46vw, 300px);
-  padding: 10px 10px 44px;
+  width: clamp(250px, 62vw, 390px);
+  padding: 12px 12px 52px;
   background: #fffdf8;
   border: 1px solid #e8dcc2;
   border-radius: 6px;
