@@ -84,6 +84,7 @@ export default function Invitation() {
           aria-hidden="true"
         />
         <div className="hero-overlay" />
+        <div className="hero-fade" />
         <FullscreenButton />
         <Reveal>
           <p className="hero-pre">¡Nos casamos!</p>
