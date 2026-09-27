@@ -48,16 +48,6 @@ export default function DressCodeModal({ onClose }) {
           </div>
         </div>
 
-        <p className="swatches-title">Tonos sugeridos</p>
-        <div className="swatches">
-          {dc.suggested.map(([label, color]) => (
-            <div className="swatch" key={label}>
-              <span className="swatch-dot" style={{ background: color }} />
-              <span className="swatch-label">{label}</span>
-            </div>
-          ))}
-        </div>
-
         <p className="swatches-title">Colores reservados</p>
         <div className="swatches">
           {dc.reserved.map(([label, color]) => (

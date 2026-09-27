@@ -25,16 +25,8 @@ export const WEDDING = {
   dressCode: {
     label: 'Formal',
     hint: 'Este es un estilo sugerido',
-    ellas: 'Vestido largo o midi, telas ligeras y tacón ancho',
-    ellos: 'Traje claro o en tonos tierra, corbata opcional',
-    suggested: [
-      ['Salvia', '#9db48c'],
-      ['Terracota', '#b56a4c'],
-      ['Celeste', '#9db4cc'],
-      ['Lavanda', '#b3a6cc'],
-      ['Mostaza', '#c9a44a'],
-      ['Rosa palo', '#d9a8a8'],
-    ],
+    ellas: 'Vestido largo o cóctel',
+    ellos: 'Ropa formal',
     reserved: [
       ['Blanco', '#ffffff'],
       ['Marfil', '#efe8d8'],
