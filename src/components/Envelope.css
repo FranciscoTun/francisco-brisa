@@ -70,7 +70,7 @@
 }
 
 .env-zoom .env-letter {
-  transform: translateZ(2px) translateY(-125%) scale(14);
+  transform: translateZ(10px) translateY(-125%) scale(14);
   transition-duration: 0.9s;
 }
 
