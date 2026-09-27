@@ -61,3 +61,48 @@
   line-height: 1.55;
   color: #6e6455;
 }
+
+/* En móvil: número y texto en una sola línea (3 filas) */
+@media (max-width: 620px) {
+  .album-sub {
+    margin-bottom: 1.2rem;
+  }
+
+  .album-qr {
+    width: clamp(150px, 44vw, 200px);
+    padding: 10px;
+  }
+
+  .album-scan {
+    margin: 0.7rem 0 1.2rem;
+  }
+
+  .album-steps {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.9rem;
+    margin-top: 1.6rem;
+    max-width: 340px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .album-steps li {
+    flex-direction: row;
+    align-items: center;
+    max-width: none;
+    gap: 0.9rem;
+  }
+
+  .step-num {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    font-size: 1.1rem;
+  }
+
+  .album-steps p {
+    text-align: left;
+    font-size: 0.85rem;
+  }
+}
