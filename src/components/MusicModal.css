@@ -15,24 +15,26 @@
 
 .modal input {
   width: 100%;
-  padding: 0.85rem 1rem;
-  border: 1px solid #e0d2b0;
-  border-radius: 10px;
-  background: #fff;
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
+  padding: 0.85rem 0.4rem 0.6rem;
+  border: none;
+  border-bottom: 1px solid #dccca8;
+  border-radius: 0;
+  background: transparent;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  text-align: center;
   color: var(--ink);
-  transition: border-color 0.25s, box-shadow 0.25s;
+  transition: border-color 0.25s;
 }
 
 .modal input::placeholder {
-  color: #a99a83;
+  color: #b3a284;
+  text-align: center;
 }
 
 .modal input:focus {
   outline: none;
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(185, 138, 62, 0.15);
+  border-bottom-color: var(--gold);
 }
 
 .modal-submit {
