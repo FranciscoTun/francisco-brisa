@@ -238,7 +238,40 @@
   color: #96897a;
 }
 
-/* ── Dress code & RSVP ── */
+/* ── Dress code & envelope gift ── */
+.dress-icons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-bottom: 1.4rem;
+}
+
+.dress-icons .info-icon {
+  margin: 0;
+}
+
+.envelope-card {
+  max-width: 440px;
+  margin: 0 auto;
+  background: #fffdf8;
+  border: 1px solid #eadfc6;
+  border-radius: 18px;
+  padding: 2.2rem 1.6rem;
+  box-shadow: 0 14px 34px rgba(120, 95, 55, 0.1);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.envelope-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(120, 95, 55, 0.15);
+}
+
+.envelope-text {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  line-height: 1.65;
+  color: #6e6455;
+}
 .dress-code {
   font-family: var(--font-serif);
   font-size: clamp(1.3rem, 5vw, 1.8rem);
