@@ -5,6 +5,7 @@ import DressCodeModal from '../components/DressCodeModal.jsx'
 import GiftsModal from '../components/GiftsModal.jsx'
 import MusicModal from '../components/MusicModal.jsx'
 import Petals from '../components/Petals.jsx'
+import PhotoModal from '../components/PhotoModal.jsx'
 import Reveal from '../components/Reveal.jsx'
 import TipsModal from '../components/TipsModal.jsx'
 import bgVideo from '../assets/videos/video_background.mp4'
@@ -63,6 +64,7 @@ export default function Invitation() {
   const [dressOpen, setDressOpen] = useState(false)
   const [tipsOpen, setTipsOpen] = useState(false)
   const [giftsOpen, setGiftsOpen] = useState(false)
+  const [photoOpen, setPhotoOpen] = useState(null)
 
   return (
     <div className="invite">
@@ -141,7 +143,13 @@ export default function Invitation() {
           <div className="gallery">
             {photos.map((src, i) => (
               <Reveal key={src} delay={i * 100}>
-                <img className="gallery-img" src={src} alt={`Foto ${i + 1}`} loading="lazy" />
+                <button
+                  type="button"
+                  className="polaroid"
+                  onClick={() => setPhotoOpen(src)}
+                >
+                  <img src={src} alt={`Foto ${i + 1}`} loading="lazy" />
+                </button>
               </Reveal>
             ))}
           </div>
@@ -269,6 +277,9 @@ export default function Invitation() {
       {dressOpen && <DressCodeModal onClose={() => setDressOpen(false)} />}
       {tipsOpen && <TipsModal onClose={() => setTipsOpen(false)} />}
       {giftsOpen && <GiftsModal onClose={() => setGiftsOpen(false)} />}
+      {photoOpen && (
+        <PhotoModal src={photoOpen} onClose={() => setPhotoOpen(null)} />
+      )}
 
       <footer className="footer">
         <p className="footer-names">
