@@ -6,6 +6,7 @@ import MusicModal from '../components/MusicModal.jsx'
 import Petals from '../components/Petals.jsx'
 import Reveal from '../components/Reveal.jsx'
 import TipsModal from '../components/TipsModal.jsx'
+import bgVideo from '../assets/videos/video_background.mp4'
 import {
   ClipboardIcon,
   ClockIcon,
@@ -66,6 +67,16 @@ export default function Invitation() {
       <Petals count={16} />
 
       <header className="hero">
+        <video
+          className="hero-video"
+          src={bgVideo}
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-hidden="true"
+        />
+        <div className="hero-overlay" />
         <Reveal>
           <p className="hero-pre">¡Nos casamos!</p>
         </Reveal>
