@@ -289,6 +289,35 @@
   text-transform: uppercase;
 }
 
+.music-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.15rem, 4vw, 1.4rem);
+  color: #6e6455;
+  max-width: 520px;
+  margin: 0 auto 1.8rem;
+}
+
+.music-btn {
+  padding: 0.95rem 2.6rem;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--gold);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s, transform 0.3s;
+}
+
+.music-btn:hover {
+  background: var(--gold);
+  color: #fffdf8;
+  transform: translateY(-3px);
+}
+
 .rsvp-text {
   font-family: var(--font-serif);
   font-size: 1.15rem;

@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { WEDDING } from '../config.js'
 import Countdown from '../components/Countdown.jsx'
+import MusicModal from '../components/MusicModal.jsx'
 import Petals from '../components/Petals.jsx'
 import Reveal from '../components/Reveal.jsx'
 import './Invitation.css'
@@ -111,6 +113,8 @@ function EventCard({ icon, title, place, address, time, mapsUrl, delay }) {
 }
 
 export default function Invitation() {
+  const [musicOpen, setMusicOpen] = useState(false)
+
   return (
     <div className="invite">
       <Petals count={16} />
@@ -225,6 +229,27 @@ export default function Invitation() {
         </Reveal>
       </section>
 
+      <section className="section section-alt">
+        <Reveal>
+          <h2 className="section-title">Música</h2>
+        </Reveal>
+        <Reveal delay={150}>
+          <p className="music-quote">
+            ¿Cuál es la canción que no puede faltar en la lista de reproducción
+            de la fiesta?
+          </p>
+        </Reveal>
+        <Reveal delay={300}>
+          <button
+            type="button"
+            className="music-btn"
+            onClick={() => setMusicOpen(true)}
+          >
+            Sugerir canción
+          </button>
+        </Reveal>
+      </section>
+
       <section className="section rsvp">
         <Reveal>
           <h2 className="section-title">Confirma tu asistencia</h2>
@@ -247,6 +272,8 @@ export default function Invitation() {
           </a>
         </Reveal>
       </section>
+
+      {musicOpen && <MusicModal onClose={() => setMusicOpen(false)} />}
 
       <footer className="footer">
         <p className="footer-names">
