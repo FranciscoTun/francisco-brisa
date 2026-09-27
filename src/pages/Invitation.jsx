@@ -157,10 +157,27 @@ export default function Invitation() {
       </section>
 
       <section className="section section-alt">
-        <ShareAlbum />
+        <Reveal>
+          <h2 className="section-title">Música</h2>
+        </Reveal>
+        <Reveal delay={150}>
+          <p className="music-quote">
+            ¿Cuál es la canción que no puede faltar en la lista de reproducción
+            de la fiesta?
+          </p>
+        </Reveal>
+        <Reveal delay={300}>
+          <button
+            type="button"
+            className="music-btn"
+            onClick={() => setMusicOpen(true)}
+          >
+            Sugerir canción
+          </button>
+        </Reveal>
       </section>
 
-      <section className="section section-alt">
+      <section className="section">
         <Reveal>
           <h2 className="section-title">Código de vestimenta</h2>
         </Reveal>
@@ -179,6 +196,27 @@ export default function Invitation() {
             type="button"
             className="info-btn"
             onClick={() => setDressOpen(true)}
+          >
+            Ver más
+          </button>
+        </Reveal>
+      </section>
+
+      <section className="section section-alt">
+        <Reveal>
+          <h2 className="section-title">Tips y notas</h2>
+        </Reveal>
+        <Reveal delay={150}>
+          <div className="dress-icons">
+            <div className="info-icon">
+              <ClipboardIcon />
+            </div>
+          </div>
+          <p className="dress-hint">Información adicional a considerar</p>
+          <button
+            type="button"
+            className="info-btn"
+            onClick={() => setTipsOpen(true)}
           >
             Ver más
           </button>
@@ -207,45 +245,7 @@ export default function Invitation() {
       </section>
 
       <section className="section section-alt">
-        <Reveal>
-          <h2 className="section-title">Música</h2>
-        </Reveal>
-        <Reveal delay={150}>
-          <p className="music-quote">
-            ¿Cuál es la canción que no puede faltar en la lista de reproducción
-            de la fiesta?
-          </p>
-        </Reveal>
-        <Reveal delay={300}>
-          <button
-            type="button"
-            className="music-btn"
-            onClick={() => setMusicOpen(true)}
-          >
-            Sugerir canción
-          </button>
-        </Reveal>
-      </section>
-
-      <section className="section">
-        <Reveal>
-          <h2 className="section-title">Tips y notas</h2>
-        </Reveal>
-        <Reveal delay={150}>
-          <div className="dress-icons">
-            <div className="info-icon">
-              <ClipboardIcon />
-            </div>
-          </div>
-          <p className="dress-hint">Información adicional a considerar</p>
-          <button
-            type="button"
-            className="info-btn"
-            onClick={() => setTipsOpen(true)}
-          >
-            Ver más
-          </button>
-        </Reveal>
+        <ShareAlbum />
       </section>
 
       <section className="section rsvp">
