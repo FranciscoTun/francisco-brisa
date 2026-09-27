@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { WEDDING } from '../config.js'
 import Countdown from '../components/Countdown.jsx'
 import DressCodeModal from '../components/DressCodeModal.jsx'
+import FullscreenButton from '../components/FullscreenButton.jsx'
 import GiftsModal from '../components/GiftsModal.jsx'
 import MusicModal from '../components/MusicModal.jsx'
 import Petals from '../components/Petals.jsx'
@@ -81,6 +82,7 @@ export default function Invitation() {
           aria-hidden="true"
         />
         <div className="hero-overlay" />
+        <FullscreenButton />
         <Reveal>
           <p className="hero-pre">¡Nos casamos!</p>
         </Reveal>

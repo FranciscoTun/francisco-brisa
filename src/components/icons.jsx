@@ -95,6 +95,38 @@ export const BankIcon = () => (
   </svg>
 )
 
+export const ExpandIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.6"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M9 4 H4 V9" />
+    <path d="M15 4 H20 V9" />
+    <path d="M9 20 H4 V15" />
+    <path d="M15 20 H20 V15" />
+  </svg>
+)
+
+export const CompressIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.6"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M4 9 H9 V4" />
+    <path d="M20 9 H15 V4" />
+    <path d="M4 15 H9 V20" />
+    <path d="M20 15 H15 V20" />
+  </svg>
+)
+
 export const EnvelopeIcon = () => (
   <svg
     viewBox="0 0 24 24"

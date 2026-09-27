@@ -48,6 +48,28 @@
   z-index: 2;
 }
 
+.fs-btn {
+  position: absolute;
+  top: calc(1.1rem + env(safe-area-inset-top));
+  right: 1.1rem;
+  z-index: 5;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 250, 240, 0.45);
+  background: rgba(255, 250, 240, 0.14);
+  backdrop-filter: blur(6px);
+  color: #fdf8ec;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.fs-btn:hover {
+  background: rgba(255, 250, 240, 0.28);
+  transform: scale(1.08);
+}
+
 /* Cada pantalla es un punto de snap: al soltar el scroll se centra sola */
 .hero,
 .section {
