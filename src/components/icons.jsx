@@ -49,6 +49,21 @@ export const DressIcon = () => (
   </svg>
 )
 
+export const ClipboardIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.4"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="5" y="4.5" width="14" height="17" rx="2" />
+    <rect x="9" y="2.5" width="6" height="4" rx="1.5" />
+    <path d="M8.5 13.5 L11 16 L15.5 10.5" />
+  </svg>
+)
+
 export const EnvelopeIcon = () => (
   <svg
     viewBox="0 0 24 24"

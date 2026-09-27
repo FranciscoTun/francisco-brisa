@@ -5,7 +5,9 @@ import DressCodeModal from '../components/DressCodeModal.jsx'
 import MusicModal from '../components/MusicModal.jsx'
 import Petals from '../components/Petals.jsx'
 import Reveal from '../components/Reveal.jsx'
+import TipsModal from '../components/TipsModal.jsx'
 import {
+  ClipboardIcon,
   ClockIcon,
   DressIcon,
   EnvelopeIcon,
@@ -57,6 +59,7 @@ function EventCard({ icon, title, place, address, time, mapsUrl, delay }) {
 export default function Invitation() {
   const [musicOpen, setMusicOpen] = useState(false)
   const [dressOpen, setDressOpen] = useState(false)
+  const [tipsOpen, setTipsOpen] = useState(false)
 
   return (
     <div className="invite">
@@ -201,6 +204,27 @@ export default function Invitation() {
         </Reveal>
       </section>
 
+      <section className="section">
+        <Reveal>
+          <h2 className="section-title">Tips y notas</h2>
+        </Reveal>
+        <Reveal delay={150}>
+          <div className="dress-icons">
+            <div className="info-icon">
+              <ClipboardIcon />
+            </div>
+          </div>
+          <p className="dress-hint">Información adicional a considerar</p>
+          <button
+            type="button"
+            className="info-btn"
+            onClick={() => setTipsOpen(true)}
+          >
+            Ver más
+          </button>
+        </Reveal>
+      </section>
+
       <section className="section rsvp">
         <Reveal>
           <h2 className="section-title">Confirma tu asistencia</h2>
@@ -226,6 +250,7 @@ export default function Invitation() {
 
       {musicOpen && <MusicModal onClose={() => setMusicOpen(false)} />}
       {dressOpen && <DressCodeModal onClose={() => setDressOpen(false)} />}
+      {tipsOpen && <TipsModal onClose={() => setTipsOpen(false)} />}
 
       <footer className="footer">
         <p className="footer-names">

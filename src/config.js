@@ -35,6 +35,26 @@ export const WEDDING = {
     pinterestUrl: '', // opcional: enlace a un tablero de Pinterest
   },
 
+  // Notas que se muestran en la sección "Tips y notas"
+  tips: [
+    {
+      title: 'Llega con tiempo',
+      text: 'La ceremonia empieza puntual. Te recomendamos llegar 20 minutos antes.',
+    },
+    {
+      title: 'Confirma tu asistencia',
+      text: 'Avísanos lo antes posible para preparar todo con cariño.',
+    },
+    {
+      title: 'Celebración para adultos',
+      text: 'Queremos que disfrutes la noche sin preocupaciones: la fiesta será solo para adultos.',
+    },
+    {
+      title: 'A bailar',
+      text: 'Olvídate de todo y ven con ganas de bailar hasta el final.',
+    },
+  ],
+
   // Número de WhatsApp para confirmar asistencia (con código de país, sin +)
   whatsapp: '521234567890',
 }
