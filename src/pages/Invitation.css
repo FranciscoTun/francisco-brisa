@@ -70,16 +70,16 @@
 }
 
 .fs-btn {
-  position: absolute;
+  position: fixed;
   top: calc(1.1rem + env(safe-area-inset-top));
   right: 1.1rem;
-  z-index: 5;
+  z-index: 60;
   width: 44px;
   height: 44px;
   padding: 10px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 250, 240, 0.45);
-  background: rgba(255, 250, 240, 0.14);
+  border: 1px solid rgba(255, 250, 240, 0.35);
+  background: rgba(50, 45, 36, 0.32);
   backdrop-filter: blur(6px);
   color: #fdf8ec;
   cursor: pointer;
@@ -87,7 +87,7 @@
 }
 
 .fs-btn:hover {
-  background: rgba(255, 250, 240, 0.28);
+  background: rgba(50, 45, 36, 0.5);
   transform: scale(1.08);
 }
 
