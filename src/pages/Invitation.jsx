@@ -2,10 +2,9 @@ import { useState } from 'react'
 import { WEDDING } from '../config.js'
 import Countdown from '../components/Countdown.jsx'
 import DressCodeModal from '../components/DressCodeModal.jsx'
-import FullscreenButton from '../components/FullscreenButton.jsx'
+import FloatingControls from '../components/FloatingControls.jsx'
 import GiftsModal from '../components/GiftsModal.jsx'
 import MusicModal from '../components/MusicModal.jsx'
-import MuteButton from '../components/MuteButton.jsx'
 import Petals from '../components/Petals.jsx'
 import PhotoCarousel from '../components/PhotoCarousel.jsx'
 import PhotoModal from '../components/PhotoModal.jsx'
@@ -86,8 +85,6 @@ export default function Invitation() {
         />
         <div className="hero-overlay" />
         <div className="hero-fade" />
-        <FullscreenButton />
-        <MuteButton />
         <div className="hero-content">
           <p className="hero-pre">¡Nos casamos!</p>
           <h1 className="hero-names">
@@ -270,6 +267,7 @@ export default function Invitation() {
         </Reveal>
       </section>
 
+      <FloatingControls />
       {musicOpen && <MusicModal onClose={() => setMusicOpen(false)} />}
       {dressOpen && <DressCodeModal onClose={() => setDressOpen(false)} />}
       {tipsOpen && <TipsModal onClose={() => setTipsOpen(false)} />}
