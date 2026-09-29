@@ -113,6 +113,7 @@ export default function Invitation() {
           <h2 className="section-title">Cuándo &amp; Dónde</h2>
         </Reveal>
         <div className="cards">
+          {/* Card de Ceremonia — oculto temporalmente, se muestra solo Recepción
           <EventCard
             icon={<RingsIcon />}
             title="Ceremonia"
@@ -122,6 +123,7 @@ export default function Invitation() {
             mapsUrl={WEDDING.ceremony.mapsUrl}
             delay={100}
           />
+          */}
           <EventCard
             icon={<RingsIcon />}
             title="Recepción"
