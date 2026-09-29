@@ -26,7 +26,7 @@ export default function ShareAlbum() {
           src={qrImg}
           alt="Código QR del álbum compartido"
         />
-        <p className="album-scan">Escánalo con la cámara de tu celular</p>
+        <p className="album-scan">Escanéalo con la cámara de tu celular</p>
       </Reveal>
 
       <Reveal delay={250}>
