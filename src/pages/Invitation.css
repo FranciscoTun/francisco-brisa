@@ -91,6 +91,10 @@
   transform: scale(1.08);
 }
 
+.music-ctl {
+  right: calc(1.1rem + 44px + 0.7rem);
+}
+
 /* Cada pantalla es un punto de snap: al soltar el scroll se centra sola */
 .hero,
 .section {

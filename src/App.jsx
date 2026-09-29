@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Envelope from './components/Envelope.jsx'
 import Loader from './components/Loader.jsx'
 import Invitation from './pages/Invitation.jsx'
+import { music } from './audio.js'
 import videoUrl from './assets/videos/video_background.mp4?url'
 
 const photos = Object.values(
@@ -31,6 +32,15 @@ function App() {
         v.oncanplaythrough = res
         v.onerror = res
         v.src = videoUrl
+      }),
+    )
+
+    // Canción de fondo
+    tasks.push(
+      new Promise((res) => {
+        if (music.readyState >= 3) return res()
+        music.addEventListener('canplaythrough', res, { once: true })
+        music.addEventListener('error', res, { once: true })
       }),
     )
 

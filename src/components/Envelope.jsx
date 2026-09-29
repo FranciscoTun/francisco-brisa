@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { startMusic } from '../audio.js'
 import Petals from './Petals.jsx'
 import { WEDDING } from '../config.js'
 import './Envelope.css'
@@ -34,6 +35,7 @@ export default function Envelope({ onDone }) {
     } catch {
       /* navegador sin soporte de fullscreen */
     }
+    startMusic()
     setPhase((p) => (p === 'idle' ? 'open' : p))
   }
 

@@ -153,6 +153,36 @@ export const ChevronRightIcon = () => (
   </svg>
 )
 
+export const SpeakerIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.6"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M11 5 6 9 H3 v6 h3 l5 4 z" />
+    <path d="M15.5 8.5 a5 5 0 0 1 0 7" />
+    <path d="M18 6 a8.5 8.5 0 0 1 0 12" />
+  </svg>
+)
+
+export const MuteIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.6"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M11 5 6 9 H3 v6 h3 l5 4 z" />
+    <line x1="16" y1="9" x2="22" y2="15" />
+    <line x1="22" y1="9" x2="16" y2="15" />
+  </svg>
+)
+
 export const EnvelopeIcon = () => (
   <svg
     viewBox="0 0 24 24"
