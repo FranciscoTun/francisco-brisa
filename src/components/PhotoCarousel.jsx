@@ -18,7 +18,7 @@ export default function PhotoCarousel({ photos, onZoom }) {
   }, [])
 
   // En vertical las tarjetas van más juntas
-  const gap = portrait ? 74 : 112
+  const gap = portrait ? 70 : 112
 
   if (n === 0) return null
 

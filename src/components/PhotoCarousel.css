@@ -93,7 +93,7 @@
 /* ── Vertical: tarjetas retrato y más juntas ── */
 @media (orientation: portrait) {
   .carousel {
-    height: clamp(360px, 56svh, 500px);
+    height: clamp(430px, 64svh, 580px);
     -webkit-mask-image: linear-gradient(
       90deg,
       transparent,
@@ -111,8 +111,8 @@
   }
 
   .carousel-slide {
-    width: clamp(185px, 60vw, 270px);
-    padding: 10px 10px 42px;
+    width: clamp(230px, 76vw, 330px);
+    padding: 11px 11px 46px;
   }
 
   .carousel-slide img {
