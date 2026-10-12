@@ -1,11 +1,24 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from './icons.jsx'
 import './PhotoCarousel.css'
 
 export default function PhotoCarousel({ photos, onZoom }) {
   const [index, setIndex] = useState(0)
+  const [portrait, setPortrait] = useState(
+    () => matchMedia('(orientation: portrait)').matches,
+  )
   const touchX = useRef(0)
   const n = photos.length
+
+  useEffect(() => {
+    const mq = matchMedia('(orientation: portrait)')
+    const fn = () => setPortrait(mq.matches)
+    mq.addEventListener('change', fn)
+    return () => mq.removeEventListener('change', fn)
+  }, [])
+
+  // En vertical las tarjetas van más juntas
+  const gap = portrait ? 74 : 112
 
   if (n === 0) return null
 
@@ -33,7 +46,7 @@ export default function PhotoCarousel({ photos, onZoom }) {
               className="carousel-slide"
               style={{
                 transform: `translate(-50%, -50%) translateX(${
-                  off * 112
+                  off * gap
                 }%) scale(${abs === 0 ? 1 : abs === 1 ? 0.8 : 0.62})`,
                 opacity: abs === 0 ? 1 : abs === 1 ? 0.55 : abs === 2 ? 0.26 : 0,
                 zIndex: 30 - abs,

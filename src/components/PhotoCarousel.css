@@ -89,3 +89,33 @@
   width: 100%;
   height: 100%;
 }
+
+/* ── Vertical: tarjetas retrato y más juntas ── */
+@media (orientation: portrait) {
+  .carousel {
+    height: clamp(360px, 56svh, 500px);
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+  }
+
+  .carousel-slide {
+    width: clamp(185px, 60vw, 270px);
+    padding: 10px 10px 42px;
+  }
+
+  .carousel-slide img {
+    aspect-ratio: 3 / 4;
+  }
+}
