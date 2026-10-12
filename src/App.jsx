@@ -6,7 +6,8 @@ import Admin from './pages/Admin.jsx'
 import Invitation from './pages/Invitation.jsx'
 import { music } from './audio.js'
 import { getInvitation } from './api.js'
-import videoUrl from './assets/videos/video_background.mp4?url'
+import videoPortrait from './assets/videos/video_background_portrait.mp4?url'
+import videoLandscape from './assets/videos/video_background_landscape.mp4?url'
 
 const photos = Object.values(
   import.meta.glob('./assets/photos/*.{png,jpg,jpeg,webp}', { eager: true }),
@@ -52,7 +53,9 @@ function InviteFlow({ token }) {
         v.preload = 'auto'
         v.oncanplaythrough = res
         v.onerror = res
-        v.src = videoUrl
+        v.src = matchMedia('(orientation: portrait)').matches
+          ? videoPortrait
+          : videoLandscape
       }),
     )
 

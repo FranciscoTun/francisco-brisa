@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { WEDDING } from '../config.js'
 import Countdown from '../components/Countdown.jsx'
 import DressCodeModal from '../components/DressCodeModal.jsx'
@@ -12,7 +12,8 @@ import Reveal from '../components/Reveal.jsx'
 import RsvpModal from '../components/RsvpModal.jsx'
 import ShareAlbum from '../components/ShareAlbum.jsx'
 import TipsModal from '../components/TipsModal.jsx'
-import bgVideo from '../assets/videos/video_background.mp4'
+import bgVideoPortrait from '../assets/videos/video_background_portrait.mp4'
+import bgVideoLandscape from '../assets/videos/video_background_landscape.mp4'
 import {
   ClipboardIcon,
   ClockIcon,
@@ -70,6 +71,18 @@ export default function Invitation({ inv, onUpdate }) {
   const [tipsOpen, setTipsOpen] = useState(false)
   const [giftsOpen, setGiftsOpen] = useState(false)
   const [photoOpen, setPhotoOpen] = useState(null)
+  const [portrait, setPortrait] = useState(
+    () => matchMedia('(orientation: portrait)').matches,
+  )
+
+  useEffect(() => {
+    const mq = matchMedia('(orientation: portrait)')
+    const fn = () => setPortrait(mq.matches)
+    mq.addEventListener('change', fn)
+    return () => mq.removeEventListener('change', fn)
+  }, [])
+
+  const heroSrc = portrait ? bgVideoPortrait : bgVideoLandscape
 
   return (
     <div className="invite">
@@ -77,8 +90,9 @@ export default function Invitation({ inv, onUpdate }) {
 
       <header className="hero">
         <video
+          key={heroSrc}
           className="hero-video"
-          src={bgVideo}
+          src={heroSrc}
           autoPlay
           muted
           loop
