@@ -4,9 +4,9 @@ import { useModalClose } from '../hooks/useModalClose.js'
 import './Modal.css'
 import './MusicModal.css'
 
-export default function MusicModal({ onClose }) {
-  const [name, setName] = useState('')
+export default function MusicModal({ token, onClose }) {
   const [song, setSong] = useState('')
+  const [artist, setArtist] = useState('')
   const [link, setLink] = useState('')
   const [busy, setBusy] = useState(false)
   const [sent, setSent] = useState(false)
@@ -16,10 +16,25 @@ export default function MusicModal({ onClose }) {
 
   const submit = async (e) => {
     e.preventDefault()
+    let url = link.trim()
+    if (url && !/^https?:\/\//i.test(url)) url = `https://${url}`
+    if (url) {
+      try {
+        new URL(url)
+      } catch {
+        setError('El enlace no tiene formato de URL válido')
+        return
+      }
+    }
     setBusy(true)
     setError('')
     try {
-      await postSong({ name, song, link: link || null })
+      await postSong({
+        token,
+        song: song.trim(),
+        artist: artist.trim(),
+        link: url || null,
+      })
       setSent(true)
       setTimeout(onClose, 1600)
     } catch {
@@ -51,29 +66,30 @@ export default function MusicModal({ onClose }) {
         {sent ? (
           <p className="music-thanks">¡Gracias por tu sugerencia!</p>
         ) : (
-        <form onSubmit={submit}>
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Tu nombre"
-            required
-          />
-          <input
-            value={song}
-            onChange={(e) => setSong(e.target.value)}
-            placeholder="Nombre de la canción y autor"
-            required
-          />
-          <input
-            value={link}
-            onChange={(e) => setLink(e.target.value)}
-            placeholder="Si lo deseas, ingresa el enlace de YouTube, Spotify, etc. (opcional)"
-          />
-          {error && <p className="music-error">{error}</p>}
-          <button type="submit" className="modal-submit" disabled={busy}>
-            {busy ? 'Enviando…' : 'Enviar sugerencia'}
-          </button>
-        </form>
+          <form onSubmit={submit}>
+            <input
+              value={song}
+              onChange={(e) => setSong(e.target.value)}
+              placeholder="Nombre de la canción"
+              required
+            />
+            <input
+              value={artist}
+              onChange={(e) => setArtist(e.target.value)}
+              placeholder="Artista"
+              required
+            />
+            <input
+              value={link}
+              onChange={(e) => setLink(e.target.value)}
+              placeholder="Enlace (opcional): YouTube, Spotify…"
+              inputMode="url"
+            />
+            {error && <p className="music-error">{error}</p>}
+            <button type="submit" className="modal-submit" disabled={busy}>
+              {busy ? 'Enviando…' : 'Enviar sugerencia'}
+            </button>
+          </form>
         )}
       </div>
     </div>

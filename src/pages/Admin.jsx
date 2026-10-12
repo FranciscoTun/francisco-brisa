@@ -239,6 +239,9 @@ function Dashboard({ token, onLogout }) {
   const [editing, setEditing] = useState(null)
   const [deleting, setDeleting] = useState(null)
   const [copied, setCopied] = useState(null)
+  const [tab, setTab] = useState('invs')
+
+  const songsOf = (invToken) => songs.filter((s) => s.token === invToken)
 
   const load = useCallback(async () => {
     try {
@@ -308,92 +311,141 @@ function Dashboard({ token, onLogout }) {
         </div>
       )}
 
-      <section className="dash-section">
-        <h2>Invitaciones</h2>
-        {invs.length === 0 ? (
-          <p className="empty">Aún no hay invitaciones. Crea la primera.</p>
-        ) : (
-          <div className="inv-table-wrap">
-            <table className="inv-table">
-              <thead>
-                <tr>
-                  <th>Referencia</th>
-                  <th>Pases</th>
-                  <th>Estado</th>
-                  <th>Link</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {invs.map((i) => (
-                  <tr key={i.token}>
-                    <td className="cell-name">{i.name}</td>
-                    <td>{i.max_guests}</td>
-                    <td>
-                      <Status inv={i} />
-                    </td>
-                    <td className="cell-link" title={inviteLink(i.token)}>
-                      {inviteLink(i.token)}
-                    </td>
-                    <td className="cell-actions">
-                      <button
-                        type="button"
-                        className="act copy"
-                        onClick={() => copy(i)}
-                      >
-                        {copied === i.token ? '✓' : 'Copiar'}
-                      </button>
-                      <button
-                        type="button"
-                        className="act edit"
-                        onClick={() => {
-                          setEditing(i)
-                          setFormOpen(true)
-                        }}
-                      >
-                        Editar
-                      </button>
-                      <button
-                        type="button"
-                        className="act del"
-                        onClick={() => setDeleting(i)}
-                      >
-                        Eliminar
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </section>
+      <nav className="tabs">
+        <button
+          type="button"
+          className={`tab ${tab === 'invs' ? 'active' : ''}`}
+          onClick={() => setTab('invs')}
+        >
+          Invitaciones
+        </button>
+        <button
+          type="button"
+          className={`tab ${tab === 'songs' ? 'active' : ''}`}
+          onClick={() => setTab('songs')}
+        >
+          Canciones sugeridas
+        </button>
+      </nav>
 
-      <section className="dash-section">
-        <h2>Canciones sugeridas</h2>
-        {songs.length === 0 ? (
-          <p className="empty">Aún no hay canciones sugeridas.</p>
-        ) : (
-          <ul className="dash-list">
-            {songs.map((s) => (
-              <li key={s.id}>
-                <span className="li-name">{s.song}</span>
-                <span className="li-meta">— {s.name}</span>
-                {s.link && (
-                  <a
-                    className="li-meta"
-                    href={s.link}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    link
-                  </a>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+      {tab === 'invs' && (
+        <section className="dash-section">
+          {invs.length === 0 ? (
+            <p className="empty">
+              Aún no hay invitaciones. Crea la primera con «+ Nueva
+              invitación».
+            </p>
+          ) : (
+            <div className="inv-table-wrap">
+              <table className="inv-table">
+                <thead>
+                  <tr>
+                    <th>Referencia</th>
+                    <th>Pases</th>
+                    <th>Estado</th>
+                    <th>Link</th>
+                    <th>Canciones</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {invs.map((i) => (
+                    <tr key={i.token}>
+                      <td className="cell-name">{i.name}</td>
+                      <td>{i.max_guests}</td>
+                      <td>
+                        <Status inv={i} />
+                      </td>
+                      <td className="cell-link" title={inviteLink(i.token)}>
+                        {inviteLink(i.token)}
+                      </td>
+                      <td className="cell-songs">
+                        {songsOf(i.token).length === 0
+                          ? '—'
+                          : songsOf(i.token).map((s) => (
+                              <span key={s.id} className="song-chip">
+                                {s.song} · {s.artist}
+                              </span>
+                            ))}
+                      </td>
+                      <td className="cell-actions">
+                        <button
+                          type="button"
+                          className="act copy"
+                          onClick={() => copy(i)}
+                        >
+                          {copied === i.token ? '✓' : 'Copiar'}
+                        </button>
+                        <button
+                          type="button"
+                          className="act edit"
+                          onClick={() => {
+                            setEditing(i)
+                            setFormOpen(true)
+                          }}
+                        >
+                          Editar
+                        </button>
+                        <button
+                          type="button"
+                          className="act del"
+                          onClick={() => setDeleting(i)}
+                        >
+                          Eliminar
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+      )}
+
+      {tab === 'songs' && (
+        <section className="dash-section">
+          {songs.length === 0 ? (
+            <p className="empty">Aún no hay canciones sugeridas.</p>
+          ) : (
+            <div className="inv-table-wrap">
+              <table className="inv-table">
+                <thead>
+                  <tr>
+                    <th>Canción</th>
+                    <th>Artista</th>
+                    <th>Enlace</th>
+                    <th>Sugerida por</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {songs.map((s) => (
+                    <tr key={s.id}>
+                      <td className="cell-name">{s.song}</td>
+                      <td>{s.artist}</td>
+                      <td>
+                        {s.link ? (
+                          <a
+                            className="song-link"
+                            href={s.link}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            Ver
+                          </a>
+                        ) : (
+                          '—'
+                        )}
+                      </td>
+                      <td className="cell-guest">{s.guest || '—'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+      )}
 
       {formOpen && (
         <InvFormModal

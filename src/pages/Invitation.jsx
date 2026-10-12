@@ -278,7 +278,9 @@ export default function Invitation({ inv, onUpdate }) {
       </section>
 
       <FloatingControls />
-      {musicOpen && <MusicModal onClose={() => setMusicOpen(false)} />}
+      {musicOpen && (
+        <MusicModal token={inv.token} onClose={() => setMusicOpen(false)} />
+      )}
       {rsvpOpen && (
         <RsvpModal
           inv={inv}
