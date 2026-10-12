@@ -8,6 +8,8 @@ import {
   listSongs,
   updateInvitation,
 } from '../api.js'
+import { useModalClose } from '../hooks/useModalClose.js'
+import '../components/Modal.css'
 import './Admin.css'
 
 const inviteLink = (token) =>
@@ -104,15 +106,138 @@ const Status = ({ inv }) =>
     </span>
   )
 
+function InvFormModal({ inv, token, onClose, onSaved }) {
+  const [name, setName] = useState(inv?.name || '')
+  const [passes, setPasses] = useState(inv?.max_guests || '')
+  const [busy, setBusy] = useState(false)
+  const [err, setErr] = useState('')
+
+  useModalClose(onClose)
+
+  const submit = async (e) => {
+    e.preventDefault()
+    setBusy(true)
+    setErr('')
+    try {
+      const body = { name: name.trim(), max_guests: Number(passes) }
+      if (inv) await updateInvitation(inv.token, token, body)
+      else await createInvitation(token, body)
+      onSaved()
+      onClose()
+    } catch {
+      setErr('No se pudo guardar la invitación')
+      setBusy(false)
+    }
+  }
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div
+        className="modal"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="inv-modal-title"
+      >
+        <button
+          type="button"
+          className="modal-close"
+          onClick={onClose}
+          aria-label="Cerrar"
+        >
+          ×
+        </button>
+        <h3 id="inv-modal-title" className="modal-title">
+          {inv ? 'Editar invitación' : 'Nueva invitación'}
+        </h3>
+        <form onSubmit={submit}>
+          <input
+            placeholder="Referencia (ej. Familia López)"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <input
+            type="number"
+            min="1"
+            max="20"
+            placeholder="Número de pases"
+            value={passes}
+            onChange={(e) => setPasses(e.target.value)}
+            required
+          />
+          {err && <p className="login-err">{err}</p>}
+          <button type="submit" className="modal-submit" disabled={busy}>
+            {busy ? 'Guardando…' : inv ? 'Guardar cambios' : 'Crear invitación'}
+          </button>
+        </form>
+      </div>
+    </div>
+  )
+}
+
+function DeleteModal({ inv, token, onClose, onDeleted }) {
+  const [busy, setBusy] = useState(false)
+  const [err, setErr] = useState('')
+
+  useModalClose(onClose)
+
+  const confirm = async () => {
+    setBusy(true)
+    setErr('')
+    try {
+      await deleteInvitation(inv.token, token)
+      onDeleted(inv.token)
+      onClose()
+    } catch {
+      setErr('No se pudo eliminar la invitación')
+      setBusy(false)
+    }
+  }
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div
+        className="modal"
+        onClick={(e) => e.stopPropagation()}
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="del-modal-title"
+      >
+        <h3 id="del-modal-title" className="modal-title">
+          Eliminar invitación
+        </h3>
+        <p className="del-text">
+          Se eliminará la invitación para <strong>{inv.name}</strong>. Esta
+          acción no se puede deshacer.
+        </p>
+        {err && <p className="login-err">{err}</p>}
+        <div className="del-actions">
+          <button type="button" className="del-cancel" onClick={onClose}>
+            Cancelar
+          </button>
+          <button
+            type="button"
+            className="del-confirm"
+            onClick={confirm}
+            disabled={busy}
+          >
+            {busy ? 'Eliminando…' : 'Eliminar'}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function Dashboard({ token, onLogout }) {
   const [resumen, setResumen] = useState(null)
   const [invs, setInvs] = useState([])
   const [songs, setSongs] = useState([])
   const [err, setErr] = useState('')
-  const [name, setName] = useState('')
-  const [passes, setPasses] = useState(1)
+  const [formOpen, setFormOpen] = useState(false)
   const [editing, setEditing] = useState(null)
-  const [busy, setBusy] = useState(false)
+  const [deleting, setDeleting] = useState(null)
   const [copied, setCopied] = useState(null)
 
   const load = useCallback(async () => {
@@ -135,48 +260,8 @@ function Dashboard({ token, onLogout }) {
     load()
   }, [load])
 
-  const submit = async (e) => {
-    e.preventDefault()
-    setBusy(true)
-    setErr('')
-    try {
-      const body = { name: name.trim(), max_guests: Number(passes) }
-      if (editing) await updateInvitation(editing, token, body)
-      else await createInvitation(token, body)
-      setName('')
-      setPasses(1)
-      setEditing(null)
-      await load()
-    } catch {
-      setErr('No se pudo guardar la invitación')
-    } finally {
-      setBusy(false)
-    }
-  }
-
-  const startEdit = (inv) => {
-    setEditing(inv.token)
-    setName(inv.name)
-    setPasses(inv.max_guests)
-    setErr('')
-  }
-
-  const cancelEdit = () => {
-    setEditing(null)
-    setName('')
-    setPasses(1)
-  }
-
-  const del = async (inv) => {
-    if (!confirm(`¿Eliminar la invitación para "${inv.name}"?`)) return
-    try {
-      await deleteInvitation(inv.token, token)
-      if (editing === inv.token) cancelEdit()
-      await load()
-    } catch {
-      setErr('No se pudo eliminar la invitación')
-    }
-  }
+  const removeInv = (invToken) =>
+    setInvs((list) => list.filter((i) => i.token !== invToken))
 
   const copy = async (inv) => {
     try {
@@ -192,9 +277,21 @@ function Dashboard({ token, onLogout }) {
     <div className="dash">
       <header className="dash-head">
         <h1 className="admin-title">Panel</h1>
-        <button type="button" className="logout" onClick={onLogout}>
-          Salir
-        </button>
+        <div className="dash-actions">
+          <button
+            type="button"
+            className="new-inv"
+            onClick={() => {
+              setEditing(null)
+              setFormOpen(true)
+            }}
+          >
+            + Nueva invitación
+          </button>
+          <button type="button" className="logout" onClick={onLogout}>
+            Salir
+          </button>
+        </div>
       </header>
 
       {err && <p className="login-err">{err}</p>}
@@ -210,37 +307,6 @@ function Dashboard({ token, onLogout }) {
           <Stat n={resumen.canciones_sugeridas} l="Canciones" />
         </div>
       )}
-
-      <section className="dash-section">
-        <h2>{editing ? 'Editar invitación' : 'Nueva invitación'}</h2>
-        <form className="inv-form" onSubmit={submit}>
-          <input
-            className="inv-input"
-            placeholder="Referencia (ej. Familia López)"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <input
-            className="inv-input inv-passes"
-            type="number"
-            min="1"
-            max="20"
-            placeholder="Pases"
-            value={passes}
-            onChange={(e) => setPasses(e.target.value)}
-            required
-          />
-          <button type="submit" className="inv-save" disabled={busy}>
-            {editing ? 'Guardar' : 'Crear'}
-          </button>
-          {editing && (
-            <button type="button" className="inv-cancel" onClick={cancelEdit}>
-              Cancelar
-            </button>
-          )}
-        </form>
-      </section>
 
       <section className="dash-section">
         <h2>Invitaciones</h2>
@@ -280,14 +346,17 @@ function Dashboard({ token, onLogout }) {
                       <button
                         type="button"
                         className="act edit"
-                        onClick={() => startEdit(i)}
+                        onClick={() => {
+                          setEditing(i)
+                          setFormOpen(true)
+                        }}
                       >
                         Editar
                       </button>
                       <button
                         type="button"
                         className="act del"
-                        onClick={() => del(i)}
+                        onClick={() => setDeleting(i)}
                       >
                         Eliminar
                       </button>
@@ -325,6 +394,26 @@ function Dashboard({ token, onLogout }) {
           </ul>
         )}
       </section>
+
+      {formOpen && (
+        <InvFormModal
+          inv={editing}
+          token={token}
+          onClose={() => {
+            setFormOpen(false)
+            setEditing(null)
+          }}
+          onSaved={load}
+        />
+      )}
+      {deleting && (
+        <DeleteModal
+          inv={deleting}
+          token={token}
+          onClose={() => setDeleting(null)}
+          onDeleted={removeInv}
+        />
+      )}
     </div>
   )
 }
