@@ -88,7 +88,7 @@ export default function Invitation() {
         <div className="hero-content">
           <p className="hero-pre">¡Nos casamos!</p>
           <h1 className="hero-names">
-            {WEDDING.him} <span>&amp;</span> {WEDDING.her}
+            {WEDDING.her} <span>&amp;</span> {WEDDING.him}
           </h1>
           <div className="divider" />
           <p className="hero-date">{dateLabel}</p>
@@ -259,7 +259,7 @@ export default function Invitation() {
           <a
             className="rsvp-btn"
             href={`https://wa.me/${WEDDING.whatsapp}?text=${encodeURIComponent(
-              `¡Hola! Confirmo mi asistencia a la boda de ${WEDDING.him} & ${WEDDING.her} 💍`,
+              `¡Hola! Confirmo mi asistencia a la boda de ${WEDDING.her} & ${WEDDING.him} 💍`,
             )}`}
             target="_blank"
             rel="noreferrer"
@@ -281,7 +281,7 @@ export default function Invitation() {
       <footer className="footer">
         <Reveal>
           <p className="footer-names">
-            {WEDDING.him} &amp; {WEDDING.her}
+            {WEDDING.her} &amp; {WEDDING.him}
           </p>
           <p className="footer-date">{dateLabel}</p>
         </Reveal>

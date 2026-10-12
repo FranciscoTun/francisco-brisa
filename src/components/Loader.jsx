@@ -4,7 +4,7 @@ export default function Loader({ progress, leaving }) {
   return (
     <div className={`loader${leaving ? ' leaving' : ''}`}>
       <h1 className="loader-names">
-        F<span>&amp;</span>B
+        B<span>&amp;</span>F
       </h1>
       <div className="loader-line" />
       <div className="loader-bar">

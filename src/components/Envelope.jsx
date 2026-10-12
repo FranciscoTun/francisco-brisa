@@ -54,14 +54,14 @@ export default function Envelope({ onDone }) {
             <span className="env-letter-text">
               <em>Nuestra Boda</em>
               <strong>
-                {WEDDING.him} &amp; {WEDDING.her}
+                {WEDDING.her} &amp; {WEDDING.him}
               </strong>
             </span>
           </div>
           <div className="env-front" />
           <div className="env-flap" />
           <div className="env-seal">
-            {WEDDING.him[0]}&amp;{WEDDING.her[0]}
+            {WEDDING.her[0]}&amp;{WEDDING.him[0]}
           </div>
         </div>
         <p className="env-hint">Toca el sobre para abrir</p>

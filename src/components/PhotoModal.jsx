@@ -17,7 +17,7 @@ export default function PhotoModal({ src, onClose }) {
       >
         <img src={src} alt="Foto ampliada" />
         <figcaption>
-          {WEDDING.him} &amp; {WEDDING.her}
+          {WEDDING.her} &amp; {WEDDING.him}
         </figcaption>
       </figure>
       <button
