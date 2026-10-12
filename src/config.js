@@ -76,3 +76,7 @@ export const WEDDING = {
   // Link directo al álbum compartido (Google Photos)
   albumUrl: 'https://photos.app.goo.gl/ESm9NKEGbPLG1Lny7',
 }
+
+// URL del API (local por defecto; en producción llega por VITE_API_URL)
+export const API_URL =
+  import.meta.env.VITE_API_URL || 'http://localhost:8000'

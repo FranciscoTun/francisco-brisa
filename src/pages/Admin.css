@@ -1,0 +1,224 @@
+/* ── Login ── */
+.admin-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: radial-gradient(120% 120% at 50% 20%, #fffdf8, var(--cream));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.login-card {
+  width: min(400px, 92vw);
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  text-align: center;
+}
+
+.admin-title {
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: clamp(2.6rem, 9vw, 3.6rem);
+  color: var(--gold);
+}
+
+.admin-sub {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #a08d6d;
+  margin-top: -0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 0.85rem 0.4rem 0.6rem;
+  border: none;
+  border-bottom: 1px solid #dccca8;
+  border-radius: 0;
+  background: transparent;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  text-align: center;
+  color: var(--ink);
+  transition: border-color 0.25s;
+}
+
+.login-card input::placeholder {
+  color: #b3a284;
+}
+
+.login-card input:focus {
+  outline: none;
+  border-bottom-color: var(--gold);
+}
+
+.login-err {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: #b05a5a;
+}
+
+.login-btn {
+  margin-top: 0.6rem;
+  padding: 0.95rem 2.4rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--sage);
+  color: #fdfaf3;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.login-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(122, 139, 111, 0.35);
+}
+
+.login-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* ── Dashboard ── */
+.dash {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  overflow-y: auto;
+  background: var(--cream);
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+.dash-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 900px;
+  margin: 0 auto 2rem;
+}
+
+.dash-head .admin-title {
+  font-size: clamp(2.2rem, 7vw, 3rem);
+}
+
+.logout {
+  padding: 0.6rem 1.4rem;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--gold);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.logout:hover {
+  background: var(--gold);
+  color: #fffdf8;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto 2.5rem;
+}
+
+.stat {
+  background: #fffdf8;
+  border: 1px solid #eadfc6;
+  border-radius: 14px;
+  padding: 1.2rem 0.6rem;
+  text-align: center;
+  box-shadow: 0 10px 24px rgba(120, 95, 55, 0.1);
+}
+
+.stat-n {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.stat-l {
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.dash-section {
+  max-width: 900px;
+  margin: 0 auto 2rem;
+}
+
+.dash-section h2 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: var(--ink);
+  margin-bottom: 0.8rem;
+}
+
+.dash-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dash-list li {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  background: #fffdf8;
+  border: 1px solid #eadfc6;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+
+.li-name {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.li-meta {
+  color: #a08d6d;
+  font-size: 0.8rem;
+}
+
+.li-status {
+  margin-left: auto;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.li-status.ok {
+  color: var(--sage);
+}
+
+.li-status.no {
+  color: #b05a5a;
+}
+
+.li-status.wait {
+  color: #a08d6d;
+}

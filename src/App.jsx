@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Envelope from './components/Envelope.jsx'
 import Loader from './components/Loader.jsx'
+import Admin from './pages/Admin.jsx'
 import Invitation from './pages/Invitation.jsx'
 import { music } from './audio.js'
 import videoUrl from './assets/videos/video_background.mp4?url'
@@ -12,6 +13,14 @@ const photos = Object.values(
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
 function App() {
+  // Ruta oculta: /admin solo se abre con la URL exacta
+  const base = import.meta.env.BASE_URL || '/'
+  const route = location.pathname.slice(base.length).replace(/\/$/, '')
+  if (route === 'admin') return <Admin />
+  return <InviteFlow />
+}
+
+function InviteFlow() {
   const [phase, setPhase] = useState('loading')
   const [opened, setOpened] = useState(false)
   const [progress, setProgress] = useState(0)
