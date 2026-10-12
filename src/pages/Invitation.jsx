@@ -9,6 +9,7 @@ import Petals from '../components/Petals.jsx'
 import PhotoCarousel from '../components/PhotoCarousel.jsx'
 import PhotoModal from '../components/PhotoModal.jsx'
 import Reveal from '../components/Reveal.jsx'
+import RsvpModal from '../components/RsvpModal.jsx'
 import ShareAlbum from '../components/ShareAlbum.jsx'
 import TipsModal from '../components/TipsModal.jsx'
 import bgVideo from '../assets/videos/video_background.mp4'
@@ -62,8 +63,9 @@ function EventCard({ icon, title, place, address, time, mapsUrl, delay }) {
   )
 }
 
-export default function Invitation() {
+export default function Invitation({ inv, onUpdate }) {
   const [musicOpen, setMusicOpen] = useState(false)
+  const [rsvpOpen, setRsvpOpen] = useState(false)
   const [dressOpen, setDressOpen] = useState(false)
   const [tipsOpen, setTipsOpen] = useState(false)
   const [giftsOpen, setGiftsOpen] = useState(false)
@@ -256,21 +258,34 @@ export default function Invitation() {
           </p>
         </Reveal>
         <Reveal delay={300}>
-          <a
+          <button
+            type="button"
             className="rsvp-btn"
-            href={`https://wa.me/${WEDDING.whatsapp}?text=${encodeURIComponent(
-              `¡Hola! Confirmo mi asistencia a la boda de ${WEDDING.her} & ${WEDDING.him} 💍`,
-            )}`}
-            target="_blank"
-            rel="noreferrer"
+            onClick={() => setRsvpOpen(true)}
           >
-            Confirmar por WhatsApp
-          </a>
+            Confirmar asistencia
+          </button>
         </Reveal>
+        {inv.confirmed && (
+          <Reveal delay={400}>
+            <p className="rsvp-status">
+              {inv.attendees === 0
+                ? 'Confirmaste que no asistirás'
+                : `Asistencia confirmada para ${inv.attendees} ${inv.attendees === 1 ? 'persona' : 'personas'}`}
+            </p>
+          </Reveal>
+        )}
       </section>
 
       <FloatingControls />
       {musicOpen && <MusicModal onClose={() => setMusicOpen(false)} />}
+      {rsvpOpen && (
+        <RsvpModal
+          inv={inv}
+          onClose={() => setRsvpOpen(false)}
+          onDone={onUpdate}
+        />
+      )}
       {dressOpen && <DressCodeModal onClose={() => setDressOpen(false)} />}
       {tipsOpen && <TipsModal onClose={() => setTipsOpen(false)} />}
       {giftsOpen && <GiftsModal onClose={() => setGiftsOpen(false)} />}

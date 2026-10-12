@@ -566,6 +566,7 @@
   display: inline-block;
   opacity: 0;
   padding: 0.95rem 2.6rem;
+  border: none;
   border-radius: 999px;
   background: var(--sage);
   color: #fffdf8;
@@ -574,7 +575,16 @@
   letter-spacing: 0.22em;
   text-transform: uppercase;
   text-decoration: none;
+  cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.rsvp-status {
+  margin-top: 1.4rem;
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  letter-spacing: 0.06em;
+  color: #7a8b6f;
 }
 
 .rsvp-btn:hover {

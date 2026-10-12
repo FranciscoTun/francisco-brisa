@@ -10,7 +10,7 @@ const STEPS = {
   zoom: [950, 'done'],
 }
 
-export default function Envelope({ onDone }) {
+export default function Envelope({ onDone, name }) {
   const [phase, setPhase] = useState('idle')
   const doneRef = useRef(onDone)
   doneRef.current = onDone
@@ -52,6 +52,7 @@ export default function Envelope({ onDone }) {
           <div className="env-back" />
           <div className="env-letter">
             <span className="env-letter-text">
+              {name && <span className="env-letter-to">Para: {name}</span>}
               <em>Nuestra Boda</em>
               <strong>
                 {WEDDING.her} &amp; {WEDDING.him}

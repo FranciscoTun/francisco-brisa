@@ -56,3 +56,25 @@
   transform: translateY(-2px);
   box-shadow: 0 12px 26px rgba(122, 139, 111, 0.4);
 }
+
+.modal-submit:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.music-thanks {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  color: var(--sage);
+  text-align: center;
+  margin: 1.5rem 0;
+  animation: modal-in 0.35s ease;
+}
+
+.music-error {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: #b05a5a;
+  text-align: center;
+  margin: 0;
+}

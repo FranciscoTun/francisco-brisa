@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { WEDDING } from '../config.js'
+import { postSong } from '../api.js'
 import { useModalClose } from '../hooks/useModalClose.js'
 import './Modal.css'
 import './MusicModal.css'
@@ -8,19 +8,24 @@ export default function MusicModal({ onClose }) {
   const [name, setName] = useState('')
   const [song, setSong] = useState('')
   const [link, setLink] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [sent, setSent] = useState(false)
+  const [error, setError] = useState('')
 
   useModalClose(onClose)
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault()
-    const text = `🎵 Sugerencia de canción\n\nDe: ${name}\nCanción: ${song}${
-      link ? `\nLink: ${link}` : ''
-    }`
-    window.open(
-      `https://wa.me/${WEDDING.whatsapp}?text=${encodeURIComponent(text)}`,
-      '_blank',
-    )
-    onClose()
+    setBusy(true)
+    setError('')
+    try {
+      await postSong({ name, song, link: link || null })
+      setSent(true)
+      setTimeout(onClose, 1600)
+    } catch {
+      setError('No se pudo enviar. Inténtalo de nuevo.')
+      setBusy(false)
+    }
   }
 
   return (
@@ -43,6 +48,9 @@ export default function MusicModal({ onClose }) {
         <h3 id="music-modal-title" className="modal-title">
           Sugerir canción
         </h3>
+        {sent ? (
+          <p className="music-thanks">¡Gracias por tu sugerencia!</p>
+        ) : (
         <form onSubmit={submit}>
           <input
             value={name}
@@ -61,10 +69,12 @@ export default function MusicModal({ onClose }) {
             onChange={(e) => setLink(e.target.value)}
             placeholder="Si lo deseas, ingresa el enlace de YouTube, Spotify, etc. (opcional)"
           />
-          <button type="submit" className="modal-submit">
-            Enviar sugerencia
+          {error && <p className="music-error">{error}</p>}
+          <button type="submit" className="modal-submit" disabled={busy}>
+            {busy ? 'Enviando…' : 'Enviar sugerencia'}
           </button>
         </form>
+        )}
       </div>
     </div>
   )

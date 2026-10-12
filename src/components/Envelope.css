@@ -87,6 +87,15 @@
   opacity: 0;
 }
 
+.env-letter-to {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7a6f5c;
+  margin-bottom: 0.5rem;
+}
+
 .env-letter-text em {
   font-family: var(--font-script);
   font-size: 1.6rem;

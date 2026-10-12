@@ -222,3 +222,202 @@
 .li-status.wait {
   color: #a08d6d;
 }
+
+/* ── Form crear/editar invitación ── */
+.inv-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  align-items: center;
+  background: #fffdf8;
+  border: 1px solid #eadfc6;
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  box-shadow: 0 10px 24px rgba(120, 95, 55, 0.08);
+}
+
+.inv-input {
+  flex: 1 1 200px;
+  padding: 0.6rem 0.4rem;
+  border: none;
+  border-bottom: 1px solid #dccca8;
+  background: transparent;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.inv-input:focus {
+  outline: none;
+  border-bottom-color: var(--gold);
+}
+
+.inv-input::placeholder {
+  color: #b3a284;
+}
+
+.inv-passes {
+  flex: 0 0 90px;
+  text-align: center;
+}
+
+.inv-save,
+.inv-cancel {
+  padding: 0.6rem 1.4rem;
+  border: none;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s;
+}
+
+.inv-save {
+  background: var(--sage);
+  color: #fdfaf3;
+}
+
+.inv-save:disabled {
+  opacity: 0.6;
+}
+
+.inv-cancel {
+  background: transparent;
+  border: 1px solid #c9b896;
+  color: #8a7f6a;
+}
+
+/* ── Tabla de invitaciones ── */
+.inv-table-wrap {
+  overflow-x: auto;
+  background: #fffdf8;
+  border: 1px solid #eadfc6;
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(120, 95, 55, 0.08);
+}
+
+.inv-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+}
+
+.inv-table th {
+  padding: 0.8rem 1rem;
+  text-align: left;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px solid #eadfc6;
+  white-space: nowrap;
+}
+
+.inv-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f2ead8;
+  color: var(--ink);
+  vertical-align: middle;
+}
+
+.inv-table tr:last-child td {
+  border-bottom: none;
+}
+
+.cell-name {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.cell-link {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #a08d6d;
+  font-size: 0.8rem;
+}
+
+.cell-actions {
+  white-space: nowrap;
+}
+
+.st {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.st.ok {
+  background: rgba(122, 139, 111, 0.15);
+  color: var(--sage);
+}
+
+.st.no {
+  background: rgba(176, 90, 90, 0.12);
+  color: #b05a5a;
+}
+
+.st.wait {
+  background: rgba(176, 141, 90, 0.12);
+  color: #a08d6d;
+}
+
+.act {
+  padding: 0.35rem 0.7rem;
+  margin-right: 0.4rem;
+  border: 1px solid #dccca8;
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.act.copy {
+  color: var(--sage);
+  border-color: var(--sage);
+}
+
+.act.copy:hover {
+  background: var(--sage);
+  color: #fdfaf3;
+}
+
+.act.edit {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+.act.edit:hover {
+  background: var(--gold);
+  color: #fdfaf3;
+}
+
+.act.del {
+  color: #b05a5a;
+  border-color: #b05a5a;
+  margin-right: 0;
+}
+
+.act.del:hover {
+  background: #b05a5a;
+  color: #fdfaf3;
+}
+
+.empty {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: #a08d6d;
+}
