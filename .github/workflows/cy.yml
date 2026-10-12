@@ -37,6 +37,9 @@ jobs:
         run: pnpm build
         env:
           VITE_API_URL: ${{ vars.VITE_API_URL }}
+          # Sin dominio propio: /francisco-brisa/. Con dominio: crea la
+          # variable de repo VITE_BASE=/ y listo, sin tocar este archivo
+          VITE_BASE: ${{ vars.VITE_BASE || '/francisco-brisa/' }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
