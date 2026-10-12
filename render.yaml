@@ -1,0 +1,38 @@
+# Blueprint de Render — sitio estático de la invitación
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: boda-brisa-francisco
+    runtime: static
+    branch: master
+    autoDeploy: true # cada push a master redeploya
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build
+    staticPublishPath: ./dist
+
+    # SPA: /admin y cualquier ruta sirven index.html
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+    headers:
+      # Assets con hash de Vite: caché agresivo
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      # index.html siempre se revalida
+      - path: /index.html
+        name: Cache-Control
+        value: no-cache, must-revalidate
+
+    envVars:
+      # Con dominio propio el sitio vive en la raíz
+      - key: VITE_BASE
+        value: /
+      # Versión de Node para el build (trae corepack para pnpm)
+      - key: NODE_VERSION
+        value: "22"
+      # URL del API — se llena en el dashboard de Render
+      # cuando el backend esté desplegado (ej. https://api-....onrender.com)
+      - key: VITE_API_URL
+        sync: false
