@@ -1,6 +1,14 @@
 import { useCallback, useEffect, useState } from 'react'
 import {
+  adminCreateGift,
+  adminDeleteGift,
   adminLogin,
+  adminPreviewGift,
+  adminReleaseGift,
+  adminSetWishlistSettings,
+  adminUpdateGift,
+  adminWishlist,
+  adminWishlistSettings,
   createInvitation,
   deleteInvitation,
   getResumen,
@@ -240,19 +248,27 @@ function Dashboard({ token, onLogout }) {
   const [deleting, setDeleting] = useState(null)
   const [copied, setCopied] = useState(null)
   const [tab, setTab] = useState('invs')
+  const [wish, setWish] = useState([])
+  const [wishCfg, setWishCfg] = useState(null)
+  const [giftForm, setGiftForm] = useState(null) // {} = crear, {item} = editar
+  const [deletingGift, setDeletingGift] = useState(null)
 
   const songsOf = (invToken) => songs.filter((s) => s.token === invToken)
 
   const load = useCallback(async () => {
     try {
-      const [r, i, s] = await Promise.all([
+      const [r, i, s, w, wc] = await Promise.all([
         getResumen(token),
         listInvitations(token),
         listSongs(token),
+        adminWishlist(token),
+        adminWishlistSettings(token),
       ])
       setResumen(r)
       setInvs(i)
       setSongs(s)
+      setWish(w)
+      setWishCfg(wc)
     } catch (e) {
       if (e.status === 401 || e.status === 403) onLogout()
       else setErr('No se pudo cargar. Revisa que el API esté corriendo.')
@@ -325,6 +341,13 @@ function Dashboard({ token, onLogout }) {
           onClick={() => setTab('songs')}
         >
           Canciones sugeridas
+        </button>
+        <button
+          type="button"
+          className={`tab ${tab === 'wishlist' ? 'active' : ''}`}
+          onClick={() => setTab('wishlist')}
+        >
+          Lista de deseos
         </button>
       </nav>
 
@@ -447,6 +470,19 @@ function Dashboard({ token, onLogout }) {
         </section>
       )}
 
+      {tab === 'wishlist' && (
+        <WishlistSection
+          token={token}
+          items={wish}
+          cfg={wishCfg}
+          onChanged={load}
+          onEdit={(item) => setGiftForm(item || {})}
+          onDelete={setDeletingGift}
+          onCfg={setWishCfg}
+          onErr={setErr}
+        />
+      )}
+
       {formOpen && (
         <InvFormModal
           inv={editing}
@@ -466,6 +502,322 @@ function Dashboard({ token, onLogout }) {
           onDeleted={removeInv}
         />
       )}
+      {giftForm && (
+        <GiftFormModal
+          item={giftForm.id ? giftForm : null}
+          token={token}
+          onClose={() => setGiftForm(null)}
+          onSaved={load}
+        />
+      )}
+      {deletingGift && (
+        <GiftDeleteModal
+          item={deletingGift}
+          token={token}
+          onClose={() => setDeletingGift(null)}
+          onDeleted={load}
+        />
+      )}
+    </div>
+  )
+}
+
+/* ── Lista de deseos ── */
+
+function Toggle({ label, checked, onChange, disabled }) {
+  return (
+    <label className={`toggle ${disabled ? 'off' : ''}`}>
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        disabled={disabled}
+      />
+      <span className="toggle-track">
+        <span className="toggle-thumb" />
+      </span>
+      <span className="toggle-label">{label}</span>
+    </label>
+  )
+}
+
+function WishlistSection({ token, items, cfg, onChanged, onEdit, onDelete, onCfg, onErr }) {
+  const [busy, setBusy] = useState(false)
+
+  const save = async (patch) => {
+    const next = { ...cfg, ...patch }
+    onCfg(next)
+    setBusy(true)
+    try {
+      await adminSetWishlistSettings(token, next)
+    } catch {
+      onErr('No se pudo guardar la configuración')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  if (!cfg) return <p className="empty">Cargando…</p>
+
+  return (
+    <section className="dash-section">
+      <div className="wish-cfg">
+        <Toggle
+          label="Visible en la invitación"
+          checked={cfg.visible}
+          onChange={(v) => save({ visible: v })}
+          disabled={busy}
+        />
+        <Toggle
+          label="Los invitados pueden elegir"
+          checked={cfg.selectable}
+          onChange={(v) => save({ selectable: v })}
+          disabled={busy || !cfg.visible}
+        />
+        <label className="wish-max">
+          Máx. por invitación:
+          <input
+            type="number"
+            min="1"
+            max="10"
+            value={cfg.max_per_invitation}
+            onChange={(e) =>
+              save({ max_per_invitation: Number(e.target.value) || 1 })
+            }
+            disabled={busy}
+          />
+        </label>
+        <button
+          type="button"
+          className="new-inv"
+          onClick={() => onEdit(null)}
+        >
+          + Agregar regalo
+        </button>
+      </div>
+
+      {items.length === 0 ? (
+        <p className="empty">
+          La lista está vacía. Agrega regalos y activa «Visible» cuando esté
+          lista.
+        </p>
+      ) : (
+        <div className="inv-table-wrap">
+          <table className="inv-table">
+            <thead>
+              <tr>
+                <th>Regalo</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((g) => (
+                <tr key={g.id}>
+                  <td className="cell-name">
+                    <span className="gift-cell">
+                      {g.image && (
+                        <img className="gift-thumb" src={g.image} alt="" />
+                      )}
+                      {g.name}
+                    </span>
+                  </td>
+                  <td>
+                    {g.reserved ? (
+                      <span className="st ok">Elegido · {g.reserved_guest}</span>
+                    ) : (
+                      <span className="st wait">Disponible</span>
+                    )}
+                  </td>
+                  <td className="cell-actions">
+                    {g.reserved && (
+                      <button
+                        type="button"
+                        className="act copy"
+                        onClick={async () => {
+                          await adminReleaseGift(token, g.id)
+                          onChanged()
+                        }}
+                      >
+                        Liberar
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      className="act edit"
+                      onClick={() => onEdit(g)}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      type="button"
+                      className="act del"
+                      onClick={() => onDelete(g)}
+                    >
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+  )
+}
+
+function GiftFormModal({ item, token, onClose, onSaved }) {
+  const [name, setName] = useState(item?.name || '')
+  const [link, setLink] = useState(item?.link || '')
+  const [image, setImage] = useState(item?.image || '')
+  const [busy, setBusy] = useState(false)
+  const [fetching, setFetching] = useState(false)
+  const [err, setErr] = useState('')
+
+  useModalClose(onClose)
+
+  const autofill = async () => {
+    if (!link.trim()) {
+      setErr('Pega primero el enlace del producto')
+      return
+    }
+    setFetching(true)
+    setErr('')
+    try {
+      const meta = await adminPreviewGift(token, link.trim())
+      if (meta.title && !name) setName(meta.title)
+      if (meta.image && !image) setImage(meta.image)
+      if (!meta.title && !meta.image)
+        setErr('Esa página no expuso datos — llena los campos a mano')
+    } catch {
+      setErr('No se pudo leer la página — llena los campos a mano')
+    } finally {
+      setFetching(false)
+    }
+  }
+
+  const submit = async (e) => {
+    e.preventDefault()
+    setBusy(true)
+    setErr('')
+    try {
+      const body = {
+        name: name.trim(),
+        link: link.trim() || null,
+        image: image.trim() || null,
+      }
+      if (item) await adminUpdateGift(token, item.id, body)
+      else await adminCreateGift(token, body)
+      onSaved()
+      onClose()
+    } catch {
+      setErr('No se pudo guardar')
+      setBusy(false)
+    }
+  }
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div
+        className="modal"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+      >
+        <button
+          type="button"
+          className="modal-close"
+          onClick={onClose}
+          aria-label="Cerrar"
+        >
+          ×
+        </button>
+        <h3 className="modal-title">
+          {item ? 'Editar regalo' : 'Nuevo regalo'}
+        </h3>
+        <form onSubmit={submit}>
+          <div className="gift-linkrow">
+            <input
+              value={link}
+              onChange={(e) => setLink(e.target.value)}
+              placeholder="Enlace del producto (opcional)"
+              inputMode="url"
+            />
+            <button
+              type="button"
+              className="act copy"
+              onClick={autofill}
+              disabled={fetching}
+            >
+              {fetching ? '…' : 'Auto'}
+            </button>
+          </div>
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Nombre del regalo"
+            required
+          />
+          <input
+            value={image}
+            onChange={(e) => setImage(e.target.value)}
+            placeholder="URL de imagen (opcional)"
+            inputMode="url"
+          />
+          {image && <img className="gift-preview" src={image} alt="" />}
+          {err && <p className="login-err">{err}</p>}
+          <button type="submit" className="modal-submit" disabled={busy}>
+            {busy ? 'Guardando…' : item ? 'Guardar cambios' : 'Agregar'}
+          </button>
+        </form>
+      </div>
+    </div>
+  )
+}
+
+function GiftDeleteModal({ item, token, onClose, onDeleted }) {
+  const [busy, setBusy] = useState(false)
+
+  useModalClose(onClose)
+
+  const confirm = async () => {
+    setBusy(true)
+    try {
+      await adminDeleteGift(token, item.id)
+      onDeleted()
+      onClose()
+    } catch {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div
+        className="modal"
+        onClick={(e) => e.stopPropagation()}
+        role="alertdialog"
+        aria-modal="true"
+      >
+        <h3 className="modal-title">Eliminar regalo</h3>
+        <p className="del-text">
+          Se eliminará <strong>{item.name}</strong> de la lista de deseos.
+        </p>
+        <div className="del-actions">
+          <button type="button" className="del-cancel" onClick={onClose}>
+            Cancelar
+          </button>
+          <button
+            type="button"
+            className="del-confirm"
+            onClick={confirm}
+            disabled={busy}
+          >
+            {busy ? 'Eliminando…' : 'Eliminar'}
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

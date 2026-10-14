@@ -505,3 +505,129 @@
   color: #a08d6d;
   font-size: 0.82rem;
 }
+
+/* ── Lista de deseos ── */
+.wish-cfg {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.6rem;
+  background: #fffdf8;
+  border: 1px solid #eadfc6;
+  border-radius: 14px;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 10px 24px rgba(120, 95, 55, 0.08);
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+
+.toggle input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toggle-track {
+  width: 38px;
+  height: 21px;
+  border-radius: 999px;
+  background: #d9cba8;
+  position: relative;
+  transition: background 0.25s;
+  flex-shrink: 0;
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 2.5px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fffdf8;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s;
+}
+
+.toggle input:checked + .toggle-track {
+  background: var(--sage);
+}
+
+.toggle input:checked + .toggle-track .toggle-thumb {
+  transform: translateX(16px);
+}
+
+.toggle.off {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.wish-max {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--ink);
+}
+
+.wish-max input {
+  width: 56px;
+  padding: 0.35rem;
+  border: 1px solid #dccca8;
+  border-radius: 8px;
+  text-align: center;
+  font-family: var(--font-sans);
+}
+
+.wish-cfg .new-inv {
+  margin-left: auto;
+}
+
+.gift-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.gift-thumb {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #eadfc6;
+}
+
+.gift-linkrow {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.gift-linkrow input {
+  flex: 1;
+}
+
+.gift-linkrow .act {
+  margin-right: 0;
+  padding: 0.45rem 0.9rem;
+}
+
+.gift-preview {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #eadfc6;
+  margin: 0 auto;
+}

@@ -35,3 +35,29 @@ export const updateInvitation = (token, admToken, body) =>
   req(`/invitations/${token}`, { method: 'PUT', body, token: admToken })
 export const deleteInvitation = (token, admToken) =>
   req(`/invitations/${token}`, { method: 'DELETE', token: admToken })
+
+// Lista de deseos — público
+export const getWishlistSettings = () => req('/wishlist/settings')
+export const getWishlist = (token) =>
+  req(`/wishlist?token=${encodeURIComponent(token)}`)
+export const reserveGift = (id, token) =>
+  req(`/wishlist/${id}/reserve`, { method: 'POST', body: { token } })
+export const releaseGift = (id, token) =>
+  req(`/wishlist/${id}/release`, { method: 'POST', body: { token } })
+
+// Lista de deseos — admin
+export const adminWishlist = (t) => req('/wishlist/admin/list', { token: t })
+export const adminWishlistSettings = (t) =>
+  req('/wishlist/admin/settings', { token: t })
+export const adminSetWishlistSettings = (t, body) =>
+  req('/wishlist/admin/settings', { method: 'PUT', body, token: t })
+export const adminCreateGift = (t, body) =>
+  req('/wishlist/admin/items', { method: 'POST', body, token: t })
+export const adminUpdateGift = (t, id, body) =>
+  req(`/wishlist/admin/items/${id}`, { method: 'PUT', body, token: t })
+export const adminReleaseGift = (t, id) =>
+  req(`/wishlist/admin/items/${id}/release`, { method: 'POST', token: t })
+export const adminDeleteGift = (t, id) =>
+  req(`/wishlist/admin/items/${id}`, { method: 'DELETE', token: t })
+export const adminPreviewGift = (t, url) =>
+  req('/wishlist/admin/preview', { method: 'POST', body: { url }, token: t })

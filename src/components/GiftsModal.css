@@ -118,3 +118,24 @@
   color: var(--gold);
   margin-top: 0.6rem;
 }
+
+.wishlist-link {
+  display: inline-block;
+  margin-top: 0.2rem;
+  padding: 0.55rem 1.4rem;
+  border: none;
+  border-bottom: 1px solid var(--gold);
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  cursor: pointer;
+  transition: color 0.25s, border-color 0.25s;
+}
+
+.wishlist-link:hover {
+  color: var(--sage);
+  border-bottom-color: var(--sage);
+}

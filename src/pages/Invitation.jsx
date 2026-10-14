@@ -304,7 +304,9 @@ export default function Invitation({ inv, onUpdate }) {
       )}
       {dressOpen && <DressCodeModal onClose={() => setDressOpen(false)} />}
       {tipsOpen && <TipsModal onClose={() => setTipsOpen(false)} />}
-      {giftsOpen && <GiftsModal onClose={() => setGiftsOpen(false)} />}
+      {giftsOpen && (
+        <GiftsModal token={inv.token} onClose={() => setGiftsOpen(false)} />
+      )}
       {photoOpen && (
         <PhotoModal src={photoOpen} onClose={() => setPhotoOpen(null)} />
       )}

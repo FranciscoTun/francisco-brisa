@@ -1,14 +1,24 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { WEDDING } from '../config.js'
+import { getWishlistSettings } from '../api.js'
 import { useModalClose } from '../hooks/useModalClose.js'
+import WishlistModal from './WishlistModal.jsx'
 import { BankIcon, EnvelopeIcon, GiftIcon } from './icons.jsx'
 import './Modal.css'
 import './GiftsModal.css'
 
-export default function GiftsModal({ onClose }) {
+export default function GiftsModal({ token, onClose }) {
   useModalClose(onClose)
   const [copied, setCopied] = useState(null)
+  const [wishVisible, setWishVisible] = useState(false)
+  const [wishlistOpen, setWishlistOpen] = useState(false)
   const g = WEDDING.gifts
+
+  useEffect(() => {
+    getWishlistSettings()
+      .then((s) => setWishVisible(s.visible))
+      .catch(() => {})
+  }, [])
 
   const copy = async (value) => {
     try {
@@ -21,6 +31,7 @@ export default function GiftsModal({ onClose }) {
   }
 
   return (
+    <>
     <div className="modal-overlay" onClick={onClose}>
       <div
         className="modal gifts-modal"
@@ -84,8 +95,23 @@ export default function GiftsModal({ onClose }) {
         </div>
         */}
 
+        {wishVisible && (
+          <button
+            type="button"
+            className="wishlist-link"
+            onClick={() => setWishlistOpen(true)}
+          >
+            Ver lista de deseos →
+          </button>
+        )}
+
         <p className="gifts-thanks">¡Gracias por ser parte de nuestra historia!</p>
       </div>
     </div>
+
+    {wishlistOpen && (
+      <WishlistModal token={token} onClose={() => setWishlistOpen(false)} />
+    )}
+    </>
   )
 }
