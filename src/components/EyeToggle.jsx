@@ -31,10 +31,15 @@ export default function EyeToggle({ open, onToggle }) {
           </g>
         </g>
 
-        {/* pestañas superiores (siempre en el borde) */}
+        {/* pestañas superiores en el borde */}
         <path
           className="lashes-up"
           d="M15 8.5 L12 5.5 M24 6 L24 2.8 M33 8.5 L36 5.5"
+        />
+        {/* pestañas inferiores bajo el borde */}
+        <path
+          className="lashes-down"
+          d="M13.5 22.5 L11.8 25.3 M24 26.4 L24 29.5 M34.5 22.5 L36.2 25.3"
         />
 
         {/* párpado — se repliega hacia arriba al abrir */}
@@ -42,15 +47,6 @@ export default function EyeToggle({ open, onToggle }) {
           className="lid"
           d="M4 16 C12 6, 36 6, 44 16 C36 26, 12 26, 4 16 Z"
         />
-
-        {/* línea de ojo cerrado + pestañas inferiores */}
-        <g className="lashline">
-          <path className="seam" d="M8 15.5 C16 21, 32 21, 40 15.5" />
-          <path
-            className="lashes-down"
-            d="M15 18.5 L13 21.5 M24 19.8 L24 23 M33 18.5 L35 21.5"
-          />
-        </g>
       </svg>
     </button>
   )
