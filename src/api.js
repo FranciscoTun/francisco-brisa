@@ -61,3 +61,8 @@ export const adminDeleteGift = (t, id) =>
   req(`/wishlist/admin/items/${id}`, { method: 'DELETE', token: t })
 export const adminPreviewGift = (t, url) =>
   req('/wishlist/admin/preview', { method: 'POST', body: { url }, token: t })
+export const adminSearchGifts = (t, q, minPrice, maxPrice) =>
+  req(
+    `/wishlist/admin/search?q=${encodeURIComponent(q)}&min_price=${minPrice || 0}&max_price=${maxPrice || 0}`,
+    { token: t }
+  )

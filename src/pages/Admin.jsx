@@ -5,6 +5,7 @@ import {
   adminLogin,
   adminPreviewGift,
   adminReleaseGift,
+  adminSearchGifts,
   adminSetWishlistSettings,
   adminUpdateGift,
   adminWishlist,
@@ -592,9 +593,11 @@ function WishlistSection({ token, items, cfg, onChanged, onEdit, onDelete, onCfg
           className="new-inv"
           onClick={() => onEdit(null)}
         >
-          + Agregar regalo
+          + Manual
         </button>
       </div>
+
+      <GiftSearch token={token} onAdded={onChanged} onErr={onErr} />
 
       {items.length === 0 ? (
         <p className="empty">
@@ -818,6 +821,100 @@ function GiftDeleteModal({ item, token, onClose, onDeleted }) {
           </button>
         </div>
       </div>
+    </div>
+  )
+}
+
+function GiftSearch({ token, onAdded, onErr }) {
+  const [q, setQ] = useState('')
+  const [min, setMin] = useState('')
+  const [max, setMax] = useState('')
+  const [results, setResults] = useState(null)
+  const [busy, setBusy] = useState(false)
+  const [added, setAdded] = useState(new Set())
+
+  const search = async (e) => {
+    e.preventDefault()
+    if (q.trim().length < 2) return
+    setBusy(true)
+    try {
+      setResults(await adminSearchGifts(token, q.trim(), min, max))
+    } catch {
+      onErr('No se pudo buscar ahora')
+      setResults([])
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const add = async (p, key) => {
+    try {
+      await adminCreateGift(token, {
+        name: p.name,
+        link: p.link,
+        image: p.image || null,
+      })
+      setAdded((s) => new Set(s).add(key))
+      onAdded()
+    } catch {
+      onErr('No se pudo agregar')
+    }
+  }
+
+  const mxn = (n) =>
+    n != null ? `$${Number(n).toLocaleString('es-MX')} MXN` : null
+
+  return (
+    <div className="gift-search">
+      <form className="gift-search-bar" onSubmit={search}>
+        <input
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          placeholder="Buscar producto… (ej. freidora de aire)"
+        />
+        <input
+          className="price-in"
+          value={min}
+          onChange={(e) => setMin(e.target.value.replace(/\D/g, ''))}
+          placeholder="$ mín"
+          inputMode="numeric"
+        />
+        <input
+          className="price-in"
+          value={max}
+          onChange={(e) => setMax(e.target.value.replace(/\D/g, ''))}
+          placeholder="$ máx"
+          inputMode="numeric"
+        />
+        <button type="submit" className="act copy" disabled={busy}>
+          {busy ? 'Buscando…' : 'Buscar'}
+        </button>
+      </form>
+
+      {results && (
+        <div className="gift-results">
+          {results.length === 0 && (
+            <p className="empty">Sin resultados — prueba otra búsqueda.</p>
+          )}
+          {results.map((p, i) => (
+            <div className="gift-result" key={p.link || i}>
+              {p.image && <img src={p.image} alt="" loading="lazy" />}
+              <p className="gift-result-name">{p.name}</p>
+              {mxn(p.price) && (
+                <p className="gift-result-price">{mxn(p.price)}</p>
+              )}
+              <button
+                type="button"
+                className="act copy"
+                disabled={added.has(p.link || i)}
+                onClick={() => add(p, p.link || i)}
+              >
+                {added.has(p.link || i) ? 'Agregado ✓' : '+ Agregar'}
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
