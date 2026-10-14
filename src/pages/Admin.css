@@ -860,12 +860,12 @@
   table-layout: fixed;
 }
 
-.wish-table .cell-name {
-  width: auto;
+.wish-table th:nth-child(2) {
+  width: 32%;
 }
 
-.wish-table td:nth-child(2) {
-  width: 34%;
+.wish-table .th-actions {
+  width: 118px;
 }
 
 .wish-table .cell-name {
