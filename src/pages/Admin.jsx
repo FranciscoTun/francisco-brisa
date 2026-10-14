@@ -18,6 +18,7 @@ import {
   updateInvitation,
 } from '../api.js'
 import { useModalClose } from '../hooks/useModalClose.js'
+import EyeToggle from '../components/EyeToggle.jsx'
 import '../components/Modal.css'
 import './Admin.css'
 
@@ -53,6 +54,7 @@ export default function Admin() {
 function Login({ onOk }) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [showPw, setShowPw] = useState(false)
   const [err, setErr] = useState('')
   const [busy, setBusy] = useState(false)
 
@@ -80,14 +82,17 @@ function Login({ onOk }) {
           autoComplete="username"
           required
         />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          autoComplete="current-password"
-          required
-        />
+        <div className="pass-wrap">
+          <input
+            type={showPw ? 'text' : 'password'}
+            placeholder="Contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+            required
+          />
+          <EyeToggle open={showPw} onToggle={() => setShowPw((v) => !v)} />
+        </div>
         {err && <p className="login-err">{err}</p>}
         <button type="submit" className="login-btn" disabled={busy}>
           {busy ? 'Entrando…' : 'Entrar'}

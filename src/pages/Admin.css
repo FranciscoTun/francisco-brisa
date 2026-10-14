@@ -717,3 +717,103 @@
   font-size: 0.66rem;
   color: #a08c60;
 }
+
+/* ── Ojito de contraseña ── */
+.pass-wrap {
+  position: relative;
+}
+
+.pass-wrap input {
+  width: 100%;
+  padding-right: 2.6rem;
+}
+
+.eye-btn {
+  position: absolute;
+  right: 0.55rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0.2rem;
+  cursor: pointer;
+  line-height: 0;
+  border-radius: 50%;
+}
+
+.eye-btn:focus-visible {
+  outline: 2px solid var(--sage, #8a9b7e);
+  outline-offset: 1px;
+}
+
+.eye-svg {
+  width: 27px;
+  height: auto;
+  display: block;
+  color: var(--ink, #4a4033);
+}
+
+.eye-svg .eyeball {
+  fill: #fffdf8;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.eye-svg .iris {
+  fill: #8a9b7e;
+}
+
+.eye-svg .pupil {
+  fill: #2e2a22;
+}
+
+.eye-svg .glint {
+  fill: #fffdf8;
+}
+
+.eye-svg .lashes-up,
+.eye-svg .lashline path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* pupila: al abrir, espera a que suba el párpado y luego mira al texto;
+   al cerrar, vuelve al centro primero */
+.eye-svg .pupil-g {
+  transform-box: fill-box;
+  transition: transform 0.28s ease;
+}
+
+.eye-svg.open .pupil-g {
+  transform: translateX(-6px);
+  transition-delay: 0.28s;
+}
+
+/* párpado: al abrir sube de inmediato; al cerrar baja ya que la pupila se centró */
+.eye-svg .lid {
+  fill: #f1e6cc;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  transform: scaleY(1);
+  transition: transform 0.38s ease 0.14s;
+}
+
+.eye-svg.open .lid {
+  transform: scaleY(0);
+  transition-delay: 0s;
+}
+
+/* línea de cerrado: se esfuma pronto al abrir, reaparece al final al cerrar */
+.eye-svg .lashline {
+  opacity: 1;
+  transition: opacity 0.18s ease 0.34s;
+}
+
+.eye-svg.open .lashline {
+  opacity: 0;
+  transition-delay: 0s;
+}
