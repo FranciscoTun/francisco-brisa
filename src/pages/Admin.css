@@ -823,7 +823,7 @@
 /* ── Distribución lista de deseos (config | lista) ── */
 .wish-grid {
   display: grid;
-  grid-template-columns: minmax(280px, 340px) 1fr;
+  grid-template-columns: 1.7fr minmax(300px, 420px);
   gap: 1.2rem;
   align-items: start;
 }
@@ -856,7 +856,16 @@
 
 /* tabla de regalos más compacta que la de invitaciones */
 .wish-table {
-  min-width: 460px;
+  min-width: 0;
+  table-layout: fixed;
+}
+
+.wish-table .cell-name {
+  width: auto;
+}
+
+.wish-table td:nth-child(2) {
+  width: 34%;
 }
 
 .wish-table .cell-name {
