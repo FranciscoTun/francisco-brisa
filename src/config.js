@@ -16,7 +16,7 @@ export const WEDDING = {
   },
 
   reception: {
-    place: 'Salón Backtun',
+    place: 'Salón Baktun',
     address: 'Dirección por confirmar',
     time: '7:00 PM',
     mapsUrl: 'https://maps.app.goo.gl/R7REQrX18cWiroNKA',
