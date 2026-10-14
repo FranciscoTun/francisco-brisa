@@ -567,113 +567,158 @@ function WishlistSection({ token, items, cfg, onChanged, onEdit, onDelete, onCfg
 
   return (
     <section className="dash-section">
-      <div className="wish-cfg">
-        <Toggle
-          label="Visible en la invitación"
-          checked={cfg.visible}
-          onChange={(v) => save({ visible: v })}
-          disabled={busy}
-        />
-        <Toggle
-          label="Los invitados pueden elegir"
-          checked={cfg.selectable}
-          onChange={(v) => save({ selectable: v })}
-          disabled={busy || !cfg.visible}
-        />
-        <label className="wish-max">
-          Máx. por invitación:
-          <input
-            type="number"
-            min="1"
-            max="10"
-            value={cfg.max_per_invitation}
-            onChange={(e) =>
-              save({ max_per_invitation: Number(e.target.value) || 1 })
-            }
-            disabled={busy}
-          />
-        </label>
-        <button
-          type="button"
-          className="new-inv"
-          onClick={() => onEdit(null)}
-        >
-          + Manual
-        </button>
-      </div>
+      <div className="wish-grid">
+        <div className="wish-col-cfg">
+          <div className="wish-cfg">
+            <Toggle
+              label="Visible en la invitación"
+              checked={cfg.visible}
+              onChange={(v) => save({ visible: v })}
+              disabled={busy}
+            />
+            <Toggle
+              label="Los invitados pueden elegir"
+              checked={cfg.selectable}
+              onChange={(v) => save({ selectable: v })}
+              disabled={busy || !cfg.visible}
+            />
+            <label className="wish-max">
+              Máx. por invitación:
+              <input
+                type="number"
+                min="1"
+                max="10"
+                value={cfg.max_per_invitation}
+                onChange={(e) =>
+                  save({ max_per_invitation: Number(e.target.value) || 1 })
+                }
+                disabled={busy}
+              />
+            </label>
+          </div>
 
-      <GiftSearch token={token} onAdded={onChanged} onErr={onErr} />
-
-      {items.length === 0 ? (
-        <p className="empty">
-          La lista está vacía. Agrega regalos y activa «Visible» cuando esté
-          lista.
-        </p>
-      ) : (
-        <div className="inv-table-wrap">
-          <table className="inv-table">
-            <thead>
-              <tr>
-                <th>Regalo</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((g) => (
-                <tr key={g.id}>
-                  <td className="cell-name">
-                    <span className="gift-cell">
-                      {g.image && (
-                        <img className="gift-thumb" src={g.image} alt="" />
-                      )}
-                      {g.name}
-                    </span>
-                  </td>
-                  <td>
-                    {g.reserved ? (
-                      <span className="st ok">Elegido · {g.reserved_guest}</span>
-                    ) : (
-                      <span className="st wait">Disponible</span>
-                    )}
-                  </td>
-                  <td className="cell-actions">
-                    {g.reserved && (
-                      <button
-                        type="button"
-                        className="act copy"
-                        onClick={async () => {
-                          await adminReleaseGift(token, g.id)
-                          onChanged()
-                        }}
-                      >
-                        Liberar
-                      </button>
-                    )}
-                    <button
-                      type="button"
-                      className="act edit"
-                      onClick={() => onEdit(g)}
-                    >
-                      Editar
-                    </button>
-                    <button
-                      type="button"
-                      className="act del"
-                      onClick={() => onDelete(g)}
-                    >
-                      Eliminar
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <GiftSearch token={token} onAdded={onChanged} onErr={onErr} />
         </div>
-      )}
+
+        <div className="wish-col-list">
+          <div className="wish-list-head">
+            <h3>Mi lista</h3>
+            <button
+              type="button"
+              className="new-inv"
+              onClick={() => onEdit(null)}
+            >
+              + Manual
+            </button>
+          </div>
+
+          {items.length === 0 ? (
+            <p className="empty">
+              La lista está vacía. Agrega regalos y activa «Visible» cuando
+              esté lista.
+            </p>
+          ) : (
+            <div className="inv-table-wrap">
+              <table className="inv-table wish-table">
+                <thead>
+                  <tr>
+                    <th>Regalo</th>
+                    <th>Estado</th>
+                    <th className="th-actions">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {items.map((g) => (
+                    <tr key={g.id}>
+                      <td className="cell-name">
+                        <span className="gift-cell">
+                          {g.image && (
+                            <img className="gift-thumb" src={g.image} alt="" />
+                          )}
+                          {g.name}
+                        </span>
+                      </td>
+                      <td>
+                        {g.reserved ? (
+                          <span className="st ok">
+                            Elegido · {g.reserved_guest}
+                          </span>
+                        ) : (
+                          <span className="st wait">Disponible</span>
+                        )}
+                      </td>
+                      <td className="cell-actions">
+                        {g.reserved && (
+                          <button
+                            type="button"
+                            className="icon-btn"
+                            title="Liberar regalo"
+                            onClick={async () => {
+                              await adminReleaseGift(token, g.id)
+                              onChanged()
+                            }}
+                          >
+                            <IconRelease />
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          className="icon-btn"
+                          title="Editar"
+                          onClick={() => onEdit(g)}
+                        >
+                          <IconPencil />
+                        </button>
+                        <button
+                          type="button"
+                          className="icon-btn danger"
+                          title="Eliminar"
+                          onClick={() => onDelete(g)}
+                        >
+                          <IconTrash />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      </div>
     </section>
   )
 }
+
+const svgProps = {
+  width: '16',
+  height: '16',
+  viewBox: '0 0 24 24',
+  fill: 'none',
+  stroke: 'currentColor',
+  strokeWidth: '2',
+  strokeLinecap: 'round',
+  strokeLinejoin: 'round',
+}
+
+const IconPencil = () => (
+  <svg {...svgProps}>
+    <path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+  </svg>
+)
+
+const IconTrash = () => (
+  <svg {...svgProps}>
+    <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14ZM10 11v6M14 11v6" />
+  </svg>
+)
+
+const IconRelease = () => (
+  <svg {...svgProps}>
+    <path d="M9 14 4 9l5-5" />
+    <path d="M4 9h10a6 6 0 0 1 6 6v1" />
+  </svg>
+)
 
 function GiftFormModal({ item, token, onClose, onSaved }) {
   const [name, setName] = useState(item?.name || '')

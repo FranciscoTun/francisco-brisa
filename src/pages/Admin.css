@@ -513,9 +513,9 @@
 /* ── Lista de deseos ── */
 .wish-cfg {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1rem 1.6rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.9rem;
   background: #fffdf8;
   border: 1px solid #eadfc6;
   border-radius: 14px;
@@ -594,9 +594,6 @@
   font-family: var(--font-sans);
 }
 
-.wish-cfg .new-inv {
-  margin-left: auto;
-}
 
 .gift-cell {
   display: inline-flex;
@@ -821,4 +818,127 @@
   opacity: 0;
   transform: scaleY(0.3);
   transition-duration: 0.15s;
+}
+
+/* ── Distribución lista de deseos (config | lista) ── */
+.wish-grid {
+  display: grid;
+  grid-template-columns: minmax(280px, 340px) 1fr;
+  gap: 1.2rem;
+  align-items: start;
+}
+
+.wish-col-cfg {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+}
+
+.wish-col-list {
+  min-width: 0;
+}
+
+.wish-list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.7rem;
+}
+
+.wish-list-head h3 {
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+/* tabla de regalos más compacta que la de invitaciones */
+.wish-table {
+  min-width: 460px;
+}
+
+.wish-table .cell-name {
+  white-space: normal;
+}
+
+/* botones de icono */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-right: 0.35rem;
+  border: 1px solid #dccca8;
+  border-radius: 9px;
+  background: #fffdf8;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.icon-btn:last-child {
+  margin-right: 0;
+}
+
+.icon-btn:hover {
+  background: #f4ecd9;
+  border-color: var(--gold);
+}
+
+.icon-btn.danger {
+  color: #a4472f;
+}
+
+.icon-btn.danger:hover {
+  background: #f8e9e2;
+  border-color: #a4472f;
+}
+
+.th-actions {
+  width: 1%;
+  text-align: right !important;
+}
+
+.wish-table .cell-actions {
+  text-align: right;
+}
+
+/* ── Responsive global del panel ── */
+.tabs {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.dash-head {
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+@media (max-width: 1024px) {
+  .wish-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wish-cfg {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+}
+
+@media (max-width: 560px) {
+  .wish-table {
+    min-width: 0;
+  }
+
+  .gift-thumb {
+    display: none;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
