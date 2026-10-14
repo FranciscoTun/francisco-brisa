@@ -839,19 +839,16 @@
   min-width: 0;
 }
 
-.wish-list-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.8rem;
-  margin-bottom: 0.7rem;
-}
-
-.wish-list-head h3 {
+.wish-h {
   font-family: var(--font-serif, Georgia, serif);
   font-size: 1.05rem;
   font-weight: 500;
   color: var(--ink);
+  margin-bottom: 0.7rem;
+}
+
+.wish-h:not(:first-child) {
+  margin-top: 1.4rem;
 }
 
 /* tabla de regalos más compacta que la de invitaciones */

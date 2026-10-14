@@ -569,6 +569,7 @@ function WishlistSection({ token, items, cfg, onChanged, onEdit, onDelete, onCfg
     <section className="dash-section">
       <div className="wish-grid">
         <div className="wish-col-cfg">
+          <h3 className="wish-h">Configuración</h3>
           <div className="wish-cfg">
             <Toggle
               label="Visible en la invitación"
@@ -597,24 +598,16 @@ function WishlistSection({ token, items, cfg, onChanged, onEdit, onDelete, onCfg
             </label>
           </div>
 
+          <h3 className="wish-h">Buscador</h3>
           <GiftSearch token={token} onAdded={onChanged} onErr={onErr} />
         </div>
 
         <div className="wish-col-list">
-          <div className="wish-list-head">
-            <h3>Mi lista</h3>
-            <button
-              type="button"
-              className="new-inv"
-              onClick={() => onEdit(null)}
-            >
-              + Manual
-            </button>
-          </div>
+          <h3 className="wish-h">Mi lista</h3>
 
           {items.length === 0 ? (
             <p className="empty">
-              La lista está vacía. Agrega regalos y activa «Visible» cuando
+              La lista está vacía. Busca regalos y activa «Visible» cuando
               esté lista.
             </p>
           ) : (
