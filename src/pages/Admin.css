@@ -771,16 +771,17 @@
   fill: #fffdf8;
 }
 
-.eye-svg .lashes-up,
-.eye-svg .lashline path {
+.eye-svg .arc,
+.eye-svg .ticks,
+.eye-svg .lashes-up {
   fill: none;
   stroke: currentColor;
   stroke-width: 2;
   stroke-linecap: round;
 }
 
-/* pupila: al abrir, espera a que suba el párpado y luego mira al texto;
-   al cerrar, vuelve al centro primero */
+/* pupila: abierto → espera a que el ojo se abra y mira al texto;
+   al cerrar → vuelve al centro de inmediato */
 .eye-svg .pupil-g {
   transform-box: fill-box;
   transition: transform 0.28s ease;
@@ -788,43 +789,32 @@
 
 .eye-svg.open .pupil-g {
   transform: translateX(-6px);
-  transition-delay: 0.28s;
+  transition-delay: 0.3s;
 }
 
-/* párpado: al abrir sube de inmediato; al cerrar baja ya que la pupila se centró */
-.eye-svg .lid {
-  fill: #f1e6cc;
-  stroke: currentColor;
-  stroke-width: 1.6;
+/* intercambio animado: arco cerrado ↔ almendra abierta */
+.eye-svg .eye-closed,
+.eye-svg .eye-open {
   transform-box: fill-box;
-  transform-origin: 50% 0%;
+  transform-origin: 50% 55%;
+  transition:
+    opacity 0.25s ease,
+    transform 0.32s ease;
+}
+
+.eye-svg .eye-open {
+  opacity: 0;
+  transform: scaleY(0.25);
+}
+
+.eye-svg.open .eye-open {
+  opacity: 1;
   transform: scaleY(1);
-  transition: transform 0.38s ease 0.14s;
+  transition-delay: 0.08s;
 }
 
-.eye-svg.open .lid {
-  transform: scaleY(0);
-  transition-delay: 0s;
-}
-
-/* línea de cerrado: se esfuma pronto al abrir, reaparece al final al cerrar */
-.eye-svg .lashline {
-  opacity: 1;
-  transition: opacity 0.18s ease 0.34s;
-}
-
-.eye-svg.open .lashline {
+.eye-svg.open .eye-closed {
   opacity: 0;
-  transition-delay: 0s;
-}
-
-/* pestañas superiores: solo visibles con el ojo abierto */
-.eye-svg .lashes-up {
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-.eye-svg.open .lashes-up {
-  opacity: 1;
-  transition-delay: 0.32s;
+  transform: scaleY(0.3);
+  transition-duration: 0.15s;
 }
