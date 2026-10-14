@@ -103,7 +103,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 900px;
+  max-width: 1240px;
+  width: 100%;
   margin: 0 auto 2rem;
 }
 
@@ -133,7 +134,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 1rem;
-  max-width: 900px;
+  max-width: 1240px;
+  width: 100%;
   margin: 0 auto 2.5rem;
 }
 
@@ -163,7 +165,8 @@
 }
 
 .dash-section {
-  max-width: 900px;
+  max-width: 1240px;
+  width: 100%;
   margin: 0 auto 2rem;
 }
 
@@ -443,7 +446,8 @@
 .tabs {
   display: flex;
   gap: 0.5rem;
-  max-width: 900px;
+  max-width: 1240px;
+  width: 100%;
   margin: 0 auto 1.4rem;
   border-bottom: 1px solid #eadfc6;
 }
