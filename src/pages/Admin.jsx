@@ -903,6 +903,7 @@ function GiftSearch({ token, onAdded, onErr }) {
               {mxn(p.price) && (
                 <p className="gift-result-price">{mxn(p.price)}</p>
               )}
+              {p.source && <p className="gift-result-source">{p.source}</p>}
               <button
                 type="button"
                 className="act copy"
