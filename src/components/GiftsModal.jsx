@@ -56,6 +56,8 @@ export default function GiftsModal({ onClose }) {
           </div>
         </div>
 
+        {/* ── OCULTO: sección Transferencia. Reactivar descomentando este
+            bloque (BankIcon ya está importado y los datos en config.js) ──
         <div className="gift-card">
           <div className="gift-card-icon">
             <BankIcon />
@@ -80,6 +82,7 @@ export default function GiftsModal({ onClose }) {
             ))}
           </div>
         </div>
+        */}
 
         <p className="gifts-thanks">¡Gracias por ser parte de nuestra historia!</p>
       </div>
