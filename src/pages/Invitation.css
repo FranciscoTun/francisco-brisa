@@ -214,6 +214,14 @@
   animation: rise-in 0.9s ease 2.1s both;
 }
 
+/* En vertical no se muestra la fecha (ni el divider duplicado) */
+@media (orientation: portrait) {
+  .hero-date,
+  .hero-date + .divider {
+    display: none;
+  }
+}
+
 @keyframes rise-in {
   from {
     opacity: 0;
