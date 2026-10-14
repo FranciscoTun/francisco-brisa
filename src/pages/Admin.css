@@ -817,3 +817,14 @@
   opacity: 0;
   transition-delay: 0s;
 }
+
+/* pestañas superiores: solo visibles con el ojo abierto */
+.eye-svg .lashes-up {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.eye-svg.open .lashes-up {
+  opacity: 1;
+  transition-delay: 0.32s;
+}
