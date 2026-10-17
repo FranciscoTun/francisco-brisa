@@ -186,7 +186,7 @@
 /* destinatario en la cara del sobre */
 .env-to {
   position: absolute;
-  top: 72%;
+  top: 78%;
   left: 50%;
   width: 82%;
   transform: translate(-50%, -50%) translateZ(7px);
