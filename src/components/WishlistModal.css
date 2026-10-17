@@ -177,3 +177,62 @@
   transform: scale(1.04);
   filter: brightness(1.03);
 }
+
+/* ── Header anclado + lista scrolleable ── */
+.wishlist-modal {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.wishlist-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.wishlist-head .modal-title {
+  margin-bottom: 0;
+}
+
+.wish-refresh {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #dccca8;
+  border-radius: 50%;
+  background: transparent;
+  color: #a08d6d;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.wish-refresh:hover {
+  color: var(--ink);
+  border-color: var(--gold);
+}
+
+.wish-refresh:disabled {
+  cursor: wait;
+}
+
+.wish-refresh.spin svg {
+  animation: wish-spin 0.7s linear infinite;
+}
+
+@keyframes wish-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.wishlist-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  margin-top: 0.9rem;
+  padding-right: 0.25rem;
+}

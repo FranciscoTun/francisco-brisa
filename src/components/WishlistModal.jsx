@@ -8,6 +8,7 @@ import './WishlistModal.css'
 export default function WishlistModal({ token, onClose }) {
   const [data, setData] = useState(null)
   const [busyId, setBusyId] = useState(null)
+  const [refreshing, setRefreshing] = useState(false)
   const [note, setNote] = useState('')
   const [error, setError] = useState('')
 
@@ -19,6 +20,13 @@ export default function WishlistModal({ token, onClose }) {
     } catch {
       setError('No se pudo cargar la lista')
     }
+  }
+
+  const refresh = async () => {
+    setRefreshing(true)
+    setNote('')
+    await load()
+    setRefreshing(false)
   }
 
   useEffect(() => {
@@ -75,9 +83,33 @@ export default function WishlistModal({ token, onClose }) {
         >
           ×
         </button>
-        <h3 id="wishlist-modal-title" className="modal-title">
-          Lista de deseos
-        </h3>
+        <div className="wishlist-head">
+          <h3 id="wishlist-modal-title" className="modal-title">
+            Lista de deseos
+          </h3>
+          <button
+            type="button"
+            className={`wish-refresh${refreshing ? ' spin' : ''}`}
+            onClick={refresh}
+            disabled={refreshing}
+            title="Actualizar lista"
+            aria-label="Actualizar lista"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="17"
+              height="17"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M21 12a9 9 0 1 1-2.64-6.36" />
+              <path d="M21 3v6h-6" />
+            </svg>
+          </button>
+        </div>
         <p className="wishlist-intro">
           Tu presencia es nuestro mejor regalo. Si además quieres hacernos un
           detalle, aquí van algunas ideas:
@@ -86,15 +118,16 @@ export default function WishlistModal({ token, onClose }) {
         {error && <p className="music-error">{error}</p>}
         {note && <p className="wishlist-note">{note}</p>}
 
-        {!data && !error && <p className="wishlist-loading">Cargando…</p>}
+        <div className="wishlist-scroll">
+          {!data && !error && <p className="wishlist-loading">Cargando…</p>}
 
-        {data && data.items.length === 0 && (
-          <p className="wishlist-loading">La lista está por publicarse ✨</p>
-        )}
+          {data && data.items.length === 0 && (
+            <p className="wishlist-loading">La lista está por publicarse ✨</p>
+          )}
 
-        {data && (
-          <div className="wishlist-grid">
-            {data.items.map((item) => (
+          {data && (
+            <div className="wishlist-grid">
+              {data.items.map((item) => (
               <div
                 key={item.id}
                 className={`wish-item ${item.reserved && !item.mine ? 'taken' : ''} ${item.mine ? 'mine' : ''}`}
@@ -160,6 +193,7 @@ export default function WishlistModal({ token, onClose }) {
             ))}
           </div>
         )}
+        </div>
       </div>
     </div>
   )
