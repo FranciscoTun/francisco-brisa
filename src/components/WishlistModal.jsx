@@ -118,21 +118,23 @@ export default function WishlistModal({ token, onClose }) {
                     <GiftIcon />
                   </div>
                 )}
-                <span className="wish-name" title={item.name}>
-                  {item.name}
-                </span>
-                {item.link && (
-                  <a
-                    className="wish-store"
-                    href={item.link}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {item.source
-                      ? `Comprar en ${item.source} ↗`
-                      : 'Ver en tienda ↗'}
-                  </a>
-                )}
+                <div className="wish-item-info">
+                  <span className="wish-name" title={item.name}>
+                    {item.name}
+                  </span>
+                  {item.link && (
+                    <a
+                      className="wish-store"
+                      href={item.link}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {item.source
+                        ? `Comprar en ${item.source} ↗`
+                        : 'Ver en tienda ↗'}
+                    </a>
+                  )}
+                </div>
                 {item.mine ? (
                   <button
                     type="button"
