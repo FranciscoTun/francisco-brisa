@@ -100,7 +100,19 @@ export default function WishlistModal({ token, onClose }) {
                 className={`wish-item ${item.reserved && !item.mine ? 'taken' : ''} ${item.mine ? 'mine' : ''}`}
               >
                 {item.image ? (
-                  <img src={item.image} alt="" loading="lazy" />
+                  item.link ? (
+                    <a
+                      className="wish-img-link"
+                      href={item.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`Ver ${item.name} en tienda`}
+                    >
+                      <img src={item.image} alt="" loading="lazy" />
+                    </a>
+                  ) : (
+                    <img src={item.image} alt="" loading="lazy" />
+                  )
                 ) : (
                   <div className="wish-item-icon">
                     <GiftIcon />

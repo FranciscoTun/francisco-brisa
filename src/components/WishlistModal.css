@@ -142,3 +142,17 @@
   color: var(--gold, #b8915a);
   border-bottom-color: currentColor;
 }
+
+.wish-img-link {
+  display: block;
+  cursor: pointer;
+}
+
+.wish-img-link img {
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.wish-img-link:hover img {
+  transform: scale(1.04);
+  filter: brightness(1.03);
+}
