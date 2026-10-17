@@ -948,3 +948,53 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ── Botón de refrescar en tablas ── */
+.table-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.7rem;
+}
+
+.table-bar:empty,
+.table-bar > :only-child:not(.wish-h) {
+  margin-left: auto;
+}
+
+.refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #dccca8;
+  border-radius: 50%;
+  background: #fffdf8;
+  color: #a08d6d;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.refresh-btn:hover {
+  color: var(--ink);
+  border-color: var(--gold);
+}
+
+.refresh-btn:disabled {
+  cursor: wait;
+}
+
+.refresh-btn.spin svg {
+  animation: dash-spin 0.7s linear infinite;
+}
+
+@keyframes dash-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.table-bar .wish-h {
+  margin-bottom: 0;
+}

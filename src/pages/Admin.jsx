@@ -109,6 +109,31 @@ const Stat = ({ n, l }) => (
   </div>
 )
 
+const RefreshBtn = ({ onClick, spinning }) => (
+  <button
+    type="button"
+    className={`refresh-btn${spinning ? ' spin' : ''}`}
+    onClick={onClick}
+    disabled={spinning}
+    title="Actualizar"
+    aria-label="Actualizar"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      width="15"
+      height="15"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M21 12a9 9 0 1 1-2.64-6.36" />
+      <path d="M21 3v6h-6" />
+    </svg>
+  </button>
+)
+
 const Status = ({ inv }) =>
   !inv.confirmed ? (
     <span className="st wait">Pendiente</span>
@@ -258,6 +283,7 @@ function Dashboard({ token, onLogout }) {
   const [wishCfg, setWishCfg] = useState(null)
   const [giftForm, setGiftForm] = useState(null) // {} = crear, {item} = editar
   const [deletingGift, setDeletingGift] = useState(null)
+  const [refreshing, setRefreshing] = useState(false)
 
   const songsOf = (invToken) => songs.filter((s) => s.token === invToken)
 
@@ -285,8 +311,11 @@ function Dashboard({ token, onLogout }) {
     load()
   }, [load])
 
-  const removeInv = (invToken) =>
-    setInvs((list) => list.filter((i) => i.token !== invToken))
+  const refresh = async () => {
+    setRefreshing(true)
+    await load()
+    setRefreshing(false)
+  }
 
   const copy = async (inv) => {
     try {
@@ -359,6 +388,9 @@ function Dashboard({ token, onLogout }) {
 
       {tab === 'invs' && (
         <section className="dash-section">
+          <div className="table-bar">
+            <RefreshBtn onClick={refresh} spinning={refreshing} />
+          </div>
           {invs.length === 0 ? (
             <p className="empty">
               Aún no hay invitaciones. Crea la primera con «+ Nueva
@@ -434,6 +466,9 @@ function Dashboard({ token, onLogout }) {
 
       {tab === 'songs' && (
         <section className="dash-section">
+          <div className="table-bar">
+            <RefreshBtn onClick={refresh} spinning={refreshing} />
+          </div>
           {songs.length === 0 ? (
             <p className="empty">Aún no hay canciones sugeridas.</p>
           ) : (
@@ -481,6 +516,8 @@ function Dashboard({ token, onLogout }) {
           token={token}
           items={wish}
           cfg={wishCfg}
+          onRefresh={refresh}
+          refreshing={refreshing}
           onChanged={load}
           onEdit={(item) => setGiftForm(item || {})}
           onDelete={setDeletingGift}
@@ -505,7 +542,7 @@ function Dashboard({ token, onLogout }) {
           inv={deleting}
           token={token}
           onClose={() => setDeleting(null)}
-          onDeleted={removeInv}
+          onDeleted={load}
         />
       )}
       {giftForm && (
@@ -547,7 +584,7 @@ function Toggle({ label, checked, onChange, disabled }) {
   )
 }
 
-function WishlistSection({ token, items, cfg, onChanged, onEdit, onDelete, onCfg, onErr }) {
+function WishlistSection({ token, items, cfg, onChanged, onRefresh, refreshing, onEdit, onDelete, onCfg, onErr }) {
   const [busy, setBusy] = useState(false)
 
   const save = async (patch) => {
@@ -603,7 +640,10 @@ function WishlistSection({ token, items, cfg, onChanged, onEdit, onDelete, onCfg
         </div>
 
         <div className="wish-col-list">
-          <h3 className="wish-h">Mi lista</h3>
+          <div className="table-bar">
+            <h3 className="wish-h">Mi lista</h3>
+            <RefreshBtn onClick={onRefresh} spinning={refreshing} />
+          </div>
 
           {items.length === 0 ? (
             <p className="empty">
