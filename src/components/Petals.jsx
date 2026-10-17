@@ -2,9 +2,11 @@ import { useMemo } from 'react'
 import './Petals.css'
 
 const COLORS = [
+  ['#cdd8c3', '#9db48c'],
   ['#eec9c9', '#d49a9c'],
   ['#cdd8c3', '#9db48c'],
   ['#e8d6ae', '#c8a55f'],
+  ['#cdd8c3', '#9db48c'],
   ['#e5c2c6', '#c08b91'],
 ]
 
