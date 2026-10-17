@@ -27,6 +27,20 @@
   width: min(80vw, 360px);
   aspect-ratio: 36 / 23;
   transform-style: preserve-3d;
+  transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* el sobre se recuesta al abrirse y se aleja cuando sale la carta */
+.env-open .envelope {
+  transform: rotateX(9deg);
+}
+
+.env-lift .envelope {
+  transform: rotateX(14deg) translateY(8%) scale(0.93);
+}
+
+.env-zoom .envelope {
+  transform: rotateX(14deg) translateY(8%) scale(0.93);
 }
 
 .env-idle .envelope {
@@ -66,12 +80,18 @@
 }
 
 .env-lift .env-letter {
-  transform: translateZ(2px) translateY(-125%) scale(1.07);
+  transform: translateZ(2px) translateY(-125%) scale(1.07) rotate(-2.5deg);
+  box-shadow: 0 34px 60px rgba(80, 60, 30, 0.3);
+  transition:
+    transform 0.8s cubic-bezier(0.25, 0.8, 0.3, 1),
+    box-shadow 0.8s ease;
 }
 
 .env-zoom .env-letter {
-  transform: translateZ(10px) translateY(-125%) scale(14);
-  transition-duration: 0.9s;
+  transform: translateZ(10px) translateY(-125%) scale(14) rotate(0deg);
+  transition:
+    transform 0.9s cubic-bezier(0.4, 0, 0.3, 1),
+    box-shadow 0.8s ease;
 }
 
 .env-letter-text {
@@ -121,7 +141,7 @@
 .env-flap {
   position: absolute;
   inset: 0;
-  clip-path: polygon(0 0, 100% 0, 50% 58%);
+  clip-path: polygon(-2% -4%, 102% -4%, 50% 60%);
   background: linear-gradient(180deg, #ecdfc3, #dccaa5);
   transform: rotateX(0deg) translateZ(6px);
   transform-origin: 50% 0;
@@ -152,11 +172,12 @@
   transition: opacity 0.35s, scale 0.35s;
 }
 
+/* el sello "estalla" hacia afuera al abrir */
 .env-open .env-seal,
 .env-lift .env-seal,
 .env-zoom .env-seal {
   opacity: 0;
-  scale: 0.6;
+  scale: 1.45;
 }
 
 .env-hint {
