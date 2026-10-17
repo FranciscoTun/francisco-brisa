@@ -74,6 +74,10 @@
   font-size: 0.95rem;
   color: var(--ink);
   line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .wish-item.taken {

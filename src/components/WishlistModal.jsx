@@ -118,7 +118,9 @@ export default function WishlistModal({ token, onClose }) {
                     <GiftIcon />
                   </div>
                 )}
-                <span className="wish-name">{item.name}</span>
+                <span className="wish-name" title={item.name}>
+                  {item.name}
+                </span>
                 {item.link && (
                   <a
                     className="wish-store"
