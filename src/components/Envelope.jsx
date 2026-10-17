@@ -64,6 +64,12 @@ export default function Envelope({ onDone, name }) {
           <div className="env-seal">
             {WEDDING.her[0]}&amp;{WEDDING.him[0]}
           </div>
+          {name && (
+            <span className="env-to">
+              <small>Para:</small>
+              {name}
+            </span>
+          )}
         </div>
         <p className="env-hint">Toca el sobre para abrir</p>
       </div>

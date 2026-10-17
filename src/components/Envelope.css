@@ -182,3 +182,34 @@
     opacity: 1;
   }
 }
+
+/* destinatario en la cara del sobre */
+.env-to {
+  position: absolute;
+  top: 72%;
+  left: 50%;
+  width: 82%;
+  transform: translate(-50%, -50%) translateZ(7px);
+  text-align: center;
+  font-family: var(--font-script);
+  font-size: 1.25rem;
+  line-height: 1.15;
+  color: #6b5b3e;
+  transition: opacity 0.35s;
+}
+
+.env-to small {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #8a7a5c;
+  margin-bottom: 0.15rem;
+}
+
+.env-open .env-to,
+.env-lift .env-to,
+.env-zoom .env-to {
+  opacity: 0;
+}
