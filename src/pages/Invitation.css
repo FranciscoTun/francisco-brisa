@@ -434,10 +434,10 @@
   display: inline-block;
   margin-top: 1.3rem;
   padding: 0.65rem 1.8rem;
-  border: 1px solid var(--gold);
+  border: 1px solid var(--sage);
   border-radius: 999px;
-  background: transparent;
-  color: var(--gold);
+  background: var(--sage);
+  color: #fffdf8;
   font-family: var(--font-sans);
   font-size: 0.78rem;
   letter-spacing: 0.25em;
@@ -448,7 +448,8 @@
 }
 
 .info-btn:hover {
-  background: var(--gold);
+  background: #64755a;
+  border-color: #64755a;
   color: #fffdf8;
 }
 
@@ -544,10 +545,10 @@
 
 .music-btn {
   padding: 0.95rem 2.6rem;
-  border: 1px solid var(--gold);
+  border: 1px solid var(--sage);
   border-radius: 999px;
-  background: transparent;
-  color: var(--gold);
+  background: var(--sage);
+  color: #fffdf8;
   font-family: var(--font-sans);
   font-size: 0.85rem;
   letter-spacing: 0.22em;
@@ -557,7 +558,8 @@
 }
 
 .music-btn:hover {
-  background: var(--gold);
+  background: #64755a;
+  border-color: #64755a;
   color: #fffdf8;
   transform: translateY(-3px);
 }

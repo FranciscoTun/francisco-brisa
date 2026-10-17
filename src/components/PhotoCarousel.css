@@ -70,9 +70,9 @@
   height: 48px;
   padding: 12px;
   border-radius: 50%;
-  border: 1px solid var(--gold);
-  background: transparent;
-  color: var(--gold);
+  border: 1px solid var(--sage);
+  background: var(--sage);
+  color: #fffdf8;
   display: grid;
   place-items: center;
   cursor: pointer;
@@ -80,7 +80,8 @@
 }
 
 .nav-btn:hover {
-  background: var(--gold);
+  background: #64755a;
+  border-color: #64755a;
   color: #fffdf8;
   transform: translateY(-2px);
 }

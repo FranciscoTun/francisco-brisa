@@ -114,10 +114,10 @@
 
 .logout {
   padding: 0.6rem 1.4rem;
-  border: 1px solid var(--gold);
+  border: 1px solid var(--sage);
   border-radius: 999px;
   background: transparent;
-  color: var(--gold);
+  color: var(--sage);
   font-family: var(--font-sans);
   font-size: 0.75rem;
   letter-spacing: 0.18em;
@@ -126,7 +126,7 @@
 }
 
 .logout:hover {
-  background: var(--gold);
+  background: var(--sage);
   color: #fffdf8;
 }
 
