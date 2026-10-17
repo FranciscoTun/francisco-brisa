@@ -234,3 +234,16 @@
 .env-zoom .env-to {
   opacity: 0;
 }
+
+/* durante el zoom solo la carta queda en escena */
+.env-back,
+.env-front,
+.env-flap {
+  transition: opacity 0.45s ease;
+}
+
+.env-zoom .env-back,
+.env-zoom .env-front,
+.env-zoom .env-flap {
+  opacity: 0;
+}
