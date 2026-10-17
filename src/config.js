@@ -6,7 +6,7 @@ export const WEDDING = {
   her: 'Brisa',
 
   // Fecha y hora de la boda (formato ISO)
-  dateISO: '2026-12-12T16:00:00',
+  dateISO: '2026-12-12T19:00:00',
 
   ceremony: {
     place: 'Registro Civil del Centro',
