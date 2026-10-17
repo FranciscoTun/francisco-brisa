@@ -896,6 +896,7 @@ function GiftSearch({ token, onAdded, onErr }) {
         name: p.name,
         link: p.link,
         image: p.image || null,
+        source: p.source || null,
       })
       setAdded((s) => new Set(s).add(key))
       onAdded()

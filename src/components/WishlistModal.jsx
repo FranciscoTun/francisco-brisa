@@ -107,6 +107,18 @@ export default function WishlistModal({ token, onClose }) {
                   </div>
                 )}
                 <span className="wish-name">{item.name}</span>
+                {item.link && (
+                  <a
+                    className="wish-store"
+                    href={item.link}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {item.source
+                      ? `Comprar en ${item.source} ↗`
+                      : 'Ver en tienda ↗'}
+                  </a>
+                )}
                 {item.mine ? (
                   <button
                     type="button"
@@ -127,15 +139,6 @@ export default function WishlistModal({ token, onClose }) {
                   >
                     {busyId === item.id ? '…' : 'Elegir este'}
                   </button>
-                ) : item.link ? (
-                  <a
-                    className="wish-choose as-link"
-                    href={item.link}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Ver
-                  </a>
                 ) : null}
               </div>
             ))}

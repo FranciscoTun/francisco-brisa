@@ -126,3 +126,19 @@
   color: #a08d6d;
   padding: 0.45rem 0;
 }
+
+.wish-store {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: #a08c60;
+  text-decoration: none;
+  border-bottom: 1px solid #d8c9a6;
+  padding-bottom: 1px;
+  margin-bottom: 0.15rem;
+}
+
+.wish-store:hover {
+  color: var(--gold, #b8915a);
+  border-bottom-color: currentColor;
+}
