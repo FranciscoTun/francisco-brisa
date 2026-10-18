@@ -44,8 +44,12 @@ export const deleteInvitation = (token, admToken) =>
   req(`/invitations/${token}`, { method: 'DELETE', token: admToken })
 export const getCapacity = (token) =>
   req('/invitations/capacity', { token })
-export const setCapacity = (token, total) =>
-  req('/invitations/capacity', { method: 'PUT', body: { total }, token })
+export const setCapacity = (token, total, maxPerInvitation) =>
+  req('/invitations/capacity', {
+    method: 'PUT',
+    body: { total, max_per_invitation: maxPerInvitation },
+    token,
+  })
 
 // Lista de deseos — público
 export const getWishlistSettings = () => req('/wishlist/settings')

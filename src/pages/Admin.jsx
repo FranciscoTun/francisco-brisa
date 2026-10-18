@@ -147,7 +147,7 @@ const Status = ({ inv }) =>
     </span>
   )
 
-function InvFormModal({ inv, token, available = Infinity, onClose, onSaved }) {
+function InvFormModal({ inv, token, available = Infinity, maxPerInv = 20, onClose, onSaved }) {
   const [name, setName] = useState(inv?.name || '')
   const [passes, setPasses] = useState(inv?.max_guests || '')
   const [busy, setBusy] = useState(false)
@@ -201,23 +201,32 @@ function InvFormModal({ inv, token, available = Infinity, onClose, onSaved }) {
           <input
             type="number"
             min="1"
-            max="20"
+            max={maxPerInv}
             placeholder="Número de pases"
             value={passes}
             onChange={(e) => setPasses(e.target.value)}
             required
           />
-          {available !== Infinity && Number(passes) > available && (
+          {Number(passes) > maxPerInv ? (
             <p className="login-err">
-              Solo tienes {available} pases disponibles sin asignar
+              El máximo por invitación es {maxPerInv} pases
             </p>
+          ) : (
+            available !== Infinity &&
+            Number(passes) > available && (
+              <p className="login-err">
+                Solo tienes {available} pases disponibles sin asignar
+              </p>
+            )
           )}
           {err && <p className="login-err">{err}</p>}
           <button
             type="submit"
             className="modal-submit"
             disabled={
-              busy || (available !== Infinity && Number(passes) > available)
+              busy ||
+              Number(passes) > maxPerInv ||
+              (available !== Infinity && Number(passes) > available)
             }
           >
             {busy ? 'Guardando…' : inv ? 'Guardar cambios' : 'Crear invitación'}
@@ -299,6 +308,7 @@ function Dashboard({ token, onLogout }) {
   const [refreshing, setRefreshing] = useState(false)
   const [cap, setCap] = useState(null)
   const [capInput, setCapInput] = useState('')
+  const [capMaxInput, setCapMaxInput] = useState('')
   const [capBusy, setCapBusy] = useState(false)
 
   const songsOf = (invToken) => songs.filter((s) => s.token === invToken)
@@ -320,6 +330,7 @@ function Dashboard({ token, onLogout }) {
       setWishCfg(wc)
       setCap(c)
       setCapInput(c.total ?? '')
+      setCapMaxInput(c.max_per_invitation ?? 20)
     } catch (e) {
       if (e.status === 401 || e.status === 403) onLogout()
       else setErr('No se pudo cargar. Revisa que el API esté corriendo.')
@@ -393,17 +404,39 @@ function Dashboard({ token, onLogout }) {
               onChange={(e) => setCapInput(e.target.value)}
             />
           </label>
+          <label className="cap-total">
+            Máx. por invitación
+            <input
+              type="number"
+              min="1"
+              value={capMaxInput}
+              onChange={(e) => setCapMaxInput(e.target.value)}
+            />
+          </label>
           <button
             type="button"
             className="act copy cap-save"
-            disabled={capBusy || !capInput || Number(capInput) === cap.total}
+            disabled={
+              capBusy ||
+              !capInput ||
+              !capMaxInput ||
+              (Number(capInput) === cap.total &&
+                Number(capMaxInput) === cap.max_per_invitation)
+            }
             onClick={async () => {
               setCapBusy(true)
               try {
-                setCap(await setCapacity(token, Number(capInput)))
+                setCap(
+                  await setCapacity(
+                    token,
+                    Number(capInput),
+                    Number(capMaxInput),
+                  ),
+                )
               } catch (e) {
                 setErr(e.message)
                 setCapInput(cap.total ?? '')
+                setCapMaxInput(cap.max_per_invitation ?? 20)
               } finally {
                 setCapBusy(false)
               }
@@ -607,6 +640,7 @@ function Dashboard({ token, onLogout }) {
               ? Infinity
               : (cap.free ?? 0) + (editing?.max_guests ?? 0)
           }
+          maxPerInv={cap?.max_per_invitation ?? 20}
           onClose={() => {
             setFormOpen(false)
             setEditing(null)
