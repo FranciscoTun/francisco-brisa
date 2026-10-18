@@ -109,7 +109,11 @@ function InviteFlow({ token }) {
   return opened ? (
     <Invitation inv={inv} onUpdate={setInv} />
   ) : (
-    <Envelope onDone={() => setOpened(true)} name={inv.name} />
+    <Envelope
+      onDone={() => setOpened(true)}
+      name={inv.name}
+      token={inv.token}
+    />
   )
 }
 

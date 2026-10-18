@@ -998,3 +998,8 @@
 .table-bar .wish-h {
   margin-bottom: 0;
 }
+
+.cell-opens {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}

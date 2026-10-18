@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { startMusic } from '../audio.js'
+import { markOpened } from '../api.js'
 import Petals from './Petals.jsx'
 import { WEDDING } from '../config.js'
 import './Envelope.css'
@@ -10,7 +11,7 @@ const STEPS = {
   zoom: [950, 'done'],
 }
 
-export default function Envelope({ onDone, name }) {
+export default function Envelope({ onDone, name, token }) {
   const [phase, setPhase] = useState('idle')
   const doneRef = useRef(onDone)
   doneRef.current = onDone
@@ -36,7 +37,10 @@ export default function Envelope({ onDone, name }) {
       /* navegador sin soporte de fullscreen */
     }
     startMusic()
-    setPhase((p) => (p === 'idle' ? 'open' : p))
+    setPhase((p) => {
+      if (p === 'idle' && token) markOpened(token).catch(() => {})
+      return p === 'idle' ? 'open' : p
+    })
   }
 
   return (

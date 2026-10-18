@@ -403,6 +403,7 @@ function Dashboard({ token, onLogout }) {
                   <tr>
                     <th>Referencia</th>
                     <th>Pases</th>
+                    <th>Vistas</th>
                     <th>Estado</th>
                     <th>Link</th>
                     <th>Canciones</th>
@@ -414,6 +415,16 @@ function Dashboard({ token, onLogout }) {
                     <tr key={i.token}>
                       <td className="cell-name">{i.name}</td>
                       <td>{i.max_guests}</td>
+                      <td
+                        className="cell-opens"
+                        title={
+                          i.opened_at
+                            ? `Última vez: ${new Date(i.opened_at).toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' })}`
+                            : undefined
+                        }
+                      >
+                        {i.opens ?? 0}
+                      </td>
                       <td>
                         <Status inv={i} />
                       </td>

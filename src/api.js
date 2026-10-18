@@ -19,6 +19,8 @@ async function req(path, { method = 'GET', body, token } = {}) {
 
 // Público
 export const getInvitation = (token) => req(`/invitations/${token}`)
+export const markOpened = (token) =>
+  req(`/invitations/${token}/opened`, { method: 'POST' })
 export const rsvpInvitation = (token, attendees) =>
   req(`/invitations/${token}/rsvp`, { method: 'POST', body: { attendees } })
 export const postSong = (body) => req('/songs', { method: 'POST', body })
