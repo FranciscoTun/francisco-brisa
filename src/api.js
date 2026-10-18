@@ -12,6 +12,11 @@ async function req(path, { method = 'GET', body, token } = {}) {
   if (!res.ok) {
     const err = new Error(`API ${res.status}`)
     err.status = res.status
+    try {
+      err.message = (await res.json()).detail || err.message
+    } catch {
+      /* cuerpo no JSON */
+    }
     throw err
   }
   return res.status === 204 ? null : res.json()
@@ -37,6 +42,10 @@ export const updateInvitation = (token, admToken, body) =>
   req(`/invitations/${token}`, { method: 'PUT', body, token: admToken })
 export const deleteInvitation = (token, admToken) =>
   req(`/invitations/${token}`, { method: 'DELETE', token: admToken })
+export const getCapacity = (token) =>
+  req('/invitations/capacity', { token })
+export const setCapacity = (token, total) =>
+  req('/invitations/capacity', { method: 'PUT', body: { total }, token })
 
 // Lista de deseos — público
 export const getWishlistSettings = () => req('/wishlist/settings')

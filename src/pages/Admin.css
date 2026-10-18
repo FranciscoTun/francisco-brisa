@@ -1003,3 +1003,63 @@
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
+
+/* ── Barra de capacidad de pases ── */
+.cap-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem 1.4rem;
+  max-width: 1240px;
+  width: 100%;
+  margin: 0 auto 1.4rem;
+  padding: 0.8rem 1.1rem;
+  background: #fffdf8;
+  border: 1px solid #eadfc6;
+  border-radius: 14px;
+  box-shadow: 0 10px 24px rgba(120, 95, 55, 0.08);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--ink);
+}
+
+.cap-total {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  letter-spacing: 0.06em;
+}
+
+.cap-total input {
+  width: 84px;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #dccca8;
+  border-radius: 8px;
+  text-align: center;
+  font-family: var(--font-sans);
+  background: #fffdf8;
+}
+
+.cap-save {
+  padding: 0.45rem 1rem;
+  margin-right: 0;
+}
+
+.cap-stat {
+  letter-spacing: 0.04em;
+  color: #6e6455;
+}
+
+.cap-stat b {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.cap-free {
+  margin-left: auto;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  background: #eef2e6;
+  color: var(--sage);
+  font-weight: 600;
+}

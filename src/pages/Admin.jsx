@@ -12,9 +12,11 @@ import {
   adminWishlistSettings,
   createInvitation,
   deleteInvitation,
+  getCapacity,
   getResumen,
   listInvitations,
   listSongs,
+  setCapacity,
   updateInvitation,
 } from '../api.js'
 import { useModalClose } from '../hooks/useModalClose.js'
@@ -145,7 +147,7 @@ const Status = ({ inv }) =>
     </span>
   )
 
-function InvFormModal({ inv, token, onClose, onSaved }) {
+function InvFormModal({ inv, token, available = Infinity, onClose, onSaved }) {
   const [name, setName] = useState(inv?.name || '')
   const [passes, setPasses] = useState(inv?.max_guests || '')
   const [busy, setBusy] = useState(false)
@@ -205,8 +207,19 @@ function InvFormModal({ inv, token, onClose, onSaved }) {
             onChange={(e) => setPasses(e.target.value)}
             required
           />
+          {available !== Infinity && Number(passes) > available && (
+            <p className="login-err">
+              Solo tienes {available} pases disponibles sin asignar
+            </p>
+          )}
           {err && <p className="login-err">{err}</p>}
-          <button type="submit" className="modal-submit" disabled={busy}>
+          <button
+            type="submit"
+            className="modal-submit"
+            disabled={
+              busy || (available !== Infinity && Number(passes) > available)
+            }
+          >
             {busy ? 'Guardando…' : inv ? 'Guardar cambios' : 'Crear invitación'}
           </button>
         </form>
@@ -284,23 +297,29 @@ function Dashboard({ token, onLogout }) {
   const [giftForm, setGiftForm] = useState(null) // {} = crear, {item} = editar
   const [deletingGift, setDeletingGift] = useState(null)
   const [refreshing, setRefreshing] = useState(false)
+  const [cap, setCap] = useState(null)
+  const [capInput, setCapInput] = useState('')
+  const [capBusy, setCapBusy] = useState(false)
 
   const songsOf = (invToken) => songs.filter((s) => s.token === invToken)
 
   const load = useCallback(async () => {
     try {
-      const [r, i, s, w, wc] = await Promise.all([
+      const [r, i, s, w, wc, c] = await Promise.all([
         getResumen(token),
         listInvitations(token),
         listSongs(token),
         adminWishlist(token),
         adminWishlistSettings(token),
+        getCapacity(token),
       ])
       setResumen(r)
       setInvs(i)
       setSongs(s)
       setWish(w)
       setWishCfg(wc)
+      setCap(c)
+      setCapInput(c.total ?? '')
     } catch (e) {
       if (e.status === 401 || e.status === 403) onLogout()
       else setErr('No se pudo cargar. Revisa que el API esté corriendo.')
@@ -359,6 +378,48 @@ function Dashboard({ token, onLogout }) {
           <Stat n={resumen.declinaron} l="Declinaron" />
           <Stat n={resumen.pendientes} l="Pendientes" />
           <Stat n={resumen.canciones_sugeridas} l="Canciones" />
+        </div>
+      )}
+
+      {cap && (
+        <div className="cap-bar">
+          <label className="cap-total">
+            Pases totales
+            <input
+              type="number"
+              min="1"
+              value={capInput}
+              placeholder="Sin límite"
+              onChange={(e) => setCapInput(e.target.value)}
+            />
+          </label>
+          <button
+            type="button"
+            className="act copy cap-save"
+            disabled={capBusy || !capInput || Number(capInput) === cap.total}
+            onClick={async () => {
+              setCapBusy(true)
+              try {
+                setCap(await setCapacity(token, Number(capInput)))
+              } catch (e) {
+                setErr(e.message)
+                setCapInput(cap.total ?? '')
+              } finally {
+                setCapBusy(false)
+              }
+            }}
+          >
+            Guardar
+          </button>
+          <span className="cap-stat">
+            Asignados <b>{cap.assigned}</b>
+          </span>
+          <span className="cap-stat">
+            Confirmados <b>{cap.confirmed}</b>
+          </span>
+          <span className="cap-stat cap-free">
+            Sin asignar <b>{cap.free ?? '∞'}</b>
+          </span>
         </div>
       )}
 
@@ -541,6 +602,11 @@ function Dashboard({ token, onLogout }) {
         <InvFormModal
           inv={editing}
           token={token}
+          available={
+            cap?.total == null
+              ? Infinity
+              : (cap.free ?? 0) + (editing?.max_guests ?? 0)
+          }
           onClose={() => {
             setFormOpen(false)
             setEditing(null)
