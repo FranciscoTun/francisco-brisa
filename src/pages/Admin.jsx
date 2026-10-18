@@ -148,6 +148,8 @@ const Status = ({ inv }) =>
   )
 
 function InvFormModal({ inv, token, available = Infinity, maxPerInv = 20, onClose, onSaved }) {
+  const floor =
+    inv?.confirmed && inv.attendees > 0 ? inv.attendees : 1
   const [name, setName] = useState(inv?.name || '')
   const [passes, setPasses] = useState(inv?.max_guests || '')
   const [busy, setBusy] = useState(false)
@@ -200,14 +202,19 @@ function InvFormModal({ inv, token, available = Infinity, maxPerInv = 20, onClos
           />
           <input
             type="number"
-            min="1"
+            min={floor}
             max={maxPerInv}
             placeholder="Número de pases"
             value={passes}
             onChange={(e) => setPasses(e.target.value)}
             required
           />
-          {Number(passes) > maxPerInv ? (
+          {Number(passes) < floor ? (
+            <p className="login-err">
+              Ya confirmaron {inv.attendees} asistentes — no puedes bajar de
+              ese número
+            </p>
+          ) : Number(passes) > maxPerInv ? (
             <p className="login-err">
               El máximo por invitación es {maxPerInv} pases
             </p>
@@ -225,6 +232,7 @@ function InvFormModal({ inv, token, available = Infinity, maxPerInv = 20, onClos
             className="modal-submit"
             disabled={
               busy ||
+              Number(passes) < floor ||
               Number(passes) > maxPerInv ||
               (available !== Infinity && Number(passes) > available)
             }

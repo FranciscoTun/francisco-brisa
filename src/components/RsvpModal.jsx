@@ -47,31 +47,40 @@ export default function RsvpModal({ inv, onClose, onDone }) {
           Tienes <strong>{inv.max_guests}</strong>{' '}
           {inv.max_guests === 1 ? 'pase' : 'pases'}
         </p>
-        <label className="rsvp-label" htmlFor="rsvp-count">
-          ¿Cuántos asistirán?
-        </label>
-        <select
-          id="rsvp-count"
-          className="rsvp-select"
-          value={count}
-          onChange={(e) => setCount(Number(e.target.value))}
-          disabled={busy}
-        >
-          {Array.from({ length: inv.max_guests }, (_, i) => inv.max_guests - i).map(
-            (n) => (
-              <option key={n} value={n}>
-                {n === inv.max_guests
-                  ? `Todos (${n})`
-                  : n === 1
-                    ? '1 persona'
-                    : `${n} personas`}
-              </option>
-            ),
-          )}
-        </select>
+        {inv.max_guests > 1 && (
+          <>
+            <label className="rsvp-label" htmlFor="rsvp-count">
+              ¿Cuántos asistirán?
+            </label>
+            <select
+              id="rsvp-count"
+              className="rsvp-select"
+              value={count}
+              onChange={(e) => setCount(Number(e.target.value))}
+              disabled={busy}
+            >
+              {Array.from(
+                { length: inv.max_guests },
+                (_, i) => inv.max_guests - i,
+              ).map((n) => (
+                <option key={n} value={n}>
+                  {n === inv.max_guests
+                    ? `Todos (${n})`
+                    : n === 1
+                      ? '1 persona'
+                      : `${n} personas`}
+                </option>
+              ))}
+            </select>
+          </>
+        )}
         {inv.confirmed && (
           <p className="rsvp-note">
-            Ya habías confirmado{inv.attendees === 0 ? ' que no asistirías' : ''}.
+            {inv.attendees === 0
+              ? 'Elegiste: no asistirás.'
+              : inv.max_guests === 1
+                ? 'Elegiste: sí asistirás.'
+                : `Elegiste: asistirán ${inv.attendees}.`}{' '}
             Puedes cambiar tu respuesta.
           </p>
         )}
