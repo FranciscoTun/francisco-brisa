@@ -209,7 +209,7 @@ function InvFormModal({ inv, token, available = Infinity, maxPerInv = 20, onClos
             onChange={(e) => setPasses(e.target.value)}
             required
           />
-          {Number(passes) < floor ? (
+          {inv && Number(passes) < floor ? (
             <p className="login-err">
               Ya confirmaron {inv.attendees} asistentes — no puedes bajar de
               ese número
@@ -232,7 +232,7 @@ function InvFormModal({ inv, token, available = Infinity, maxPerInv = 20, onClos
             className="modal-submit"
             disabled={
               busy ||
-              Number(passes) < floor ||
+              (inv && Number(passes) < floor) ||
               Number(passes) > maxPerInv ||
               (available !== Infinity && Number(passes) > available)
             }
