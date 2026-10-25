@@ -1181,6 +1181,32 @@
   align-self: flex-start;
 }
 
+/* ── Reordenar filas (drag & drop) ── */
+.th-grip {
+  width: 30px;
+}
+
+.cell-grip {
+  width: 30px;
+  text-align: center;
+  color: #c3b58d;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.cell-grip:active {
+  cursor: grabbing;
+}
+
+tr.dragging {
+  opacity: 0.35;
+}
+
+tr.drop-target > td {
+  border-top: 2px solid var(--sage);
+}
+
 /* botón verde de WhatsApp en la tabla */
 .act.wa {
   display: inline-flex;

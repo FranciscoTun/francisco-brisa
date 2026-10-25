@@ -17,6 +17,7 @@ import {
   getShareConfig,
   listInvitations,
   listSongs,
+  reorderInvitations,
   setCapacity,
   setShareConfig,
   updateInvitation,
@@ -325,6 +326,9 @@ function Dashboard({ token, onLogout }) {
   const [shareUse, setShareUse] = useState(false)
   const [shareMsg, setShareMsg] = useState('')
   const [shareBusy, setShareBusy] = useState(false)
+  const [grabToken, setGrabToken] = useState(null)
+  const [dragIdx, setDragIdx] = useState(null)
+  const [overIdx, setOverIdx] = useState(null)
 
   const songsOf = (invToken) => songs.filter((s) => s.token === invToken)
 
@@ -375,6 +379,22 @@ function Dashboard({ token, onLogout }) {
     }
     setCopied(inv.token)
     setTimeout(() => setCopied(null), 2000)
+  }
+
+  const dropRow = (e, dropIdx) => {
+    e.preventDefault()
+    if (dragIdx === null || dragIdx === dropIdx) {
+      setDragIdx(null)
+      setOverIdx(null)
+      return
+    }
+    const arr = [...invs]
+    const [moved] = arr.splice(dragIdx, 1)
+    arr.splice(dropIdx, 0, moved)
+    setInvs(arr)
+    setDragIdx(null)
+    setOverIdx(null)
+    reorderInvitations(token, arr.map((x) => x.token)).catch(() => {})
   }
 
   const share = (inv) => {
@@ -556,6 +576,7 @@ function Dashboard({ token, onLogout }) {
               <table className="inv-table">
                 <thead>
                   <tr>
+                    <th className="th-grip" aria-label="Reordenar" />
                     <th>Referencia</th>
                     <th>Pases</th>
                     <th>Vistas</th>
@@ -566,8 +587,35 @@ function Dashboard({ token, onLogout }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {invs.map((i) => (
-                    <tr key={i.token}>
+                  {invs.map((i, idx) => (
+                    <tr
+                      key={i.token}
+                      draggable={grabToken === i.token}
+                      className={`${dragIdx === idx ? 'dragging' : ''}${overIdx === idx && dragIdx !== null && dragIdx !== idx ? ' drop-target' : ''}`}
+                      onDragStart={(e) => {
+                        setDragIdx(idx)
+                        e.dataTransfer.effectAllowed = 'move'
+                      }}
+                      onDragOver={(e) => {
+                        e.preventDefault()
+                        e.dataTransfer.dropEffect = 'move'
+                        if (idx !== overIdx) setOverIdx(idx)
+                      }}
+                      onDrop={(e) => dropRow(e, idx)}
+                      onDragEnd={() => {
+                        setDragIdx(null)
+                        setOverIdx(null)
+                        setGrabToken(null)
+                      }}
+                    >
+                      <td
+                        className="cell-grip"
+                        onMouseDown={() => setGrabToken(i.token)}
+                        onMouseUp={() => setGrabToken(null)}
+                        title="Arrastra para reordenar"
+                      >
+                        <IconGrip />
+                      </td>
                       <td className="cell-name">{i.name}</td>
                       <td>{i.max_guests}</td>
                       <td
@@ -998,6 +1046,23 @@ const IconPencil = () => (
 const IconTrash = () => (
   <svg {...svgProps}>
     <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14ZM10 11v6M14 11v6" />
+  </svg>
+)
+
+const IconGrip = () => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    aria-hidden="true"
+  >
+    <circle cx="9" cy="6" r="1.7" />
+    <circle cx="15" cy="6" r="1.7" />
+    <circle cx="9" cy="12" r="1.7" />
+    <circle cx="15" cy="12" r="1.7" />
+    <circle cx="9" cy="18" r="1.7" />
+    <circle cx="15" cy="18" r="1.7" />
   </svg>
 )
 

@@ -58,6 +58,8 @@ export const setCapacity = (token, total, maxPerInvitation) =>
     body: { total, max_per_invitation: maxPerInvitation },
     token,
   })
+export const reorderInvitations = (token, tokens) =>
+  req('/invitations/order', { method: 'PUT', body: { tokens }, token })
 export const getShareConfig = (token) => req('/invitations/share', { token })
 export const setShareConfig = (token, body) =>
   req('/invitations/share', { method: 'PUT', body, token })
