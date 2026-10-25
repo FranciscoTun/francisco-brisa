@@ -1,4 +1,5 @@
 .carousel-wrap {
+  position: relative;
   width: 100%;
 }
 
@@ -24,6 +25,7 @@
 }
 
 .carousel-slide {
+  transform-origin: 50% 130%;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -34,7 +36,7 @@
   border-radius: 6px;
   box-shadow: 0 16px 36px rgba(90, 75, 50, 0.22);
   cursor: pointer;
-  transition: transform 0.55s cubic-bezier(0.25, 0.8, 0.3, 1),
+  transition: transform 0.72s cubic-bezier(0.22, 0.85, 0.28, 1),
     opacity 0.55s ease;
   will-change: transform, opacity;
 }
@@ -98,25 +100,62 @@
     -webkit-mask-image: linear-gradient(
       90deg,
       transparent,
-      #000 8%,
-      #000 92%,
+      #000 5%,
+      #000 95%,
       transparent
     );
     mask-image: linear-gradient(
       90deg,
       transparent,
-      #000 8%,
-      #000 92%,
+      #000 5%,
+      #000 95%,
       transparent
     );
   }
 
   .carousel-slide {
-    width: clamp(230px, 76vw, 330px);
+    width: clamp(200px, 64vw, 300px);
     padding: 11px 11px 46px;
   }
 
   .carousel-slide img {
     aspect-ratio: 3 / 4;
   }
+}
+
+/* abanico: emerge abajo cerrado y lejano → sube al centro → se abre
+   (aún chiquito) → se acerca y se reacomoda a su lugar final */
+@keyframes pc-fan-in {
+  0% {
+    transform: translate(-50%, 60%) rotate(0deg) scale(0.3);
+    opacity: 0;
+  }
+  22% {
+    opacity: 1;
+  }
+  45% {
+    transform: translate(-50%, -100%) rotate(var(--rj)) scale(0.38);
+    opacity: 1;
+  }
+  72% {
+    transform: translate(-50%, var(--tym)) translateX(var(--txm))
+      rotate(0deg) scale(var(--scm));
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, var(--ty)) translateX(var(--tx)) rotate(0deg)
+      scale(var(--sc));
+    opacity: var(--op);
+  }
+}
+
+
+/* nav oculto durante la intro */
+.carousel-nav {
+  transition: opacity 0.5s ease 0.3s;
+}
+
+.carousel-nav.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
