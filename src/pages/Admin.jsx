@@ -14,9 +14,11 @@ import {
   deleteInvitation,
   getCapacity,
   getResumen,
+  getShareConfig,
   listInvitations,
   listSongs,
   setCapacity,
+  setShareConfig,
   updateInvitation,
 } from '../api.js'
 import { useModalClose } from '../hooks/useModalClose.js'
@@ -318,18 +320,24 @@ function Dashboard({ token, onLogout }) {
   const [capInput, setCapInput] = useState('')
   const [capMaxInput, setCapMaxInput] = useState('')
   const [capBusy, setCapBusy] = useState(false)
+  const [shareCfg, setShareCfg] = useState(null)
+  const [shareNum, setShareNum] = useState('')
+  const [shareUse, setShareUse] = useState(false)
+  const [shareMsg, setShareMsg] = useState('')
+  const [shareBusy, setShareBusy] = useState(false)
 
   const songsOf = (invToken) => songs.filter((s) => s.token === invToken)
 
   const load = useCallback(async () => {
     try {
-      const [r, i, s, w, wc, c] = await Promise.all([
+      const [r, i, s, w, wc, c, sh] = await Promise.all([
         getResumen(token),
         listInvitations(token),
         listSongs(token),
         adminWishlist(token),
         adminWishlistSettings(token),
         getCapacity(token),
+        getShareConfig(token),
       ])
       setResumen(r)
       setInvs(i)
@@ -339,6 +347,10 @@ function Dashboard({ token, onLogout }) {
       setCap(c)
       setCapInput(c.total ?? '')
       setCapMaxInput(c.max_per_invitation ?? 20)
+      setShareCfg(sh)
+      setShareNum(sh.number ?? '')
+      setShareUse(!!sh.use_number)
+      setShareMsg(sh.message ?? '')
     } catch (e) {
       if (e.status === 401 || e.status === 403) onLogout()
       else setErr('No se pudo cargar. Revisa que el API esté corriendo.')
@@ -363,6 +375,40 @@ function Dashboard({ token, onLogout }) {
     }
     setCopied(inv.token)
     setTimeout(() => setCopied(null), 2000)
+  }
+
+  const share = (inv) => {
+    const msg = (shareMsg || shareCfg?.message || '')
+      .replaceAll('{nombre}', inv.name)
+      .replaceAll('{pases}', String(inv.max_guests))
+      .replaceAll('{link}', inviteLink(inv.token))
+    const num = shareCfg?.use_number && shareCfg?.number
+      ? `${shareCfg.number}/`
+      : ''
+    window.open(
+      `https://wa.me/${num}?text=${encodeURIComponent(msg)}`,
+      '_blank',
+      'noopener',
+    )
+  }
+
+  const saveShare = async () => {
+    setShareBusy(true)
+    try {
+      const saved = await setShareConfig(token, {
+        number: shareNum,
+        use_number: shareUse,
+        message: shareMsg.trim(),
+      })
+      setShareCfg(saved)
+      setShareNum(saved.number)
+      setShareUse(saved.use_number)
+      setShareMsg(saved.message)
+    } catch {
+      setErr('No se pudo guardar la configuración de compartir')
+    } finally {
+      setShareBusy(false)
+    }
   }
 
   return (
@@ -486,6 +532,13 @@ function Dashboard({ token, onLogout }) {
         >
           Lista de deseos
         </button>
+        <button
+          type="button"
+          className={`tab ${tab === 'share' ? 'active' : ''}`}
+          onClick={() => setTab('share')}
+        >
+          Compartir
+        </button>
       </nav>
 
       {tab === 'invs' && (
@@ -543,6 +596,15 @@ function Dashboard({ token, onLogout }) {
                             ))}
                       </td>
                       <td className="cell-actions">
+                        <button
+                          type="button"
+                          className="act wa"
+                          onClick={() => share(i)}
+                          title="Compartir por WhatsApp"
+                          aria-label="Compartir por WhatsApp"
+                        >
+                          <IconWhatsApp />
+                        </button>
                         <button
                           type="button"
                           className="act copy"
@@ -621,6 +683,80 @@ function Dashboard({ token, onLogout }) {
               </table>
             </div>
           )}
+        </section>
+      )}
+
+      {tab === 'share' && shareCfg && (
+        <section className="dash-section share-section">
+          <h3 className="wish-h">Compartir por WhatsApp</h3>
+          <div className="share-grid">
+            <div className="share-col">
+              <Toggle
+                label="Enviar siempre al mismo número"
+                checked={shareUse}
+                onChange={setShareUse}
+              />
+              <label className="share-num">
+                Número de WhatsApp (con lada, solo dígitos)
+                <input
+                  type="tel"
+                  inputMode="numeric"
+                  placeholder="529991234567"
+                  value={shareNum}
+                  disabled={!shareUse}
+                  onChange={(e) =>
+                    setShareNum(e.target.value.replace(/\D/g, ''))
+                  }
+                />
+              </label>
+              <p className="share-hint">
+                {shareUse && shareNum
+                  ? `El botón de compartir abrirá el chat con ${shareNum}`
+                  : 'Sin número: se abrirá WhatsApp para elegir a quién enviar'}
+              </p>
+            </div>
+            <div className="share-col">
+              <label className="share-msg">
+                Mensaje
+                <textarea
+                  rows={8}
+                  value={shareMsg}
+                  onChange={(e) => setShareMsg(e.target.value)}
+                />
+              </label>
+              <div className="share-vars">
+                <span>Variables:</span>
+                {['{nombre}', '{pases}', '{link}'].map((v) => (
+                  <button
+                    key={v}
+                    type="button"
+                    className="share-var"
+                    onClick={() =>
+                      setShareMsg((m) => (m ? `${m} ${v}` : v))
+                    }
+                  >
+                    {v}
+                  </button>
+                ))}
+              </div>
+              {invs.length > 0 && (
+                <pre className="share-preview">
+                  {shareMsg
+                    .replaceAll('{nombre}', invs[0].name)
+                    .replaceAll('{pases}', String(invs[0].max_guests))
+                    .replaceAll('{link}', inviteLink(invs[0].token))}
+                </pre>
+              )}
+              <button
+                type="button"
+                className="act copy share-save"
+                disabled={shareBusy || !shareMsg.trim()}
+                onClick={saveShare}
+              >
+                {shareBusy ? 'Guardando…' : 'Guardar'}
+              </button>
+            </div>
+          </div>
         </section>
       )}
 
@@ -862,6 +998,18 @@ const IconPencil = () => (
 const IconTrash = () => (
   <svg {...svgProps}>
     <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14ZM10 11v6M14 11v6" />
+  </svg>
+)
+
+const IconWhatsApp = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    aria-hidden="true"
+  >
+    <path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.4-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.11 3.22 5.1 4.51.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.58-.09 1.76-.72 2-1.42.25-.7.25-1.3.18-1.42-.08-.12-.28-.2-.58-.34M12.05 21.8h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.83 9.83 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.89 9.88m8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.9c0 2.1.55 4.14 1.59 5.95L.05 24l6.3-1.65a11.9 11.9 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.48-8.4" />
   </svg>
 )
 

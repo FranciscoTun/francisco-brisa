@@ -78,3 +78,193 @@
   text-align: center;
   margin: 0;
 }
+
+.music-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.music-actions .modal-submit {
+  flex: 1;
+}
+
+.music-cancel {
+  padding: 0.9rem 1.1rem;
+  border: 1px solid #dccca8;
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #a08d6d;
+  cursor: pointer;
+}
+
+.music-loading {
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: #a08d6d;
+}
+
+/* ── vistas deslizantes: formulario ⇄ mis canciones ── */
+.music-modal {
+  overflow: hidden;
+}
+
+.music-views {
+  overflow: hidden;
+}
+
+.music-track {
+  display: flex;
+  width: 200%;
+  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.3, 1);
+}
+
+.music-pane {
+  width: 50%;
+  min-width: 0;
+  padding: 0 2px;
+}
+
+.music-see {
+  display: block;
+  width: 100%;
+  margin-top: 0.9rem;
+  padding: 0.7rem;
+  border: 1px solid var(--sage);
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sage);
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s;
+}
+
+.music-see:hover {
+  background: var(--sage);
+  color: #fffdf8;
+}
+
+.music-back {
+  margin-bottom: 0.4rem;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid #dccca8;
+  border-radius: 999px;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: #a08d6d;
+  cursor: pointer;
+}
+
+.music-back:hover {
+  border-color: var(--sage);
+  color: var(--sage);
+}
+
+.music-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.music-empty {
+  padding: 1rem;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: #a08d6d;
+}
+
+.music-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.3rem;
+  border-bottom: 1px solid #f0e6cf;
+}
+
+.music-row.mine {
+  background: rgba(122, 139, 111, 0.08);
+  border-radius: 8px;
+  padding-left: 0.55rem;
+  padding-right: 0.55rem;
+}
+
+.music-row-txt {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: var(--ink);
+  overflow: hidden;
+}
+
+.music-row-txt b {
+  display: block;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.music-row-sub {
+  display: block;
+  font-size: 0.78rem;
+  color: #9c8a68;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.music-row-guest {
+  font-style: normal;
+  color: #b3a284;
+}
+
+.music-row-btns {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.music-ic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #dccca8;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--sage);
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.music-ic:hover {
+  background: var(--sage);
+  color: #fffdf8;
+}
+
+.music-ic.danger {
+  color: #b05a5a;
+  border-color: #b05a5a;
+}
+
+.music-ic.danger:hover {
+  background: #b05a5a;
+  color: #fffdf8;
+}

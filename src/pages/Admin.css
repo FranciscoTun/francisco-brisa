@@ -1063,3 +1063,144 @@
   color: var(--sage);
   font-weight: 600;
 }
+
+/* ── Compartir por WhatsApp ── */
+.share-section {
+  max-width: 860px;
+}
+
+.share-grid {
+  display: grid;
+  grid-template-columns: minmax(260px, 340px) 1fr;
+  gap: 1.6rem;
+  align-items: start;
+}
+
+.share-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  min-width: 0;
+}
+
+.share-num {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft, #6d5c40);
+}
+
+.share-num input {
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #dccca8;
+  border-radius: 10px;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  background: #fffdf8;
+  color: var(--ink);
+}
+
+.share-num input:disabled {
+  opacity: 0.45;
+}
+
+.share-hint {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  color: #a08d6d;
+  letter-spacing: 0.04em;
+}
+
+.share-msg {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft, #6d5c40);
+}
+
+.share-msg textarea {
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #dccca8;
+  border-radius: 10px;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  background: #fffdf8;
+  color: var(--ink);
+  resize: vertical;
+}
+
+.share-vars {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  color: #a08d6d;
+}
+
+.share-var {
+  padding: 0.2rem 0.6rem;
+  border: 1px dashed var(--sage);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--sage);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.share-var:hover {
+  background: var(--sage);
+  color: #fffdf8;
+}
+
+.share-preview {
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #ead9b8;
+  border-radius: 10px;
+  background: rgba(176, 141, 90, 0.06);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--ink);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.share-save {
+  align-self: flex-start;
+}
+
+/* botón verde de WhatsApp en la tabla */
+.act.wa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 28px;
+  padding: 0;
+  color: #4d9e52;
+  border-color: #4d9e52;
+  vertical-align: middle;
+}
+
+.act.wa:hover {
+  background: #4d9e52;
+  color: #fdfaf3;
+}
+
+@media (max-width: 900px) {
+  .share-grid {
+    grid-template-columns: 1fr;
+  }
+}

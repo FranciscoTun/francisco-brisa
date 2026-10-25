@@ -5,6 +5,14 @@ export const PinIcon = () => (
   </svg>
 )
 
+export const CalendarIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <rect x="3" y="5" width="18" height="16" rx="2" />
+    <path d="M8 3v4M16 3v4M3 10h18" />
+    <circle cx="12" cy="15.5" r="1.4" fill="currentColor" stroke="none" />
+  </svg>
+)
+
 export const ClockIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
     <circle cx="12" cy="12" r="9" />

@@ -430,10 +430,22 @@
   color: var(--gold);
 }
 
+.info-btns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.info-btns .info-btn {
+  width: 200px;
+  text-align: center;
+}
+
 .info-btn {
   display: inline-block;
-  margin-top: 1.3rem;
-  padding: 0.65rem 1.8rem;
+  margin-top: 0;
+  padding: 0.65rem 1.4rem;
   border: 1px solid var(--sage);
   border-radius: 999px;
   background: var(--sage);
@@ -447,9 +459,24 @@
   transition: background 0.3s, color 0.3s;
 }
 
+.info-btns > .info-btn:first-child {
+  margin-top: 1.3rem;
+}
+
 .info-btn:hover {
   background: #64755a;
   border-color: #64755a;
+  color: #fffdf8;
+}
+
+.info-btn-alt {
+  background: transparent;
+  color: var(--sage);
+}
+
+.info-btn-alt:hover {
+  background: var(--sage);
+  border-color: var(--sage);
   color: #fffdf8;
 }
 

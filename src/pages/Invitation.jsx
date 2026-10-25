@@ -15,6 +15,7 @@ import TipsModal from '../components/TipsModal.jsx'
 import bgVideoPortrait from '../assets/videos/video_background_portrait.mp4'
 import bgVideoLandscape from '../assets/videos/video_background_landscape.mp4'
 import {
+  CalendarIcon,
   ClipboardIcon,
   ClockIcon,
   DressIcon,
@@ -38,27 +39,65 @@ const dateLabel = new Date(WEDDING.dateISO).toLocaleDateString('es-MX', {
   year: 'numeric',
 })
 
-function EventCard({ icon, title, place, address, time, mapsUrl, delay }) {
+const dateLabelCap = dateLabel.replace(/^./, (c) => c.toUpperCase())
+
+const pad = (n) => String(n).padStart(2, '0')
+const gcalFmt = (d) =>
+  `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}`
+const gcalStart = new Date(WEDDING.dateISO)
+const gcalEnd = new Date(gcalStart.getTime() + 6 * 3600e3)
+const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(`Boda ${WEDDING.her} & ${WEDDING.him}`)}&dates=${gcalFmt(gcalStart)}/${gcalFmt(gcalEnd)}&details=${encodeURIComponent('¡Nos casamos! Te esperamos.')}&location=${encodeURIComponent(`${WEDDING.reception.place}, ${WEDDING.reception.address}`)}`
+
+function EventCard({
+  icon,
+  title,
+  place,
+  date,
+  address,
+  time,
+  btnLabel,
+  btnUrl,
+  btn2Label,
+  btn2Url,
+  delay,
+}) {
   return (
     <Reveal delay={delay}>
       <article className="info-card">
         <div className="info-icon">{icon}</div>
         <h3 className="info-title">{title}</h3>
         <p className="info-place">{place}</p>
+        {date && (
+          <p className="info-line">
+            <CalendarIcon /> {date}
+          </p>
+        )}
         <p className="info-line">
           <PinIcon /> {address}
         </p>
         <p className="info-line">
           <ClockIcon /> {time}
         </p>
-        <a
-          className="info-btn"
-          href={mapsUrl}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Cómo llegar
-        </a>
+        <div className="info-btns">
+          <a
+            className="info-btn"
+            href={btnUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {btnLabel}
+          </a>
+          {btn2Url && (
+            <a
+              className="info-btn info-btn-alt"
+              href={btn2Url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {btn2Label}
+            </a>
+          )}
+        </div>
       </article>
     </Reveal>
   )
@@ -144,9 +183,13 @@ export default function Invitation({ inv, onUpdate }) {
             icon={<RingsIcon />}
             title="Recepción"
             place={WEDDING.reception.place}
+            date={dateLabelCap}
             address={WEDDING.reception.address}
             time={WEDDING.reception.time}
-            mapsUrl={WEDDING.reception.mapsUrl}
+            btnLabel="Cómo llegar"
+            btnUrl={WEDDING.reception.mapsUrl}
+            btn2Label="Agendar"
+            btn2Url={gcalUrl}
             delay={250}
           />
         </div>
@@ -208,7 +251,7 @@ export default function Invitation({ inv, onUpdate }) {
           <p className="dress-hint">{WEDDING.dressCode.hint}</p>
           <button
             type="button"
-            className="info-btn"
+            className="music-btn"
             onClick={() => setDressOpen(true)}
           >
             Ver más
@@ -229,7 +272,7 @@ export default function Invitation({ inv, onUpdate }) {
           <p className="dress-hint">Información adicional a considerar</p>
           <button
             type="button"
-            className="info-btn"
+            className="music-btn"
             onClick={() => setTipsOpen(true)}
           >
             Ver más
@@ -250,7 +293,7 @@ export default function Invitation({ inv, onUpdate }) {
           </div>
           <button
             type="button"
-            className="info-btn"
+            className="music-btn"
             onClick={() => setGiftsOpen(true)}
           >
             Ver más

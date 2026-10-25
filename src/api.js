@@ -29,6 +29,14 @@ export const markOpened = (token) =>
 export const rsvpInvitation = (token, attendees) =>
   req(`/invitations/${token}/rsvp`, { method: 'POST', body: { attendees } })
 export const postSong = (body) => req('/songs', { method: 'POST', body })
+export const getSongs = (token) =>
+  req(`/songs/public?token=${encodeURIComponent(token)}`)
+export const updateSong = (id, body) =>
+  req(`/songs/${id}`, { method: 'PUT', body })
+export const deleteSong = (id, token) =>
+  req(`/songs/${id}?token=${encodeURIComponent(token)}`, {
+    method: 'DELETE',
+  })
 
 // Admin (requieren X-Admin-Key)
 export const adminLogin = (body) =>
@@ -50,6 +58,9 @@ export const setCapacity = (token, total, maxPerInvitation) =>
     body: { total, max_per_invitation: maxPerInvitation },
     token,
   })
+export const getShareConfig = (token) => req('/invitations/share', { token })
+export const setShareConfig = (token, body) =>
+  req('/invitations/share', { method: 'PUT', body, token })
 
 // Lista de deseos — público
 export const getWishlistSettings = () => req('/wishlist/settings')
