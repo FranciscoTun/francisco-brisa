@@ -13,7 +13,6 @@ import {
   createInvitation,
   deleteInvitation,
   getCapacity,
-  getResumen,
   getShareConfig,
   listInvitations,
   listSongs,
@@ -106,13 +105,6 @@ function Login({ onOk }) {
     </div>
   )
 }
-
-const Stat = ({ n, l }) => (
-  <div className="stat">
-    <span className="stat-n">{n}</span>
-    <span className="stat-l">{l}</span>
-  </div>
-)
 
 const RefreshBtn = ({ onClick, spinning }) => (
   <button
@@ -303,7 +295,6 @@ function DeleteModal({ inv, token, onClose, onDeleted }) {
 }
 
 function Dashboard({ token, onLogout }) {
-  const [resumen, setResumen] = useState(null)
   const [invs, setInvs] = useState([])
   const [songs, setSongs] = useState([])
   const [err, setErr] = useState('')
@@ -318,9 +309,6 @@ function Dashboard({ token, onLogout }) {
   const [deletingGift, setDeletingGift] = useState(null)
   const [refreshing, setRefreshing] = useState(false)
   const [cap, setCap] = useState(null)
-  const [capInput, setCapInput] = useState('')
-  const [capMaxInput, setCapMaxInput] = useState('')
-  const [capBusy, setCapBusy] = useState(false)
   const [shareCfg, setShareCfg] = useState(null)
   const [shareNum, setShareNum] = useState('')
   const [shareUse, setShareUse] = useState(false)
@@ -356,8 +344,7 @@ function Dashboard({ token, onLogout }) {
 
   const load = useCallback(async () => {
     try {
-      const [r, i, s, w, wc, c, sh] = await Promise.all([
-        getResumen(token),
+      const [i, s, w, wc, c, sh] = await Promise.all([
         listInvitations(token),
         listSongs(token),
         adminWishlist(token),
@@ -365,14 +352,11 @@ function Dashboard({ token, onLogout }) {
         getCapacity(token),
         getShareConfig(token),
       ])
-      setResumen(r)
       setInvs(i)
       setSongs(s)
       setWish(w)
       setWishCfg(wc)
       setCap(c)
-      setCapInput(c.total ?? '')
-      setCapMaxInput(c.max_per_invitation ?? 20)
       setShareCfg(sh)
       setShareNum(sh.number ?? '')
       setShareUse(!!sh.use_number)
@@ -475,82 +459,6 @@ function Dashboard({ token, onLogout }) {
       </header>
 
       {err && <p className="login-err">{err}</p>}
-
-      {resumen && (
-        <div className="stats">
-          <Stat n={resumen.invitaciones_total} l="Invitaciones" />
-          <Stat n={resumen.pases_total} l="Pases totales" />
-          <Stat n={resumen.confirmadas} l="Confirmadas" />
-          <Stat n={resumen.asistentes_confirmados} l="Asistentes" />
-          <Stat n={resumen.declinaron} l="Declinaron" />
-          <Stat n={resumen.pendientes} l="Pendientes" />
-          <Stat n={resumen.canciones_sugeridas} l="Canciones" />
-        </div>
-      )}
-
-      {cap && (
-        <div className="cap-bar">
-          <label className="cap-total">
-            Pases totales
-            <input
-              type="number"
-              min="1"
-              value={capInput}
-              placeholder="Sin límite"
-              onChange={(e) => setCapInput(e.target.value)}
-            />
-          </label>
-          <label className="cap-total">
-            Máx. por invitación
-            <input
-              type="number"
-              min="1"
-              value={capMaxInput}
-              onChange={(e) => setCapMaxInput(e.target.value)}
-            />
-          </label>
-          <button
-            type="button"
-            className="act copy cap-save"
-            disabled={
-              capBusy ||
-              !capInput ||
-              !capMaxInput ||
-              (Number(capInput) === cap.total &&
-                Number(capMaxInput) === cap.max_per_invitation)
-            }
-            onClick={async () => {
-              setCapBusy(true)
-              try {
-                setCap(
-                  await setCapacity(
-                    token,
-                    Number(capInput),
-                    Number(capMaxInput),
-                  ),
-                )
-              } catch (e) {
-                setErr(e.message)
-                setCapInput(cap.total ?? '')
-                setCapMaxInput(cap.max_per_invitation ?? 20)
-              } finally {
-                setCapBusy(false)
-              }
-            }}
-          >
-            Guardar
-          </button>
-          <span className="cap-stat">
-            Asignados <b>{cap.assigned}</b>
-          </span>
-          <span className="cap-stat">
-            Confirmados <b>{cap.confirmed}</b>
-          </span>
-          <span className="cap-stat cap-free">
-            Sin asignar <b>{cap.free ?? '∞'}</b>
-          </span>
-        </div>
-      )}
 
       <nav className="tabs">
         <button
@@ -783,7 +691,18 @@ function Dashboard({ token, onLogout }) {
         </section>
       )}
 
-      {tab === 'stats' && <StatsSection invs={invs} cap={cap} onRefresh={refresh} refreshing={refreshing} />}
+      {tab === 'stats' && (
+        <StatsSection
+          invs={invs}
+          cap={cap}
+          songs={songs}
+          token={token}
+          onCapSaved={(c) => setCap(c)}
+          onErr={setErr}
+          onRefresh={refresh}
+          refreshing={refreshing}
+        />
+      )}
 
       {tab === 'songs' && (
         <section className="dash-section">
@@ -1505,7 +1424,29 @@ function StatsDonut({ parts, total, centerLabel }) {
   )
 }
 
-function StatsSection({ invs, cap, onRefresh, refreshing }) {
+function StatsSection({ invs, cap, songs, token, onCapSaved, onErr, onRefresh, refreshing }) {
+  const [capTotal, setCapTotal] = useState('')
+  const [capMax, setCapMax] = useState('')
+  const [capBusy, setCapBusy] = useState(false)
+
+  useEffect(() => {
+    setCapTotal(cap?.total ?? '')
+    setCapMax(cap?.max_per_invitation ?? 20)
+  }, [cap])
+
+  const saveCap = async () => {
+    setCapBusy(true)
+    try {
+      onCapSaved(await setCapacity(token, Number(capTotal), Number(capMax)))
+    } catch (e) {
+      onErr(e.message)
+      setCapTotal(cap?.total ?? '')
+      setCapMax(cap?.max_per_invitation ?? 20)
+    } finally {
+      setCapBusy(false)
+    }
+  }
+
   const inv = { aceptada: 0, pendiente: 0, declinada: 0 }
   const pases = { aceptados: 0, sinUsar: 0, pendientes: 0, declinados: 0 }
   let asignados = 0
@@ -1578,20 +1519,28 @@ function StatsSection({ invs, cap, onRefresh, refreshing }) {
           <span className="stat-l">Vienen seguro</span>
         </div>
         <div className="stat">
+          <span className="stat-n">{asignados}</span>
+          <span className="stat-l">Pases asignados</span>
+        </div>
+        <div className="stat">
           <span className="stat-n">{pases.pendientes}</span>
-          <span className="stat-l">Pases por confirmar</span>
+          <span className="stat-l">Por confirmar</span>
         </div>
         <div className="stat">
           <span className="stat-n">{pases.declinados + pases.sinUsar}</span>
-          <span className="stat-l">Pases que no vendrán</span>
+          <span className="stat-l">No vendrán</span>
         </div>
         <div className="stat">
           <span className="stat-n">{sinAsignar}</span>
-          <span className="stat-l">Pases sin asignar</span>
+          <span className="stat-l">Sin asignar</span>
         </div>
         <div className="stat">
           <span className="stat-n">{ocupacion}%</span>
-          <span className="stat-l">Ocupación del salón</span>
+          <span className="stat-l">Ocupación</span>
+        </div>
+        <div className="stat">
+          <span className="stat-n">{songs.length}</span>
+          <span className="stat-l">Canciones</span>
         </div>
       </div>
 
@@ -1636,6 +1585,47 @@ function StatsSection({ invs, cap, onRefresh, refreshing }) {
           </ul>
         </div>
       </div>
+
+      {cap && (
+        <div className="stats-card">
+          <h4 className="stats-h">Capacidad de pases</h4>
+          <div className="cap-bar">
+            <label className="cap-total">
+              Pases totales
+              <input
+                type="number"
+                min="1"
+                value={capTotal}
+                placeholder="Sin límite"
+                onChange={(e) => setCapTotal(e.target.value)}
+              />
+            </label>
+            <label className="cap-total">
+              Máx. por invitación
+              <input
+                type="number"
+                min="1"
+                value={capMax}
+                onChange={(e) => setCapMax(e.target.value)}
+              />
+            </label>
+            <button
+              type="button"
+              className="act copy cap-save"
+              disabled={
+                capBusy ||
+                !capTotal ||
+                !capMax ||
+                (Number(capTotal) === cap.total &&
+                  Number(capMax) === cap.max_per_invitation)
+              }
+              onClick={saveCap}
+            >
+              Guardar
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="stats-grid">
         {pendTop.length > 0 && (
