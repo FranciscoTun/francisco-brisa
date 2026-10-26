@@ -757,6 +757,22 @@ function Dashboard({ token, onLogout }) {
               </table>
             </div>
           )}
+          {invs.length > 0 && (
+            <div className="inv-totals">
+              <span className="tot">Total: {invs.length}</span>
+              <span className="tot ok">
+                Aceptadas: {invs.filter((i) => statusOf(i) === 'aceptada').length}
+              </span>
+              <span className="tot no">
+                Declinadas:{' '}
+                {invs.filter((i) => statusOf(i) === 'declinada').length}
+              </span>
+              <span className="tot wait">
+                Pendientes:{' '}
+                {invs.filter((i) => statusOf(i) === 'pendiente').length}
+              </span>
+            </div>
+          )}
         </section>
       )}
 

@@ -1182,6 +1182,44 @@
   align-self: flex-start;
 }
 
+/* ── Totales de la tabla de invitaciones ── */
+.inv-totals {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.7rem;
+}
+
+.inv-totals .tot {
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid #dccca8;
+  background: #fffdf8;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+.inv-totals .tot.ok {
+  border-color: #a9c39a;
+  background: #eef4ea;
+  color: #5f7355;
+}
+
+.inv-totals .tot.no {
+  border-color: #d8a9a9;
+  background: #f8eeee;
+  color: #a06464;
+}
+
+.inv-totals .tot.wait {
+  border-color: #dccca8;
+  background: #faf3e4;
+  color: #a08d6d;
+}
+
 /* ── Filtros de columnas ── */
 .th-filter {
   display: flex;
