@@ -1182,6 +1182,172 @@
   align-self: flex-start;
 }
 
+/* ── Estadísticas ── */
+.stats-sec {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.stats-lead {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: #6e6455;
+  text-align: center;
+}
+
+.stats-lead b {
+  color: var(--sage);
+  font-size: 1.3rem;
+}
+
+.stats-sec .stats {
+  margin-bottom: 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 1.4rem;
+  align-items: stretch;
+}
+
+.stats-card {
+  background: #fffdf8;
+  border: 1px solid #eadfc6;
+  border-radius: 14px;
+  padding: 1.2rem 1.4rem;
+  box-shadow: 0 10px 24px rgba(120, 95, 55, 0.1);
+}
+
+.stats-h {
+  margin: 0 0 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+}
+
+.donut-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem;
+  flex-wrap: wrap;
+}
+
+.donut {
+  width: 150px;
+  height: 150px;
+  flex-shrink: 0;
+}
+
+.donut-n {
+  font-family: var(--font-serif);
+  font-size: 8px;
+  font-weight: 600;
+  fill: var(--ink);
+}
+
+.donut-l {
+  font-family: var(--font-sans);
+  font-size: 2.6px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  fill: #a08d6d;
+}
+
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.legend li i {
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.legend li b {
+  margin-left: auto;
+  padding-left: 0.8rem;
+  color: #6e6455;
+}
+
+.stack-bar {
+  display: flex;
+  height: 26px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #efe7d4;
+  margin-bottom: 1rem;
+}
+
+.stack-seg {
+  height: 100%;
+  transition: width 0.4s ease;
+}
+
+.pend-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.pend-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed #eadfc6;
+}
+
+.pend-list li:last-child {
+  border-bottom: none;
+}
+
+.pend-name {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+
+.pend-pases {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #a08d6d;
+  white-space: nowrap;
+}
+
+@media (max-width: 820px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── Totales de la tabla de invitaciones ── */
 .inv-totals {
   display: flex;

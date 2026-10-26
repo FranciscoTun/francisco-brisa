@@ -562,6 +562,13 @@ function Dashboard({ token, onLogout }) {
         </button>
         <button
           type="button"
+          className={`tab ${tab === 'stats' ? 'active' : ''}`}
+          onClick={() => setTab('stats')}
+        >
+          Estadísticas
+        </button>
+        <button
+          type="button"
           className={`tab ${tab === 'songs' ? 'active' : ''}`}
           onClick={() => setTab('songs')}
         >
@@ -775,6 +782,8 @@ function Dashboard({ token, onLogout }) {
           )}
         </section>
       )}
+
+      {tab === 'stats' && <StatsSection invs={invs} cap={cap} onRefresh={refresh} refreshing={refreshing} />}
 
       {tab === 'songs' && (
         <section className="dash-section">
@@ -1439,5 +1448,205 @@ function GiftSearch({ token, onAdded, onErr }) {
         </div>
       )}
     </div>
+  )
+}
+
+/* ── Estadísticas ── */
+const C_OK = '#7a8b6f'
+const C_NO = '#b05a5a'
+const C_WAIT = '#c9a961'
+const C_UNUSE = '#a9b89e'
+const C_FREE = '#ddd2ba'
+
+function StatsDonut({ parts, total, centerLabel }) {
+  let off = 0
+  return (
+    <div className="donut-wrap">
+      <svg viewBox="0 0 42 42" className="donut" aria-hidden="true">
+        <circle cx="21" cy="21" r="15.9" fill="none" stroke="#efe7d4" strokeWidth="6" />
+        {total > 0 &&
+          parts
+            .filter((p) => p.value > 0)
+            .map((p) => {
+              const pct = (p.value / total) * 100
+              const el = (
+                <circle
+                  key={p.label}
+                  cx="21"
+                  cy="21"
+                  r="15.9"
+                  fill="none"
+                  stroke={p.color}
+                  strokeWidth="6"
+                  strokeDasharray={`${pct} ${100 - pct}`}
+                  strokeDashoffset={25 - off}
+                />
+              )
+              off += pct
+              return el
+            })}
+        <text x="21" y="20" textAnchor="middle" className="donut-n">
+          {total}
+        </text>
+        <text x="21" y="26.5" textAnchor="middle" className="donut-l">
+          {centerLabel}
+        </text>
+      </svg>
+      <ul className="legend">
+        {parts.map((p) => (
+          <li key={p.label}>
+            <i style={{ background: p.color }} />
+            {p.label}
+            <b>{p.value}</b>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+function StatsSection({ invs, cap, onRefresh, refreshing }) {
+  const inv = { aceptada: 0, pendiente: 0, declinada: 0 }
+  const pases = { aceptados: 0, sinUsar: 0, pendientes: 0, declinados: 0 }
+  let asignados = 0
+  for (const i of invs) {
+    asignados += i.max_guests
+    if (!i.confirmed) {
+      inv.pendiente++
+      pases.pendientes += i.max_guests
+    } else if (i.attendees === 0) {
+      inv.declinada++
+      pases.declinados += i.max_guests
+    } else {
+      inv.aceptada++
+      pases.aceptados += i.attendees
+      pases.sinUsar += i.max_guests - i.attendees
+    }
+  }
+  const capacidad = cap?.total ?? asignados
+  const sinAsignar = Math.max(0, capacidad - asignados)
+  const maxPosible = pases.aceptados + pases.pendientes
+  const ocupacion =
+    capacidad > 0 ? Math.round((pases.aceptados / capacidad) * 100) : 0
+
+  const invParts = [
+    { label: 'Aceptadas', value: inv.aceptada, color: C_OK },
+    { label: 'Pendientes', value: inv.pendiente, color: C_WAIT },
+    { label: 'Declinadas', value: inv.declinada, color: C_NO },
+  ]
+  const passParts = [
+    { label: 'Aceptados', value: pases.aceptados, color: C_OK },
+    { label: 'Sin usar', value: pases.sinUsar, color: C_UNUSE },
+    { label: 'Pendientes', value: pases.pendientes, color: C_WAIT },
+    { label: 'Declinados', value: pases.declinados, color: C_NO },
+    { label: 'Sin asignar', value: sinAsignar, color: C_FREE },
+  ]
+  const passTotal = asignados + sinAsignar
+
+  const pendTop = invs
+    .filter((i) => !i.confirmed)
+    .sort((a, b) => b.max_guests - a.max_guests)
+    .slice(0, 6)
+
+  return (
+    <section className="dash-section stats-sec">
+      <div className="table-bar">
+        <h3 className="wish-h">Resumen general</h3>
+        <RefreshBtn onClick={onRefresh} spinning={refreshing} />
+      </div>
+
+      <p className="stats-lead">
+        De momento vienen <b>{pases.aceptados}</b>{' '}
+        {pases.aceptados === 1 ? 'persona' : 'personas'}.
+        {pases.pendientes > 0 && (
+          <>
+            {' '}
+            Si confirman todos los pendientes serían hasta{' '}
+            <b>{maxPosible}</b>.
+          </>
+        )}
+      </p>
+
+      <div className="stats">
+        <div className="stat">
+          <span className="stat-n">{pases.aceptados}</span>
+          <span className="stat-l">Vienen seguro</span>
+        </div>
+        <div className="stat">
+          <span className="stat-n">{pases.pendientes}</span>
+          <span className="stat-l">Pases por confirmar</span>
+        </div>
+        <div className="stat">
+          <span className="stat-n">{pases.declinados + pases.sinUsar}</span>
+          <span className="stat-l">Pases que no vendrán</span>
+        </div>
+        <div className="stat">
+          <span className="stat-n">{sinAsignar}</span>
+          <span className="stat-l">Pases sin asignar</span>
+        </div>
+        <div className="stat">
+          <span className="stat-n">{ocupacion}%</span>
+          <span className="stat-l">Ocupación del salón</span>
+        </div>
+      </div>
+
+      <div className="stats-grid">
+        <div className="stats-card">
+          <h4 className="stats-h">Invitaciones</h4>
+          <StatsDonut
+            parts={invParts}
+            total={invs.length}
+            centerLabel="total"
+          />
+        </div>
+        <div className="stats-card">
+          <h4 className="stats-h">Pases</h4>
+          <div className="stack-bar" role="img" aria-label="Distribución de pases">
+            {passParts
+              .filter((p) => p.value > 0)
+              .map((p) => (
+                <div
+                  key={p.label}
+                  className="stack-seg"
+                  style={{
+                    width: `${(p.value / passTotal) * 100}%`,
+                    background: p.color,
+                  }}
+                  title={`${p.label}: ${p.value}`}
+                />
+              ))}
+          </div>
+          <ul className="legend">
+            {passParts.map((p) => (
+              <li key={p.label}>
+                <i style={{ background: p.color }} />
+                {p.label}
+                <b>
+                  {p.value}
+                  {passTotal > 0 &&
+                    ` (${Math.round((p.value / passTotal) * 100)}%)`}
+                </b>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {pendTop.length > 0 && (
+        <div className="stats-card">
+          <h4 className="stats-h">
+            Por confirmar — invitaciones con más pases
+          </h4>
+          <ul className="pend-list">
+            {pendTop.map((i) => (
+              <li key={i.token}>
+                <span className="pend-name">{i.name}</span>
+                <span className="pend-pases">{i.max_guests} pases</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
   )
 }
