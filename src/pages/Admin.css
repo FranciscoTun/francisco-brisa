@@ -698,6 +698,7 @@
   color: var(--ink);
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -1179,6 +1180,82 @@
 
 .share-save {
   align-self: flex-start;
+}
+
+/* ── Filtros de columnas ── */
+.th-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.th-ico {
+  display: inline-flex;
+  padding: 0;
+  border: none;
+  background: none;
+  color: #b9ad90;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.th-ico:hover,
+.th-ico.on {
+  color: var(--sage);
+}
+
+.th-search-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.28s ease,
+    opacity 0.2s ease;
+}
+
+.th-search-wrap.open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.th-search-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.th-search {
+  margin-top: 0.35rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.3rem 0.45rem;
+  border: 1px solid #dccca8;
+  border-radius: 8px;
+  background: #fffdf8;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+}
+
+.th-select {
+  padding: 0.15rem 0.3rem;
+  border: 1px solid #dccca8;
+  border-radius: 8px;
+  background: #fffdf8;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.th-select.on {
+  border-color: var(--sage);
+  color: var(--sage);
 }
 
 /* ── Reordenar filas (drag & drop) ── */

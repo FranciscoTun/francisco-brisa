@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   adminCreateGift,
   adminDeleteGift,
@@ -329,8 +329,30 @@ function Dashboard({ token, onLogout }) {
   const [grabToken, setGrabToken] = useState(null)
   const [dragIdx, setDragIdx] = useState(null)
   const [overIdx, setOverIdx] = useState(null)
+  const [filterName, setFilterName] = useState('')
+  const [filterOpen, setFilterOpen] = useState(false)
+  const [filterStatus, setFilterStatus] = useState('all')
+  const searchRef = useRef(null)
+
+  useEffect(() => {
+    if (filterOpen) searchRef.current?.focus()
+  }, [filterOpen])
 
   const songsOf = (invToken) => songs.filter((s) => s.token === invToken)
+
+  const norm = (s) =>
+    s
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+  const statusOf = (i) =>
+    !i.confirmed ? 'pendiente' : i.attendees === 0 ? 'declinada' : 'aceptada'
+  const filtersOn = filterName !== '' || filterStatus !== 'all'
+  const filtered = invs.filter(
+    (i) =>
+      (!filterName || norm(i.name).includes(norm(filterName))) &&
+      (filterStatus === 'all' || statusOf(i) === filterStatus),
+  )
 
   const load = useCallback(async () => {
     try {
@@ -577,20 +599,71 @@ function Dashboard({ token, onLogout }) {
                 <thead>
                   <tr>
                     <th className="th-grip" aria-label="Reordenar" />
-                    <th>Referencia</th>
+                    <th>
+                      <div className="th-filter">
+                        Referencia
+                        <button
+                          type="button"
+                          className={`th-ico${filterName ? ' on' : ''}`}
+                          onClick={() => {
+                            if (filterOpen) setFilterName('')
+                            setFilterOpen((o) => !o)
+                          }}
+                          title="Buscar referencia"
+                          aria-label="Buscar referencia"
+                        >
+                          <IconSearch />
+                        </button>
+                      </div>
+                      <div
+                        className={`th-search-wrap${filterOpen ? ' open' : ''}`}
+                      >
+                        <div className="th-search-inner">
+                          <input
+                            ref={searchRef}
+                            className="th-search"
+                            placeholder="Buscar..."
+                            value={filterName}
+                            onChange={(e) => setFilterName(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                    </th>
                     <th>Pases</th>
                     <th>Vistas</th>
-                    <th>Estado</th>
+                    <th>
+                      <div className="th-filter">
+                        Estado
+                        <select
+                          className={`th-select${filterStatus !== 'all' ? ' on' : ''}`}
+                          value={filterStatus}
+                          onChange={(e) => setFilterStatus(e.target.value)}
+                          aria-label="Filtrar por estado"
+                        >
+                          <option value="all">Todas</option>
+                          <option value="aceptada">Aceptada</option>
+                          <option value="declinada">Declinada</option>
+                          <option value="pendiente">Pendiente</option>
+                        </select>
+                      </div>
+                    </th>
                     <th>Link</th>
                     <th>Canciones</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {invs.map((i, idx) => (
+                  {filtered.length === 0 ? (
+                    <tr>
+                      <td colSpan={8} className="empty">
+                        Sin coincidencias con los filtros.
+                      </td>
+                    </tr>
+                  ) : null}
+                  {filtered.map((i, idx) => (
                     <tr
                       key={i.token}
-                      draggable={grabToken === i.token}
+                      draggable={!filtersOn && grabToken === i.token}
                       className={`${dragIdx === idx ? 'dragging' : ''}${overIdx === idx && dragIdx !== null && dragIdx !== idx ? ' drop-target' : ''}`}
                       onDragStart={(e) => {
                         setDragIdx(idx)
@@ -1063,6 +1136,23 @@ const IconGrip = () => (
     <circle cx="15" cy="12" r="1.7" />
     <circle cx="9" cy="18" r="1.7" />
     <circle cx="15" cy="18" r="1.7" />
+  </svg>
+)
+
+const IconSearch = () => (
+  <svg
+    width="13"
+    height="13"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="11" cy="11" r="7" />
+    <path d="m20 20-3.5-3.5" />
   </svg>
 )
 
