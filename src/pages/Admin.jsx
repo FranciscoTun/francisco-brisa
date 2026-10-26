@@ -1548,6 +1548,11 @@ function StatsSection({ invs, cap, onRefresh, refreshing }) {
     .sort((a, b) => b.max_guests - a.max_guests)
     .slice(0, 6)
 
+  const seenTop = invs
+    .filter((i) => (i.opens ?? 0) > 0)
+    .sort((a, b) => (b.opens ?? 0) - (a.opens ?? 0))
+    .slice(0, 6)
+
   return (
     <section className="dash-section stats-sec">
       <div className="table-bar">
@@ -1632,21 +1637,38 @@ function StatsSection({ invs, cap, onRefresh, refreshing }) {
         </div>
       </div>
 
-      {pendTop.length > 0 && (
-        <div className="stats-card">
-          <h4 className="stats-h">
-            Por confirmar — invitaciones con más pases
-          </h4>
-          <ul className="pend-list">
-            {pendTop.map((i) => (
-              <li key={i.token}>
-                <span className="pend-name">{i.name}</span>
-                <span className="pend-pases">{i.max_guests} pases</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <div className="stats-grid">
+        {pendTop.length > 0 && (
+          <div className="stats-card">
+            <h4 className="stats-h">
+              Por confirmar — invitaciones con más pases
+            </h4>
+            <ul className="pend-list">
+              {pendTop.map((i) => (
+                <li key={i.token}>
+                  <span className="pend-name">{i.name}</span>
+                  <span className="pend-pases">{i.max_guests} pases</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {seenTop.length > 0 && (
+          <div className="stats-card">
+            <h4 className="stats-h">Más vistas</h4>
+            <ul className="pend-list">
+              {seenTop.map((i) => (
+                <li key={i.token}>
+                  <span className="pend-name">{i.name}</span>
+                  <span className="pend-pases">
+                    {i.opens} {i.opens === 1 ? 'vista' : 'vistas'}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </section>
   )
 }
